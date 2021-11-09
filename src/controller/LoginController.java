@@ -18,10 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
@@ -41,17 +38,11 @@ public class LoginController implements Initializable {
 
     @FXML
     void onActionLogin(ActionEvent event) throws IOException, SQLException {
-        Connection connection = JDBC.getConnection();
-        DBQuery.setStatement(connection);
-        Statement statement = DBQuery.getStatement();
-        String selectStatement ="SELECT User_Name, Password FROM users";
         String enteredUserName = userNameTxt.getText().trim();
         String enteredPassword = passwordTxt.getText().trim();
+        ResultSet rs = DBQuery.getLogin();
 
-        statement.execute(selectStatement);
-        ResultSet rs = statement.getResultSet();
-
-        while (rs.next()) {
+        while (rs.next() && rs !=null) {
             String User_name = rs.getString("User_name");
             String Password = rs.getString("Password");
 

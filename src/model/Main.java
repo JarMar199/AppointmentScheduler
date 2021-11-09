@@ -1,7 +1,5 @@
 package model;
 
-import DBConnect.DBGetCountries;
-import DBConnect.DBGetStates;
 import DBConnect.DBQuery;
 import DBConnect.JDBC;
 import javafx.application.Application;
@@ -10,7 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 
 public class Main extends Application {
@@ -27,9 +24,6 @@ public class Main extends Application {
 
     public static void main(String[] args) throws SQLException {
         JDBC.openConnection();
-        Connection connection = JDBC.getConnection();
-        DBQuery.setStatement(connection);
-        DBGetCountries.updateCountries();
         launch(args);
         JDBC.closeConnection();
 

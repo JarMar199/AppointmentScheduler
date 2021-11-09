@@ -1,11 +1,6 @@
 package controller;
 
-import DBConnect.DBGetCountries;
-import DBConnect.DBGetStates;
 import DBConnect.DBQuery;
-import DBConnect.JDBC;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,10 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -52,18 +44,19 @@ public class AddCustomerController implements Initializable {
 
     @FXML
     void setCountryComboBox(ActionEvent event) throws SQLException {
-        String selectedCountry = countryComboBox.getSelectionModel().getSelectedItem().toString();
-        System.out.println(selectedCountry);
-        //DBGetStates.updateStates(selectedCountry);
-        stateComboBox.setItems(DBGetStates.updateStates(selectedCountry));;
+        String selectedCountry = countryComboBox.getSelectionModel().getSelectedItem();
+        stateComboBox.setItems(DBQuery.getStates(selectedCountry));;
     }
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        countryComboBox.setItems(DBGetCountries.getCountries());
-
+        try {
+            countryComboBox.setItems(DBQuery.getCountries());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
 
     }
