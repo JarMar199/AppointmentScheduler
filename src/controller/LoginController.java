@@ -45,11 +45,11 @@ public class LoginController implements Initializable {
         DBQuery.setStatement(connection);
         Statement statement = DBQuery.getStatement();
         String selectStatement ="SELECT User_Name, Password FROM users";
-        statement.execute(selectStatement);
-        ResultSet rs = statement.getResultSet();
-
         String enteredUserName = userNameTxt.getText().trim();
         String enteredPassword = passwordTxt.getText().trim();
+
+        statement.execute(selectStatement);
+        ResultSet rs = statement.getResultSet();
 
         while (rs.next()) {
             String User_name = rs.getString("User_name");

@@ -1,5 +1,6 @@
 package controller;
 
+import DBConnect.DBGetCountries;
 import DBConnect.DBGetStates;
 import DBConnect.DBQuery;
 import DBConnect.JDBC;
@@ -31,6 +32,9 @@ public class AddCustomerController implements Initializable {
     @FXML
     private ComboBox<String> stateComboBox;
 
+    @FXML
+    private ComboBox<String> countryComboBox;
+
 
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
@@ -46,32 +50,21 @@ public class AddCustomerController implements Initializable {
         }
     }
 
-
+    @FXML
+    void setCountryComboBox(ActionEvent event) throws SQLException {
+        String selectedCountry = countryComboBox.getSelectionModel().getSelectedItem().toString();
+        System.out.println(selectedCountry);
+        //DBGetStates.updateStates(selectedCountry);
+        stateComboBox.setItems(DBGetStates.updateStates(selectedCountry));;
+    }
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        /*
-        Connection connection = JDBC.getConnection();
-        try {
-            DBQuery.setStatement(connection);
-            Statement statement = DBQuery.getStatement();
-            String selectStatement ="SELECT Division FROM first_level_divisions";
-            statement.execute(selectStatement);
-            ResultSet rsStates = statement.getResultSet();
-            ObservableList<String> states = FXCollections.observableArrayList();
-            while(rsStates.next()){
-                String state = rsStates.getString("Division");
-                states.add(state);
-            }
-            stateComboBox.setItems(states);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        countryComboBox.setItems(DBGetCountries.getCountries());
 
 
-         */
-        stateComboBox.setItems(DBGetStates.getStates());
+
     }
 }
