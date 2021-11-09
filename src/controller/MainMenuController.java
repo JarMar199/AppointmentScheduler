@@ -14,7 +14,15 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MainMenuController implements Initializable {
-
+    @FXML
+    void onActionAddCustomer(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/view/AddCustomer.fxml"));
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setTitle("Add Customer");
+        stage.setScene(scene);
+        stage.show();
+    }
 
     @FXML
     void onActionLogout(ActionEvent event) throws IOException {
