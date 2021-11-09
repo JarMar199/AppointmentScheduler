@@ -12,6 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -31,6 +33,13 @@ public class LoginController implements Initializable {
     private TextField userNameTxt;
 
     @FXML
+    void loginEnter(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+
+        }
+    }
+
+    @FXML
     void onActionLogin(ActionEvent event) throws IOException, SQLException {
         Connection connection = JDBC.getConnection();
         DBQuery.setStatement(connection);
@@ -43,8 +52,8 @@ public class LoginController implements Initializable {
         String enteredPassword = passwordTxt.getText().trim();
 
         while (rs.next()) {
-            String User_name = rs.getString("User_name").trim();
-            String Password = rs.getString("Password").trim();
+            String User_name = rs.getString("User_name");
+            String Password = rs.getString("Password");
 
             if (enteredUserName.equals(User_name) && enteredPassword.equals(Password)){
                 Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));

@@ -1,5 +1,6 @@
 package model;
 
+import DBConnect.DBGetStates;
 import DBConnect.JDBC;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -7,10 +8,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.sql.SQLException;
+
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+
         Parent root = FXMLLoader.load(getClass().getResource("../view/Login.fxml"));
         primaryStage.setTitle("Login");
         primaryStage.setScene(new Scene(root));
@@ -18,9 +22,11 @@ public class Main extends Application {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         JDBC.openConnection();
+        DBGetStates.updateStates();
         launch(args);
         JDBC.closeConnection();
+
     }
 }
