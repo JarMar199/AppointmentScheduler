@@ -1,7 +1,9 @@
 package DBConnect;
 
+import javafx.beans.binding.ObjectExpression;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.Appointment;
 import model.Customer;
 
 import java.sql.*;
@@ -11,7 +13,7 @@ import java.time.LocalTime;
 
 public class DBQuery {
 
-    private static Connection connection = DBConnection.getConnection();
+    private static final Connection connection = DBConnection.getConnection();
     private static PreparedStatement statement; //Statement reference
     private static String userName;
 
@@ -64,8 +66,7 @@ public class DBQuery {
         DBQuery.setPreparedStatement(connection,selectStatement);
         PreparedStatement ps = DBQuery.getPreparedStatement();
         ps.execute();
-        ResultSet rs = ps.getResultSet();
-        return rs;
+        return ps.getResultSet();
     }
 
     public static void setUserName(String loggedInUser) {
@@ -98,10 +99,7 @@ public class DBQuery {
         ps.setString(9, divisionId);
 
         ps.execute();
-        if(ps.getUpdateCount() > 0) {
-            return true;
-        }
-        return false;
+        return ps.getUpdateCount() > 0;
     }
 
     public static boolean modifyCustomer(int customerId, String name, String address, String postal, String phone, String state) throws SQLException {
@@ -133,10 +131,7 @@ public class DBQuery {
         ps.setInt(8, customerId);
 
         ps.execute();
-        if(ps.getUpdateCount() > 0) {
-            return true;
-        }
-        return false;
+        return ps.getUpdateCount() > 0;
     }
 
     public static String getDivisionId(String division) throws SQLException {
@@ -176,6 +171,41 @@ public class DBQuery {
             customers.add(new Customer(customerId,name,address,postal,phone, state,country));
         }
         return customers;
+    }
+
+    public static ObservableList<Appointment> getAppointmentTable() throws SQLException {
+        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+        String selectStatement = "SELECT \n" +
+                "\tappointments.Appointment_ID, \n" +
+                "\tappointments.Title, \n" +
+                "\tappointments.Description,\n" +
+                "\tappointments.Location,\n" +
+                "    contacts.Contact_Name,\n" +
+                "    appointments.Type,\n" +
+                "\tappointments.Start,\n" +
+                "\tappointments.end,\n" +
+                "    appointments.Customer_ID,\n" +
+                "\tappointments.User_ID\n" +
+                "FROM appointments INNER JOIN contacts ON appointments.Contact_ID = contacts.Contact_ID\n" +
+                "GROUP BY Appointment_ID, Title, Description, Location, Contact_Name, Type, Start, End, Customer_ID, User_ID";
+        DBQuery.setPreparedStatement(connection,selectStatement);
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+        ps.execute();
+        ResultSet rsAppointments = ps.getResultSet();
+        while(rsAppointments.next()) {
+            int appointmentId = rsAppointments.getInt("Appointment_ID");
+            String title = rsAppointments.getString("Title");
+            String description = rsAppointments.getString("Description");
+            String location = rsAppointments.getString("Location");
+            String contactName = rsAppointments.getString("Contact_Name");
+            String type = rsAppointments.getString("Type");
+            String startDate = rsAppointments.getString("Start");
+            String endDate = rsAppointments.getString("End");
+            int customerId = rsAppointments.getInt("Customer_ID");
+            int userId = rsAppointments.getInt("User_ID");
+            appointments.add(new Appointment(appointmentId,customerId, userId, title, description, location, type, startDate, endDate, contactName));
+        }
+        return appointments;
     }
 
     public static ObservableList<String> getContacts() throws SQLException {

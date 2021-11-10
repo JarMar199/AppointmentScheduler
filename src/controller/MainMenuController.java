@@ -14,6 +14,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import model.Appointment;
 import model.Customer;
 
 import java.io.IOException;
@@ -48,6 +49,41 @@ public class MainMenuController implements Initializable {
 
     @FXML
     private TableColumn<Customer, String> stateCol;
+
+    @FXML
+    private TableView<Appointment> appointmentTable;
+
+    @FXML
+    private TableColumn<Appointment, Integer> appointmentIdCol;
+
+    @FXML
+    private TableColumn<Appointment, String> descriptionCol;
+
+    @FXML
+    private TableColumn<Appointment, String> startCol;
+
+    @FXML
+    private TableColumn<Appointment, String> endCol;
+
+    @FXML
+    private TableColumn<Appointment, String> locationCol;
+
+    @FXML
+    private TableColumn<Appointment, Integer> apptCustomerIdCol;
+
+    @FXML
+    private TableColumn<Appointment, String> contactCol;
+
+    @FXML
+    private TableColumn<Appointment, String> titleCol;
+
+    @FXML
+    private TableColumn<Appointment, String> typeCol;
+
+    @FXML
+    private TableColumn<Appointment, Integer> userIdCol;
+
+
 
     @FXML
     void onActionAddCustomer(ActionEvent event) throws IOException {
@@ -122,6 +158,22 @@ public class MainMenuController implements Initializable {
             phoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
             stateCol.setCellValueFactory(new PropertyValueFactory<>("state"));
             countryCol.setCellValueFactory(new PropertyValueFactory<>("country"));
+
+            appointmentTable.setItems(DBQuery.getAppointmentTable());
+            appointmentIdCol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+            titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+            descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+            locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+            contactCol.setCellValueFactory(new PropertyValueFactory<>("contactName"));
+            typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+            startCol.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+            endCol.setCellValueFactory(new PropertyValueFactory<>("endDate"));
+            apptCustomerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+            userIdCol.setCellValueFactory(new PropertyValueFactory<>("userId"));
+
+
+
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

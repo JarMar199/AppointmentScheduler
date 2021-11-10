@@ -57,7 +57,11 @@ public class AddAppointmentController implements Initializable{
 
     @FXML
     void onActionSaveAppointment(ActionEvent event) {
-
+        String title = titleTxt.getText();
+        String description = descriptionTxt.getText();
+        String location = locationTxt.getText();
+        String type = typeTxt.getText();
+        String contact = contactComboBox.getSelectionModel().getSelectedItem();
     }
 
     @FXML

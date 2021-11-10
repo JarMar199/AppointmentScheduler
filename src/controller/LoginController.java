@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import model.Appointment;
 
 import java.io.IOException;
 import java.net.URL;
@@ -46,7 +47,7 @@ public class LoginController implements Initializable {
 
     @FXML
     void onActionQueryTest(ActionEvent event) throws SQLException {
-        ObservableList<String> divId = DBQuery.getContacts();
+        ObservableList<Appointment> divId = DBQuery.getAppointmentTable();
         System.out.println(divId);
     }
 
