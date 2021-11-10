@@ -65,7 +65,7 @@
       <VBox layoutX="799.0" layoutY="345.0" prefHeight="177.0" prefWidth="127.0" spacing="50.0">
          <children>
             <Button mnemonicParsing="false" onAction="#onActionAddCustomer" prefWidth="127.0" text="Add Customer" />
-            <Button mnemonicParsing="false" prefWidth="127.0" text="Modify Customer" />
+            <Button mnemonicParsing="false" onAction="#onActionModifyCustomer" prefWidth="127.0" text="Modify Customer" />
             <Button mnemonicParsing="false" prefWidth="127.0" text="Delete Customer" />
          </children>
       </VBox>

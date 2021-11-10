@@ -14,7 +14,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import model.CustomerTable;
+import model.Customer;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,28 +26,28 @@ import java.util.ResourceBundle;
 public class MainMenuController implements Initializable {
 
     @FXML
-    private TableView<CustomerTable> customerTable;
+    private TableView<Customer> customerTable;
 
     @FXML
-    private TableColumn<CustomerTable, Integer> addressCol;
+    private TableColumn<Customer, Integer> addressCol;
 
     @FXML
-    private TableColumn<CustomerTable, String> countryCol;
+    private TableColumn<Customer, String> countryCol;
 
     @FXML
-    private TableColumn<CustomerTable, String> customerIdCol;
+    private TableColumn<Customer, String> customerIdCol;
 
     @FXML
-    private TableColumn<CustomerTable, String> nameCol;
+    private TableColumn<Customer, String> nameCol;
 
     @FXML
-    private TableColumn<CustomerTable, String> phoneCol;
+    private TableColumn<Customer, String> phoneCol;
 
     @FXML
-    private TableColumn<CustomerTable, String> postalCol;
+    private TableColumn<Customer, String> postalCol;
 
     @FXML
-    private TableColumn<CustomerTable, String> stateCol;
+    private TableColumn<Customer, String> stateCol;
 
     @FXML
     void onActionAddCustomer(ActionEvent event) throws IOException {
@@ -79,7 +79,25 @@ public class MainMenuController implements Initializable {
 
     }
 
+    @FXML
+    void onActionModifyCustomer(ActionEvent event) throws IOException {
+        if(customerTable.getSelectionModel().getSelectedItem() != null) {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/view/ModifyCustomer.fxml"));
+            loader.load();
 
+            ModifyCustomerController MCController = loader.getController();
+            MCController.sendCustomer(customerTable.getSelectionModel().getSelectedItem());
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Parent root = loader.getRoot();
+            Scene scene = new Scene(root);
+            stage.setTitle("Modify Customer");
+            stage.setScene(scene);
+            stage.show();
+
+        }
+    }
 
 
 

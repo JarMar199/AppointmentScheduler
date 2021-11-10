@@ -3,11 +3,11 @@ package model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class CustomerTable {
+public class Customer {
      int id;
      String name, address, postal, phone, state, country;
 
-    public CustomerTable(int id, String name, String address, String postal, String phone, String state, String country) {
+    public Customer(int id, String name, String address, String postal, String phone, String state, String country) {
         this.id = id;
         this.name = name;
         this.address = address;

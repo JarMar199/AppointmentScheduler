@@ -13,18 +13,15 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.Customer;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class AddCustomerController implements Initializable {
+public class ModifyCustomerController implements Initializable {
     @FXML
     private TextField addressTxt;
 
@@ -67,19 +64,30 @@ public class AddCustomerController implements Initializable {
         stateComboBox.setItems(DBQuery.getStates(selectedCountry));
     }
 
+    public void sendCustomer(Customer customer) {
+        customerIdTxt.setText(String.valueOf(customer.getId()));
+        nameTxt.setText(customer.getName());
+        addressTxt.setText(customer.getAddress());
+        postalTxt.setText(customer.getPostal());
+        phoneTxt.setText(customer.getPhone());
+        countryComboBox.setValue(customer.getCountry());
+        stateComboBox.setValue(customer.getState());
+    }
+
     @FXML
     void onActionSaveCustomer(ActionEvent event) throws SQLException, IOException {
+        int customerId = Integer.parseInt(customerIdTxt.getText());
         String name = nameTxt.getText();
         String address = addressTxt.getText();
         String postal = postalTxt.getText();
         String phone = phoneTxt.getText();
         String state = stateComboBox.getSelectionModel().getSelectedItem();
 
-        if(DBQuery.addCustomer(name,address,postal,phone,state)){
+        if(DBQuery.modifyCustomer(customerId,name,address,postal,phone,state)){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Success");
             alert.setHeaderText("Confirmation");
-            alert.setContentText("Customer successfully added");
+            alert.setContentText("Customer successfully saved");
             alert.showAndWait();
             Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -99,6 +107,8 @@ public class AddCustomerController implements Initializable {
 
         try {
             countryComboBox.setItems(DBQuery.getCountries());
+            String selectedCountry = countryComboBox.getSelectionModel().getSelectedItem();
+            stateComboBox.setItems(DBQuery.getStates(selectedCountry));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

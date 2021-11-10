@@ -2,7 +2,7 @@ package DBConnect;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import model.CustomerTable;
+import model.Customer;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -11,7 +11,7 @@ import java.time.LocalTime;
 
 public class DBQuery {
 
-    private static Connection connection = JDBC.getConnection();
+    private static Connection connection = DBConnection.getConnection();
     private static PreparedStatement statement; //Statement reference
     private static String userName;
 
@@ -101,6 +101,41 @@ public class DBQuery {
         return false;
     }
 
+    public static boolean modifyCustomer(int customerId, String name, String address, String postal, String phone, String state) throws SQLException {
+        LocalDate date = LocalDate.now();
+        LocalTime time = LocalTime.now();
+        String user = DBQuery.getUserName();
+        Timestamp timestamp = Timestamp.valueOf(LocalDateTime.of(date,time));
+        String divisionId = DBQuery.getDivisionId(state);
+
+        String updateStatement = "UPDATE customers SET \n" +
+                "\tCustomer_Name = ?,\n" +
+                "    Address = ?,\n" +
+                "    Postal_Code = ?,\n" +
+                "    Phone = ?,\n" +
+                "    Last_Update = ?,\n" +
+                "    Last_Updated_By = ?,\n" +
+                "    Division_ID = ?\n" +
+                "WHERE Customer_ID = ?";
+        DBQuery.setPreparedStatement(connection,updateStatement);
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+
+        ps.setString(1,name);
+        ps.setString(2,address);
+        ps.setString(3,postal);
+        ps.setString(4,phone);
+        ps.setString(5, String.valueOf(timestamp));
+        ps.setString(6,user);
+        ps.setInt(7, Integer.parseInt(divisionId));
+        ps.setInt(8, customerId);
+
+        ps.execute();
+        if(ps.getUpdateCount() > 0) {
+            return true;
+        }
+        return false;
+    }
+
     public static String getDivisionId(String division) throws SQLException {
         String divisionId = null;
         String selectStatement = "SELECT Division_ID FROM first_level_divisions WHERE Division = ?";
@@ -116,8 +151,8 @@ public class DBQuery {
         return divisionId;
     }
 
-    public static ObservableList<CustomerTable> getCustomerTable() throws SQLException {
-        ObservableList<CustomerTable> customers = FXCollections.observableArrayList();
+    public static ObservableList<Customer> getCustomerTable() throws SQLException {
+        ObservableList<Customer> customers = FXCollections.observableArrayList();
         String selectStatement = "SELECT customers.Customer_ID, customers.Customer_Name, customers.Address, customers.Postal_Code, customers.Phone,first_level_divisions.Division AS 'State/Province' , countries.Country\n" +
                 "FROM customers\n" +
                 "INNER JOIN first_level_divisions ON customers.Division_ID = first_level_divisions.Division_ID\n" +
@@ -135,7 +170,7 @@ public class DBQuery {
             String phone = rsCustomers.getString("phone");
             String state = rsCustomers.getString("State/Province");
             String country = rsCustomers.getString("Country");
-            customers.add(new CustomerTable(customerId,name,address,postal,phone, state,country));
+            customers.add(new Customer(customerId,name,address,postal,phone, state,country));
         }
         return customers;
     }

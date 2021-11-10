@@ -1,7 +1,6 @@
 package model;
 
-import DBConnect.DBQuery;
-import DBConnect.JDBC;
+import DBConnect.DBConnection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -31,9 +30,9 @@ public class Main extends Application {
 
     public static void main(String[] args) throws SQLException {
         //Locale.setDefault(new Locale("FR","fr"));
-        JDBC.openConnection();
+        DBConnection.openConnection();
         launch(args);
-        JDBC.closeConnection();
+        DBConnection.closeConnection();
 
     }
 }
