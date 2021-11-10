@@ -10,10 +10,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import model.StartEndTime;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -35,7 +41,7 @@ public class AddAppointmentController implements Initializable{
     private DatePicker endDatePicker;
 
     @FXML
-    private ComboBox<?> endTimeComboBox;
+    private ComboBox<LocalTime> endTimeComboBox;
 
     @FXML
     private TextField locationTxt;
@@ -44,7 +50,7 @@ public class AddAppointmentController implements Initializable{
     private DatePicker startDatePicker;
 
     @FXML
-    private ComboBox<?> startTimeComboBox;
+    private ComboBox<LocalTime> startTimeComboBox;
 
     @FXML
     private TextField titleTxt;
@@ -56,14 +62,25 @@ public class AddAppointmentController implements Initializable{
     private ComboBox<String> userComboBox;
 
     @FXML
-    void onActionSaveAppointment(ActionEvent event) {
+    void onActionSaveAppointment(ActionEvent event) throws SQLException {
         String title = titleTxt.getText();
         String description = descriptionTxt.getText();
         String location = locationTxt.getText();
         String type = typeTxt.getText();
-        String contact = contactComboBox.getSelectionModel().getSelectedItem();
+        String contactName = contactComboBox.getSelectionModel().getSelectedItem();
         String customerId = customerComboBox.getSelectionModel().getSelectedItem();
         String userId = userComboBox.getSelectionModel().getSelectedItem();
+        LocalDate startDate = startDatePicker.getValue();
+        LocalTime startTime = startTimeComboBox.getSelectionModel().getSelectedItem();
+        Timestamp startDateTime = Timestamp.valueOf(LocalDateTime.of(startDate,startTime));
+        LocalDate endDate = endDatePicker.getValue();
+        LocalTime endTime = endTimeComboBox.getSelectionModel().getSelectedItem();
+        Timestamp endDateTime = Timestamp.valueOf(LocalDateTime.of(endDate,endTime));
+        if(DBQuery.addAppointment(title, description, location, contactName, type, startDateTime, endDateTime, customerId, userId)){
+            System.out.println("Success");
+        }else
+            System.out.println("Failed");
+
     }
 
     @FXML
@@ -84,11 +101,14 @@ public class AddAppointmentController implements Initializable{
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             contactComboBox.setItems(DBQuery.getContacts());
-            customerComboBox.setItems(DBQuery.getCustomerId());
+            customerComboBox.setItems(DBQuery.getCustomerIds());
             userComboBox.setItems(DBQuery.getUserId());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        startTimeComboBox.setItems(StartEndTime.getTimes());
+        endTimeComboBox.setItems(StartEndTime.getTimes());
     }
+
 
 }

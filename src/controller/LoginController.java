@@ -16,6 +16,9 @@ import model.Appointment;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -47,8 +50,18 @@ public class LoginController implements Initializable {
 
     @FXML
     void onActionQueryTest(ActionEvent event) throws SQLException {
-        ObservableList<Appointment> divId = DBQuery.viewAllAppointmentTable();
-        System.out.println(divId);
+        Timestamp localTime = Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.now()));
+       if( DBQuery.addAppointment("Coffee",
+                "Meeting",
+                "Sbux",
+                "Li Lee",
+                "planning",
+                localTime,
+                localTime,
+                "4",
+                "1")) {
+           System.out.println("Success");
+       }
     }
 
 

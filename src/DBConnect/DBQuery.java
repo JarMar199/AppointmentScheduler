@@ -72,6 +72,7 @@ public class DBQuery {
     public static void setUserName(String loggedInUser) {
         userName = loggedInUser;
     }
+
     public static String getUserName() {
         return userName;
     }
@@ -222,7 +223,7 @@ public class DBQuery {
         return contacts;
     }
 
-    public static ObservableList<String> getCustomerId() throws SQLException {
+    public static ObservableList<String> getCustomerIds() throws SQLException {
         ObservableList<String> customerIds = FXCollections.observableArrayList();
         String selectStatement = "SELECT Customer_ID from customers ORDER BY Customer_ID ASC";
         DBQuery.setPreparedStatement(connection, selectStatement);
@@ -247,6 +248,63 @@ public class DBQuery {
             userIds.add(userId);
         }
         return userIds;
+    }
+
+    public static String getContactId(String contact) throws SQLException {
+        String contactId = null;
+        String selectStatement = "SELECT Contact_ID FROM contacts WHERE Contact_Name = ?";
+        DBQuery.setPreparedStatement(connection,selectStatement);
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+        ps.setString(1, contact);
+        ps.execute();
+        ResultSet rsDivisionId = ps.getResultSet();
+        while (rsDivisionId.next()) {
+            contactId = rsDivisionId.getString("Contact_ID");
+        }
+
+        return contactId;
+    }
+
+    public static boolean addAppointment(String title, String description, String location, String contactName,
+                                      String type, Timestamp startDT, Timestamp endDT, String customerId, String userId) throws SQLException {
+        Timestamp localTime = Timestamp.valueOf(LocalDateTime.of(LocalDate.now(),LocalTime.now()));
+        String user = DBQuery.getUserName();
+        String contactId = DBQuery.getContactId(contactName);
+        String insertStatement = "INSERT INTO appointments(\n" +
+                "\tTitle,\n" +
+                "\tDescription,\n" +
+                "\tLocation,\n" +
+                "\tType,\n" +
+                "\tStart,\n" +
+                "\tEnd,\n" +
+                "\tCreate_Date,\n" +
+                "\tCreated_By, \n" +
+                "\tLast_Update,\n" +
+                "\tLast_Updated_By,\n" +
+                "\tCustomer_ID,\n" +
+                "\tUser_ID,\n" +
+                "\tContact_ID)\n" +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        DBQuery.setPreparedStatement(connection,insertStatement);
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+
+        ps.setString(1,title);
+        ps.setString(2,description);
+        ps.setString(3,location);
+        ps.setString(4,type);
+        ps.setTimestamp(5, startDT);
+        ps.setTimestamp(6, endDT);
+        ps.setTimestamp(7, localTime);
+        ps.setString(8,user);
+        ps.setTimestamp(9, localTime);
+        ps.setString(10,user);
+        ps.setString(11,customerId);
+        ps.setString(12,userId);
+        ps.setString(13,contactId);
+
+        ps.execute();
+        return ps.getUpdateCount() > 0;
     }
 
 }
