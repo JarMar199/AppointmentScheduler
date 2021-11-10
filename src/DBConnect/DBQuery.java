@@ -2,6 +2,7 @@ package DBConnect;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.CustomerTable;
 
 import java.sql.*;
 
@@ -70,6 +71,30 @@ public class DBQuery {
 
     public static void addCustomer() {
         //String insertStatement = "INSERT INTO "
+    }
+
+    public static ObservableList<CustomerTable> getCustomerTable() throws SQLException {
+        ObservableList<CustomerTable> customers = FXCollections.observableArrayList();
+        String selectStatement = "SELECT customers.Customer_ID, customers.Customer_Name, customers.Address, customers.Postal_Code, customers.Phone,first_level_divisions.Division AS 'State/Province' , countries.Country\n" +
+                "FROM customers\n" +
+                "INNER JOIN first_level_divisions ON customers.Division_ID = first_level_divisions.Division_ID\n" +
+                "INNER JOIN countries ON first_level_divisions.Country_ID = countries.Country_ID\n" +
+                "GROUP BY Customer_ID, Customer_Name, Address, Postal_Code, Phone, Division, Country";
+        DBQuery.setPreparedStatement(connection,selectStatement);
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+        ps.execute();
+        ResultSet rsCustomers = ps.getResultSet();
+        while(rsCustomers.next()) {
+            int customerId = rsCustomers.getInt("Customer_ID");
+            String name = rsCustomers.getString("Customer_Name");
+            String address = rsCustomers.getString("Address");
+            String postal = rsCustomers.getString("Postal_Code");
+            String phone = rsCustomers.getString("phone");
+            String state = rsCustomers.getString("State/Province");
+            String country = rsCustomers.getString("Country");
+            customers.add(new CustomerTable(customerId,name,address,postal,phone, state,country));
+        }
+        return customers;
     }
 
 }

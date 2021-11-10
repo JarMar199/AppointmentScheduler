@@ -46,12 +46,6 @@ public class LoginController implements Initializable {
     @FXML
     private TextField userNameTxt;
 
-    @FXML
-    void loginEnter(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER) {
-
-        }
-    }
 
     @FXML
     void onActionLogin(ActionEvent event) throws IOException, SQLException {

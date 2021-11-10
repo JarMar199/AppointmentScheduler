@@ -17,6 +17,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -60,12 +63,28 @@ public class AddCustomerController implements Initializable {
     @FXML
     void setCountryComboBox(ActionEvent event) throws SQLException {
         String selectedCountry = countryComboBox.getSelectionModel().getSelectedItem();
-        stateComboBox.setItems(DBQuery.getStates(selectedCountry));;
+        stateComboBox.setItems(DBQuery.getStates(selectedCountry));
+        System.out.println(selectedCountry);
+        LocalDate date = LocalDate.now();
+        System.out.println(date);
+        LocalTime time = LocalTime.now();
+        System.out.println(time);
+        LocalDateTime dateTime = LocalDateTime.now();
+        System.out.println(dateTime);
+
+
+
+
     }
 
     @FXML
     void onActionSaveCustomer(ActionEvent event) {
-        //int customerId = customerIdTxt.g
+        String name = nameTxt.getText();
+        String address = addressTxt.getText();
+        String postal = postalTxt.getText();
+        String phone = phoneTxt.getText();
+        String state = stateComboBox.getSelectionModel().getSelectedItem();
+
     }
 
     @Override
