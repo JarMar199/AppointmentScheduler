@@ -60,12 +60,12 @@
                   <Insets left="50.0" />
                </padding>
             </Label>
-            <Label text="Customer" GridPane.columnIndex="2" GridPane.rowIndex="4">
+            <Label text="Customer ID" GridPane.columnIndex="2" GridPane.rowIndex="4">
                <padding>
                   <Insets left="50.0" />
                </padding>
             </Label>
-            <Label text="User" GridPane.columnIndex="2" GridPane.rowIndex="5">
+            <Label text="User ID" GridPane.columnIndex="2" GridPane.rowIndex="5">
                <padding>
                   <Insets left="50.0" />
                </padding>

@@ -173,7 +173,7 @@ public class DBQuery {
         return customers;
     }
 
-    public static ObservableList<Appointment> getAppointmentTable() throws SQLException {
+    public static ObservableList<Appointment> viewAllAppointmentTable() throws SQLException {
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         String selectStatement = "SELECT \n" +
                 "\tappointments.Appointment_ID, \n" +

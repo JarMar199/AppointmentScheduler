@@ -6,6 +6,7 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -44,9 +45,13 @@
       </Button>
       <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="257.0" prefHeight="25.0" prefWidth="985.0" spacing="30.0">
          <children>
-            <RadioButton mnemonicParsing="false" text="View All" />
-            <RadioButton mnemonicParsing="false" text="View by Month" />
-            <RadioButton mnemonicParsing="false" text="View by Week" />
+            <RadioButton fx:id="viewAllRbtn" mnemonicParsing="false" onAction="#onActionViewAllAppt" text="View All">
+               <toggleGroup>
+                  <ToggleGroup fx:id="viewApptTG" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="viewMonthRBtn" mnemonicParsing="false" onAction="#onActionViewMonthAppt" text="View by Month" toggleGroup="$viewApptTG" />
+            <RadioButton fx:id="viewWeekRBtn" mnemonicParsing="false" onAction="#onActionViewWeekAppt" text="View by Week" toggleGroup="$viewApptTG" />
             <Button mnemonicParsing="false" onAction="#onActionAddAppointment" prefWidth="127.0" text="Add Appoinment" />
             <Button mnemonicParsing="false" prefWidth="127.0" text="Modify Appointment" />
             <Button mnemonicParsing="false" prefWidth="127.0" text="Delete Appointment" />

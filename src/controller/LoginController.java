@@ -47,7 +47,7 @@ public class LoginController implements Initializable {
 
     @FXML
     void onActionQueryTest(ActionEvent event) throws SQLException {
-        ObservableList<Appointment> divId = DBQuery.getAppointmentTable();
+        ObservableList<Appointment> divId = DBQuery.viewAllAppointmentTable();
         System.out.println(divId);
     }
 

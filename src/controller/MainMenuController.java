@@ -8,10 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Appointment;
@@ -83,6 +80,17 @@ public class MainMenuController implements Initializable {
     @FXML
     private TableColumn<Appointment, Integer> userIdCol;
 
+    @FXML
+    private RadioButton viewAllRbtn;
+
+    @FXML
+    private ToggleGroup viewApptTG;
+
+    @FXML
+    private RadioButton viewMonthRBtn;
+
+    @FXML
+    private RadioButton viewWeekRBtn;
 
 
     @FXML
@@ -145,6 +153,30 @@ public class MainMenuController implements Initializable {
         }
     }
 
+    @FXML
+    void onActionViewAllAppt(ActionEvent event) throws SQLException {
+        appointmentTable.setItems(DBQuery.viewAllAppointmentTable());
+        appointmentIdCol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+        titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+        contactCol.setCellValueFactory(new PropertyValueFactory<>("contactName"));
+        typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        startCol.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        endCol.setCellValueFactory(new PropertyValueFactory<>("endDate"));
+        apptCustomerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        userIdCol.setCellValueFactory(new PropertyValueFactory<>("userId"));
+    }
+
+    @FXML
+    void onActionViewMonthAppt(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onActionViewWeekAppt(ActionEvent event) {
+
+    }
 
 
     @Override
@@ -159,7 +191,7 @@ public class MainMenuController implements Initializable {
             stateCol.setCellValueFactory(new PropertyValueFactory<>("state"));
             countryCol.setCellValueFactory(new PropertyValueFactory<>("country"));
 
-            appointmentTable.setItems(DBQuery.getAppointmentTable());
+            appointmentTable.setItems(DBQuery.viewAllAppointmentTable());
             appointmentIdCol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
             titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
             descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -173,9 +205,9 @@ public class MainMenuController implements Initializable {
 
 
 
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        viewAllRbtn.setSelected(true);
     }
 }

@@ -62,6 +62,8 @@ public class AddAppointmentController implements Initializable{
         String location = locationTxt.getText();
         String type = typeTxt.getText();
         String contact = contactComboBox.getSelectionModel().getSelectedItem();
+        String customerId = customerComboBox.getSelectionModel().getSelectedItem();
+        String userId = userComboBox.getSelectionModel().getSelectedItem();
     }
 
     @FXML
