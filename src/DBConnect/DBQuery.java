@@ -5,6 +5,9 @@ import javafx.collections.ObservableList;
 import model.CustomerTable;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class DBQuery {
 
@@ -69,8 +72,48 @@ public class DBQuery {
         return userName;
     }
 
-    public static void addCustomer() {
-        //String insertStatement = "INSERT INTO "
+    public static boolean addCustomer(String name, String address, String postal, String phone, String state) throws SQLException {
+        LocalDate date = LocalDate.now();
+        LocalTime time = LocalTime.now();
+        String user = DBQuery.getUserName();
+        Timestamp timestamp = Timestamp.valueOf(LocalDateTime.of(date,time));
+        String divisionId = DBQuery.getDivisionId(state);
+
+        String insertStatement = "INSERT INTO customers(Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID)\n" +
+                "VALUES (?,?,?,?,?,?,?,?,?)";
+        DBQuery.setPreparedStatement(connection,insertStatement);
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+
+        ps.setString(1,name);
+        ps.setString(2,address);
+        ps.setString(3,postal);
+        ps.setString(4,phone);
+        ps.setString(5, String.valueOf(timestamp));
+        ps.setString(6,user);
+        ps.setString(7, String.valueOf(timestamp));
+        ps.setString(8,user);
+        ps.setString(9, divisionId);
+
+        ps.execute();
+        if(ps.getUpdateCount() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public static String getDivisionId(String division) throws SQLException {
+        String divisionId = null;
+        String selectStatement = "SELECT Division_ID FROM first_level_divisions WHERE Division = ?";
+        DBQuery.setPreparedStatement(connection,selectStatement);
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+        ps.setString(1, division);
+        ps.execute();
+        ResultSet rsDivisionId = ps.getResultSet();
+        while (rsDivisionId.next()) {
+            divisionId = rsDivisionId.getString("Division_ID");
+        }
+
+        return divisionId;
     }
 
     public static ObservableList<CustomerTable> getCustomerTable() throws SQLException {
@@ -96,5 +139,7 @@ public class DBQuery {
         }
         return customers;
     }
+
+
 
 }

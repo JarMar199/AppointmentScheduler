@@ -46,6 +46,12 @@ public class LoginController implements Initializable {
     @FXML
     private TextField userNameTxt;
 
+    @FXML
+    void onActionQueryTest(ActionEvent event) throws SQLException {
+        String divId = DBQuery.getDivisionId("California");
+        System.out.println(divId);
+    }
+
 
     @FXML
     void onActionLogin(ActionEvent event) throws IOException, SQLException {

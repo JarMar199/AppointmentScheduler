@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -71,6 +72,7 @@ public class AddCustomerController implements Initializable {
         System.out.println(time);
         LocalDateTime dateTime = LocalDateTime.now();
         System.out.println(dateTime);
+        System.out.println(date + " " +time);
 
 
 
@@ -78,12 +80,19 @@ public class AddCustomerController implements Initializable {
     }
 
     @FXML
-    void onActionSaveCustomer(ActionEvent event) {
+    void onActionSaveCustomer(ActionEvent event) throws SQLException {
         String name = nameTxt.getText();
         String address = addressTxt.getText();
         String postal = postalTxt.getText();
         String phone = phoneTxt.getText();
         String state = stateComboBox.getSelectionModel().getSelectedItem();
+
+        if(DBQuery.addCustomer(name,address,postal,phone,state)){
+            System.out.println("Success");
+        }else
+            System.out.println("Failed");
+
+
 
     }
 
