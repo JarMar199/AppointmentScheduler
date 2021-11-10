@@ -9,9 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
@@ -19,9 +17,28 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.time.ZoneId;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
+    @FXML
+    private Label titleLbl;
+
+    @FXML
+    private Label locationLbl;
+
+    @FXML
+    private Label usernameLbl;
+
+    @FXML
+    private Label locationTxt;
+
+    @FXML
+    private Button loginBtn;
+
+    @FXML
+    private Label passwordLbl;
 
     @FXML
     private PasswordField passwordTxt;
@@ -47,6 +64,7 @@ public class LoginController implements Initializable {
             String Password = rs.getString("Password");
 
             if (enteredUserName.equals(User_name) && enteredPassword.equals(Password)){
+                DBQuery.setUserName(User_name);
                 Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
                 Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
                 Scene scene = new Scene(root);
@@ -56,9 +74,17 @@ public class LoginController implements Initializable {
                 return;
             }
         }
+
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setContentText("Incorrect User Name or Password");
+        String errorTitle = "Error";
+        String errorMsg = "Incorrect User Name or Password";
+        if(Locale.getDefault().equals(Locale.FRANCE)) {
+            ResourceBundle resource = ResourceBundle.getBundle("Login_fr");
+            errorMsg = resource.getString("ErrorMsg");
+            errorTitle = resource.getString("ErrorTitle");
+        }
+        alert.setTitle(errorTitle);
+        alert.setContentText(errorMsg);
         alert.showAndWait();
     }
 
@@ -66,5 +92,21 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        locationTxt.setText(ZoneId.systemDefault().getId());
+        Locale locale = Locale.getDefault();
+       if(locale.equals(Locale.FRANCE)) {
+           ResourceBundle resource = ResourceBundle.getBundle("Login_fr");
+           String login = resource.getString("Login");
+           String userName = resource.getString("Username");
+           String password = resource.getString("Password");
+           String title = resource.getString("Title");
+           String location = resource.getString("Location");
+           loginBtn.setText(login);
+           usernameLbl.setText(userName);
+           passwordLbl.setText(password);
+           titleLbl.setText(title);
+           locationLbl.setText(location);
+       }
     }
+
 }

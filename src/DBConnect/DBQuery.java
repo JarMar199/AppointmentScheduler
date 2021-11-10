@@ -9,6 +9,7 @@ public class DBQuery {
 
     private static Connection connection = JDBC.getConnection();
     private static PreparedStatement statement; //Statement reference
+    private static String userName;
 
     //Create Statement Object
     public static void setPreparedStatement(Connection connection, String sqlStatement) throws SQLException {
@@ -58,6 +59,17 @@ public class DBQuery {
         ps.execute();
         ResultSet rs = ps.getResultSet();
         return rs;
+    }
+
+    public static void setUserName(String loggedInUser) {
+        userName = loggedInUser;
+    }
+    public static String getUserName() {
+        return userName;
+    }
+
+    public static void addCustomer() {
+        //String insertStatement = "INSERT INTO "
     }
 
 }

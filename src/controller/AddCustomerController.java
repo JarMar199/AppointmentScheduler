@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -20,6 +21,20 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AddCustomerController implements Initializable {
+    @FXML
+    private TextField addressTxt;
+
+    @FXML
+    private TextField customerIdTxt;
+
+    @FXML
+    private TextField nameTxt;
+
+    @FXML
+    private TextField phoneTxt;
+
+    @FXML
+    private TextField postalTxt;
 
     @FXML
     private ComboBox<String> stateComboBox;
@@ -48,6 +63,10 @@ public class AddCustomerController implements Initializable {
         stateComboBox.setItems(DBQuery.getStates(selectedCountry));;
     }
 
+    @FXML
+    void onActionSaveCustomer(ActionEvent event) {
+        //int customerId = customerIdTxt.g
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
