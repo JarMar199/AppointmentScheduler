@@ -192,7 +192,7 @@ public class DBQuery {
         return contacts;
     }
 
-    public static ObservableList<String> getCustomerID() throws SQLException {
+    public static ObservableList<String> getCustomerId() throws SQLException {
         ObservableList<String> customerIds = FXCollections.observableArrayList();
         String selectStatement = "SELECT Customer_ID from customers ORDER BY Customer_ID ASC";
         DBQuery.setPreparedStatement(connection, selectStatement);
@@ -205,6 +205,18 @@ public class DBQuery {
         }
         return customerIds;
     }
-
+    public static ObservableList<String> getUserId() throws SQLException {
+        ObservableList<String> userIds = FXCollections.observableArrayList();
+        String selectStatement = "SELECT User_ID from users ORDER BY User_ID ASC";
+        DBQuery.setPreparedStatement(connection, selectStatement);
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+        ps.execute();
+        ResultSet rsUserIds = ps.getResultSet();
+        while (rsUserIds.next()) {
+            String userId = rsUserIds.getString("User_ID");
+            userIds.add(userId);
+        }
+        return userIds;
+    }
 
 }

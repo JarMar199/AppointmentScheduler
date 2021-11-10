@@ -53,7 +53,7 @@ public class AddAppointmentController implements Initializable{
     private TextField typeTxt;
 
     @FXML
-    private ComboBox<?> userComboBox;
+    private ComboBox<String> userComboBox;
 
     @FXML
     void onActionSaveAppointment(ActionEvent event) {
@@ -78,7 +78,8 @@ public class AddAppointmentController implements Initializable{
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             contactComboBox.setItems(DBQuery.getContacts());
-            customerComboBox.setItems(DBQuery.getCustomerID());
+            customerComboBox.setItems(DBQuery.getCustomerId());
+            userComboBox.setItems(DBQuery.getUserId());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
