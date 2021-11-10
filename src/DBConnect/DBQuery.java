@@ -15,6 +15,9 @@ public class DBQuery {
     private static PreparedStatement statement; //Statement reference
     private static String userName;
 
+
+
+
     //Create Statement Object
     public static void setPreparedStatement(Connection connection, String sqlStatement) throws SQLException {
         statement = connection.prepareStatement(sqlStatement);
@@ -175,6 +178,33 @@ public class DBQuery {
         return customers;
     }
 
+    public static ObservableList<String> getContacts() throws SQLException {
+        ObservableList<String> contacts = FXCollections.observableArrayList();
+        String selectStatement = "SELECT Contact_Name FROM contacts";
+        DBQuery.setPreparedStatement(connection, selectStatement);
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+        ps.execute();
+        ResultSet rsContacts = ps.getResultSet();
+        while(rsContacts.next()) {
+            String contact = rsContacts.getString("Contact_Name");
+            contacts.add(contact);
+        }
+        return contacts;
+    }
+
+    public static ObservableList<String> getCustomerID() throws SQLException {
+        ObservableList<String> customerIds = FXCollections.observableArrayList();
+        String selectStatement = "SELECT Customer_ID from customers ORDER BY Customer_ID ASC";
+        DBQuery.setPreparedStatement(connection, selectStatement);
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+        ps.execute();
+        ResultSet rsCustomerIds = ps.getResultSet();
+        while (rsCustomerIds.next()) {
+            String customerId = rsCustomerIds.getString("Customer_ID");
+            customerIds.add(customerId);
+        }
+        return customerIds;
+    }
 
 
 }

@@ -1,8 +1,10 @@
 package controller;
 
+import DBConnect.DBQuery;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,18 +12,21 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
-public class AddAppointmentController {
+public class AddAppointmentController implements Initializable{
 
     @FXML
     private TextField appointmentIdTxt;
 
     @FXML
-    private ComboBox<?> contactComboBox;
+    private ComboBox<String> contactComboBox;
 
     @FXML
-    private ComboBox<?> customerComboBox;
+    private ComboBox<String> customerComboBox;
 
     @FXML
     private TextField descriptionTxt;
@@ -68,4 +73,15 @@ public class AddAppointmentController {
             stage.show();
         }
     }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        try {
+            contactComboBox.setItems(DBQuery.getContacts());
+            customerComboBox.setItems(DBQuery.getCustomerID());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
 }

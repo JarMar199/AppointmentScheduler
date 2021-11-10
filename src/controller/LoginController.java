@@ -1,6 +1,7 @@
 package controller;
 
 import DBConnect.DBQuery;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -45,7 +46,7 @@ public class LoginController implements Initializable {
 
     @FXML
     void onActionQueryTest(ActionEvent event) throws SQLException {
-        String divId = DBQuery.getDivisionId("California");
+        ObservableList<String> divId = DBQuery.getContacts();
         System.out.println(divId);
     }
 
