@@ -46,7 +46,7 @@
          <children>
             <RadioButton mnemonicParsing="false" text="View by Month" />
             <RadioButton mnemonicParsing="false" text="View by Week" />
-            <Button mnemonicParsing="false" prefWidth="127.0" text="Add Appoinment" />
+            <Button mnemonicParsing="false" onAction="#onActionAddAppointment" prefWidth="127.0" text="Add Appoinment" />
             <Button mnemonicParsing="false" prefWidth="127.0" text="Modify Appointment" />
             <Button mnemonicParsing="false" prefWidth="127.0" text="Delete Appointment" />
          </children>

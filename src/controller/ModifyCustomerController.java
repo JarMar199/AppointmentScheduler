@@ -83,7 +83,7 @@ public class ModifyCustomerController implements Initializable {
         String phone = phoneTxt.getText();
         String state = stateComboBox.getSelectionModel().getSelectedItem();
 
-        if(DBQuery.modifyCustomer(customerId,name,address,postal,phone,state)){
+        if (DBQuery.modifyCustomer(customerId, name, address, postal, phone, state)) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Success");
             alert.setHeaderText("Confirmation");
@@ -95,9 +95,8 @@ public class ModifyCustomerController implements Initializable {
             stage.setTitle("Main Menu");
             stage.setScene(scene);
             stage.show();
-        }else
+        } else
             System.out.println("Failed");
-
 
 
     }

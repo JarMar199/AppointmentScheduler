@@ -17,10 +17,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -75,7 +71,7 @@ public class AddCustomerController implements Initializable {
         String phone = phoneTxt.getText();
         String state = stateComboBox.getSelectionModel().getSelectedItem();
 
-        if(DBQuery.addCustomer(name,address,postal,phone,state)){
+        if (DBQuery.addCustomer(name, address, postal, phone, state)) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Success");
             alert.setHeaderText("Confirmation");
@@ -87,9 +83,8 @@ public class AddCustomerController implements Initializable {
             stage.setTitle("Main Menu");
             stage.setScene(scene);
             stage.show();
-        }else
+        } else
             System.out.println("Failed");
-
 
 
     }

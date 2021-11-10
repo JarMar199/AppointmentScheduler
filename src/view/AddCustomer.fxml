@@ -45,9 +45,9 @@
                 <ComboBox fx:id="stateComboBox" prefHeight="25.0" prefWidth="183.0" promptText="Select State/Province" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             </children>
         </GridPane>
-        <Label layoutX="58.0" layoutY="14.0" text="Add Customer">
+        <Label alignment="CENTER" layoutX="4.0" layoutY="-1.0" prefHeight="39.0" prefWidth="594.0" text="Add Customer" AnchorPane.bottomAnchor="479.0">
             <font>
-                <Font name="System Bold" size="12.0" />
+                <Font name="System Bold" size="24.0" />
             </font>
         </Label>
         <VBox layoutX="500.0" layoutY="65.0" prefHeight="200.0" prefWidth="100.0" />
