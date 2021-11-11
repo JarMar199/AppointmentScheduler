@@ -17,9 +17,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -72,12 +70,15 @@ public class AddAppointmentController implements Initializable{
         String userId = userComboBox.getSelectionModel().getSelectedItem();
         LocalDate startDate = startDatePicker.getValue();
         LocalTime startTime = startTimeComboBox.getSelectionModel().getSelectedItem();
-        Timestamp startDateTime = Timestamp.valueOf(LocalDateTime.of(startDate,startTime));
-
+        LocalDateTime startDT = LocalDateTime.of(startDate,startTime);
+        Timestamp startDateTimeUTC = Timestamp.valueOf(StartEndTime.localToUTCConversion(startDT));
         LocalDate endDate = endDatePicker.getValue();
         LocalTime endTime = endTimeComboBox.getSelectionModel().getSelectedItem();
-        Timestamp endDateTime = Timestamp.valueOf(LocalDateTime.of(endDate,endTime));
-        if(DBQuery.addAppointment(title, description, location, contactName, type, startDateTime, endDateTime, customerId, userId)){
+        LocalDateTime endDT = LocalDateTime.of(endDate,endTime);
+        Timestamp endDateTime = Timestamp.valueOf(StartEndTime.localToUTCConversion(endDT));
+
+        //TODO
+        if(DBQuery.addAppointment(title, description, location, contactName, type, startDateTimeUTC, endDateTime, customerId, userId)){
             System.out.println("Success");
         }else
             System.out.println("Failed");

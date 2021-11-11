@@ -5,11 +5,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointment;
 import model.Customer;
+import model.StartEndTime;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 
 public class DBQuery {
 
@@ -151,7 +150,7 @@ public class DBQuery {
     }
 
     public static boolean addAppointment(String title, String description, String location, String contactName, String type, Timestamp startDT, Timestamp endDT, String customerId, String userId) throws SQLException {
-        Timestamp localTime = Timestamp.valueOf(LocalDateTime.of(LocalDate.now(),LocalTime.now()));
+        Timestamp utcTime = Timestamp.valueOf(StartEndTime.localToUTCConversion(LocalDateTime.of(LocalDate.now(),LocalTime.now())));
         String user = DBQuery.getUserName();
         String contactId = DBQuery.getContactId(contactName);
         String insertStatement = "INSERT INTO appointments(\n" +
@@ -179,9 +178,9 @@ public class DBQuery {
         ps.setString(4,type);
         ps.setTimestamp(5, startDT);
         ps.setTimestamp(6, endDT);
-        ps.setTimestamp(7, localTime);
+        ps.setTimestamp(7, utcTime);
         ps.setString(8,user);
-        ps.setTimestamp(9, localTime);
+        ps.setTimestamp(9, utcTime);
         ps.setString(10,user);
         ps.setString(11,customerId);
         ps.setString(12,userId);
@@ -193,7 +192,7 @@ public class DBQuery {
 
     public static boolean modifyAppointment(String title, String description, String location, String contactName,
     String type, Timestamp startDT, Timestamp endDT, String customerId, String userId, String appointmentId) throws SQLException {
-        Timestamp localTime = Timestamp.valueOf(LocalDateTime.of(LocalDate.now(),LocalTime.now()));
+        Timestamp utcTime = Timestamp.valueOf(StartEndTime.localToUTCConversion(LocalDateTime.of(LocalDate.now(),LocalTime.now())));
         String user = DBQuery.getUserName();
         String contactId = DBQuery.getContactId(contactName);
         String updateStatement = "UPDATE appointments\n" +
@@ -219,7 +218,7 @@ public class DBQuery {
         ps.setString(4,type);
         ps.setTimestamp(5, startDT);
         ps.setTimestamp(6, endDT);
-        ps.setTimestamp(7, localTime);
+        ps.setTimestamp(7, utcTime);
         ps.setString(8,user);
         ps.setString(9,customerId);
         ps.setString(10,userId);
@@ -301,6 +300,8 @@ public class DBQuery {
         PreparedStatement ps = DBQuery.getPreparedStatement();
         ps.execute();
         ResultSet rsAppointments = ps.getResultSet();
+        ZoneId localZoneId = ZoneId.systemDefault();
+        ZoneId utcZoneId = ZoneId.of("UTC");
         while(rsAppointments.next()) {
             int appointmentId = rsAppointments.getInt("Appointment_ID");
             String title = rsAppointments.getString("Title");
@@ -308,11 +309,15 @@ public class DBQuery {
             String location = rsAppointments.getString("Location");
             String contactName = rsAppointments.getString("Contact_Name");
             String type = rsAppointments.getString("Type");
+
             Timestamp startDate = Timestamp.valueOf(rsAppointments.getString("Start"));
+            Timestamp localStartDate = Timestamp.valueOf(StartEndTime.utcToLocalConversion(startDate.toLocalDateTime()));
             Timestamp endDate = Timestamp.valueOf(rsAppointments.getString("End"));
+            Timestamp localEndDate = Timestamp.valueOf(StartEndTime.utcToLocalConversion(endDate.toLocalDateTime()));
+
             int customerId = rsAppointments.getInt("Customer_ID");
             int userId = rsAppointments.getInt("User_ID");
-            appointments.add(new Appointment(appointmentId,customerId, userId, title, description, location, type, startDate, endDate, contactName));
+            appointments.add(new Appointment(appointmentId,customerId, userId, title, description, location, type, localStartDate, localEndDate, contactName));
         }
 
         return appointments;

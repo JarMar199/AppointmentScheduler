@@ -131,8 +131,14 @@ public class MainMenuController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 DBQuery.deleteCustomer(selectedCustomer.getId());
+                Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                successAlert.setTitle("Confirmation");
+                successAlert.setHeaderText("Confirmation");
+                successAlert.setContentText("Customer successfully deleted.");
+                successAlert.showAndWait();
                 setViewAllApptTbl();
                 setCustomerTable();
+
             }
         }
     }
@@ -171,10 +177,15 @@ public class MainMenuController implements Initializable {
     void onActionDeleteAppt(ActionEvent event) throws SQLException {
         Appointment selectedAppointment = appointmentTable.getSelectionModel().getSelectedItem();
         if(selectedAppointment != null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete appointment?");
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Cancel Appointment "+ selectedAppointment.getAppointmentId() + " Type: " + selectedAppointment.getType() + "?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 DBQuery.deleteAppointment(Integer.valueOf(selectedAppointment.getAppointmentId()));
+                Alert alertConfirm = new Alert(Alert.AlertType.INFORMATION);
+                alertConfirm.setTitle("Success");
+                alertConfirm.setHeaderText("Confirmation");
+                alertConfirm.setContentText("Appointment: " + selectedAppointment.getAppointmentId() + " Type: " + selectedAppointment.getType() + " cancelled." );
+                alertConfirm.showAndWait();
                 setViewAllApptTbl();
             }
         }
