@@ -54,7 +54,7 @@
             <RadioButton fx:id="viewWeekRBtn" mnemonicParsing="false" onAction="#onActionViewWeekAppt" text="View by Week" toggleGroup="$viewApptTG" />
             <Button mnemonicParsing="false" onAction="#onActionAddAppointment" prefWidth="127.0" text="Add Appoinment" />
             <Button mnemonicParsing="false" onAction="#onActionModifyAppt" prefWidth="127.0" text="Modify Appointment" />
-            <Button mnemonicParsing="false" prefWidth="127.0" text="Delete Appointment" />
+            <Button mnemonicParsing="false" onAction="#onActionDeleteAppt" prefWidth="127.0" text="Delete Appointment" />
          </children>
       </HBox>
       <TableView fx:id="customerTable" layoutY="333.0" prefHeight="200.0" prefWidth="768.0">

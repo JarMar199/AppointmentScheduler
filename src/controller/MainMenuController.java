@@ -153,6 +153,19 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
+    void onActionDeleteAppt(ActionEvent event) throws SQLException {
+        Appointment selectedAppointment = appointmentTable.getSelectionModel().getSelectedItem();
+        if(selectedAppointment != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete appointment?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                DBQuery.deleteAppointment(Integer.valueOf(selectedAppointment.getAppointmentId()));
+                setViewAllApptTbl();
+            }
+        }
+    }
+
+    @FXML
     void onActionLogout(ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you wish to logout?");
         Optional<ButtonType> result = alert.showAndWait();
@@ -174,8 +187,7 @@ public class MainMenuController implements Initializable {
 
 
 
-    @FXML
-    void onActionViewAllAppt(ActionEvent event) throws SQLException {
+    public void setViewAllApptTbl() throws SQLException {
         appointmentTable.setItems(DBQuery.viewAllAppointmentTable());
         appointmentIdCol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
         titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -187,6 +199,11 @@ public class MainMenuController implements Initializable {
         endCol.setCellValueFactory(new PropertyValueFactory<>("endDate"));
         apptCustomerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         userIdCol.setCellValueFactory(new PropertyValueFactory<>("userId"));
+    }
+
+    @FXML
+    void onActionViewAllAppt(ActionEvent event) throws SQLException {
+        setViewAllApptTbl();
     }
 
     @FXML

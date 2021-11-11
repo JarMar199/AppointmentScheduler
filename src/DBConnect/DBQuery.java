@@ -217,6 +217,16 @@ public class DBQuery {
 
     }
 
+    public static boolean deleteAppointment(int appointmentId) throws SQLException {
+        String deleteStatement = "DELETE FROM appointments WHERE Appointment_ID = ?";
+        DBQuery.setPreparedStatement(connection, deleteStatement);
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+
+        ps.setInt(1,appointmentId);
+        ps.execute();
+        return ps.getUpdateCount() > 0;
+    }
+
 
     public static String getDivisionId(String division) throws SQLException {
         String divisionId = null;
