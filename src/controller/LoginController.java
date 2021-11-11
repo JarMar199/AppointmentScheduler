@@ -51,7 +51,7 @@ public class LoginController implements Initializable {
     @FXML
     void onActionQueryTest(ActionEvent event) throws SQLException {
         Timestamp localTime = Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.now()));
-       if( DBQuery.addAppointment("Coffee",
+       if( DBQuery.addAppointment("Lunch",
                 "Meeting",
                 "Sbux",
                 "Li Lee",
