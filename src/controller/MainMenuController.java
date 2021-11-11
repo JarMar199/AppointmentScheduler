@@ -81,10 +81,13 @@ public class MainMenuController implements Initializable {
     private TableColumn<Appointment, Integer> userIdCol;
 
     @FXML
-    private RadioButton viewAllRbtn;
+    private DatePicker apptDatePickerFilter;
 
     @FXML
     private ToggleGroup viewApptTG;
+
+    @FXML
+    private RadioButton viewAllRbtn;
 
     @FXML
     private RadioButton viewMonthRBtn;

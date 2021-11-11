@@ -16,10 +16,8 @@ import model.Appointment;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
+import java.time.*;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -50,8 +48,12 @@ public class LoginController implements Initializable {
 
     @FXML
     void onActionQueryTest(ActionEvent event) throws SQLException {
-
-
+        LocalDate sundays = LocalDate.now(
+               ZoneId.of("America/Los_Angeles")
+       ).with(
+               TemporalAdjusters.previous(DayOfWeek.SUNDAY)
+       );
+       System.out.println(sundays);
     }
 
 
