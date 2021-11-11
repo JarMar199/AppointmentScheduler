@@ -122,6 +122,21 @@ public class MainMenuController implements Initializable {
 
         }
     }
+
+    @FXML
+    void onActionDeleteCustomer(ActionEvent event) throws SQLException {
+        Customer selectedCustomer = customerTable.getSelectionModel().getSelectedItem();
+        if(selectedCustomer != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete customer? All appointments associated will be deleted.");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                DBQuery.deleteCustomer(selectedCustomer.getId());
+                setViewAllApptTbl();
+                setCustomerTable();
+            }
+        }
+    }
+
     @FXML
     void onActionAddAppointment(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/AddAppointment.fxml"));
@@ -201,6 +216,17 @@ public class MainMenuController implements Initializable {
         userIdCol.setCellValueFactory(new PropertyValueFactory<>("userId"));
     }
 
+    public void setCustomerTable() throws SQLException {
+        customerTable.setItems(DBQuery.getCustomerTable());
+        customerIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
+        postalCol.setCellValueFactory(new PropertyValueFactory<>("postal"));
+        phoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        stateCol.setCellValueFactory(new PropertyValueFactory<>("state"));
+        countryCol.setCellValueFactory(new PropertyValueFactory<>("country"));
+    }
+
     @FXML
     void onActionViewAllAppt(ActionEvent event) throws SQLException {
         setViewAllApptTbl();
@@ -220,26 +246,8 @@ public class MainMenuController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            customerTable.setItems(DBQuery.getCustomerTable());
-            customerIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-            nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-            addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
-            postalCol.setCellValueFactory(new PropertyValueFactory<>("postal"));
-            phoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
-            stateCol.setCellValueFactory(new PropertyValueFactory<>("state"));
-            countryCol.setCellValueFactory(new PropertyValueFactory<>("country"));
-
-            appointmentTable.setItems(DBQuery.viewAllAppointmentTable());
-            appointmentIdCol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
-            titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
-            descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
-            locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
-            contactCol.setCellValueFactory(new PropertyValueFactory<>("contactName"));
-            typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
-            startCol.setCellValueFactory(new PropertyValueFactory<>("startDate"));
-            endCol.setCellValueFactory(new PropertyValueFactory<>("endDate"));
-            apptCustomerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
-            userIdCol.setCellValueFactory(new PropertyValueFactory<>("userId"));
+            setCustomerTable();
+            setViewAllApptTbl();
 
 
 

@@ -30,7 +30,7 @@
       </TableView>
       <Label alignment="CENTER" prefHeight="48.0" prefWidth="1000.0" text="Appointment Scheduler" textAlignment="CENTER">
          <font>
-            <Font size="14.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <HBox alignment="CENTER" layoutX="-1.0" layoutY="289.0" prefHeight="67.0" prefWidth="1000.0" spacing="75.0">
@@ -72,7 +72,7 @@
          <children>
             <Button mnemonicParsing="false" onAction="#onActionAddCustomer" prefWidth="127.0" text="Add Customer" />
             <Button mnemonicParsing="false" onAction="#onActionModifyCustomer" prefWidth="127.0" text="Modify Customer" />
-            <Button mnemonicParsing="false" prefWidth="127.0" text="Delete Customer" />
+            <Button mnemonicParsing="false" onAction="#onActionDeleteCustomer" prefWidth="127.0" text="Delete Customer" />
          </children>
       </VBox>
    </children>

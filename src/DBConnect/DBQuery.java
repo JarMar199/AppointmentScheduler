@@ -135,6 +135,21 @@ public class DBQuery {
         return ps.getUpdateCount() > 0;
     }
 
+    public static boolean deleteCustomer(int customerId) throws SQLException {
+        String deleteStatement = "DELETE FROM appointments WHERE Customer_ID = ?";
+        DBQuery.setPreparedStatement(connection, deleteStatement);
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+        ps.setInt(1,customerId);
+        ps.execute();
+
+        deleteStatement = "DELETE FROM customers WHERE Customer_ID = ?";
+        DBQuery.setPreparedStatement(connection, deleteStatement);
+        ps = DBQuery.getPreparedStatement();
+        ps.setInt(1,customerId);
+        ps.execute();
+        return ps.getUpdateCount() > 0;
+    }
+
     public static boolean addAppointment(String title, String description, String location, String contactName, String type, Timestamp startDT, Timestamp endDT, String customerId, String userId) throws SQLException {
         Timestamp localTime = Timestamp.valueOf(LocalDateTime.of(LocalDate.now(),LocalTime.now()));
         String user = DBQuery.getUserName();
