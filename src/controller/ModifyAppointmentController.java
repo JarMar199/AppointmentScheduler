@@ -76,6 +76,7 @@ public class ModifyAppointmentController implements Initializable{
         LocalDate endDate = endDatePicker.getValue();
         LocalTime endTime = endTimeComboBox.getSelectionModel().getSelectedItem();
         Timestamp endDateTime = Timestamp.valueOf(LocalDateTime.of(endDate,endTime));
+        //TODO
         if(DBQuery.addAppointment(title, description, location, contactName, type, startDateTime, endDateTime, customerId, userId)){
             System.out.println("Success");
         }else
@@ -104,7 +105,12 @@ public class ModifyAppointmentController implements Initializable{
         locationTxt.setText(appointment.getLocation());
         typeTxt.setText(appointment.getType());
         contactComboBox.setValue(appointment.getContactName());
-        //startDatePicker.setValue(appointment.getStartDate());
+        startDatePicker.setValue(appointment.getStartDate().toLocalDateTime().toLocalDate());
+        startTimeComboBox.setValue(LocalTime.from(appointment.getStartDate().toLocalDateTime()));
+        endTimeComboBox.setValue(LocalTime.from(appointment.getEndDate().toLocalDateTime()));
+        endDatePicker.setValue(appointment.getEndDate().toLocalDateTime().toLocalDate());
+        customerComboBox.setValue(String.valueOf(appointment.getCustomerId()));
+        userComboBox.setValue(String.valueOf(appointment.getUserId()));
 
     }
 

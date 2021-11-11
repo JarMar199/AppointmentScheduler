@@ -53,7 +53,7 @@
             <RadioButton fx:id="viewMonthRBtn" mnemonicParsing="false" onAction="#onActionViewMonthAppt" text="View by Month" toggleGroup="$viewApptTG" />
             <RadioButton fx:id="viewWeekRBtn" mnemonicParsing="false" onAction="#onActionViewWeekAppt" text="View by Week" toggleGroup="$viewApptTG" />
             <Button mnemonicParsing="false" onAction="#onActionAddAppointment" prefWidth="127.0" text="Add Appoinment" />
-            <Button mnemonicParsing="false" prefWidth="127.0" text="Modify Appointment" />
+            <Button mnemonicParsing="false" onAction="#onActionModifyAppt" prefWidth="127.0" text="Modify Appointment" />
             <Button mnemonicParsing="false" prefWidth="127.0" text="Delete Appointment" />
          </children>
       </HBox>

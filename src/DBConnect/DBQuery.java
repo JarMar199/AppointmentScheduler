@@ -135,6 +135,49 @@ public class DBQuery {
         return ps.getUpdateCount() > 0;
     }
 
+    public static boolean addAppointment(String title, String description, String location, String contactName,
+                                         String type, Timestamp startDT, Timestamp endDT, String customerId, String userId) throws SQLException {
+        Timestamp localTime = Timestamp.valueOf(LocalDateTime.of(LocalDate.now(),LocalTime.now()));
+        String user = DBQuery.getUserName();
+        String contactId = DBQuery.getContactId(contactName);
+        String insertStatement = "INSERT INTO appointments(\n" +
+                "\tTitle,\n" +
+                "\tDescription,\n" +
+                "\tLocation,\n" +
+                "\tType,\n" +
+                "\tStart,\n" +
+                "\tEnd,\n" +
+                "\tCreate_Date,\n" +
+                "\tCreated_By, \n" +
+                "\tLast_Update,\n" +
+                "\tLast_Updated_By,\n" +
+                "\tCustomer_ID,\n" +
+                "\tUser_ID,\n" +
+                "\tContact_ID)\n" +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        DBQuery.setPreparedStatement(connection,insertStatement);
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+
+        ps.setString(1,title);
+        ps.setString(2,description);
+        ps.setString(3,location);
+        ps.setString(4,type);
+        ps.setTimestamp(5, startDT);
+        ps.setTimestamp(6, endDT);
+        ps.setTimestamp(7, localTime);
+        ps.setString(8,user);
+        ps.setTimestamp(9, localTime);
+        ps.setString(10,user);
+        ps.setString(11,customerId);
+        ps.setString(12,userId);
+        ps.setString(13,contactId);
+
+        ps.execute();
+        return ps.getUpdateCount() > 0;
+    }
+
+
     public static String getDivisionId(String division) throws SQLException {
         String divisionId = null;
         String selectStatement = "SELECT Division_ID FROM first_level_divisions WHERE Division = ?";
@@ -200,12 +243,13 @@ public class DBQuery {
             String location = rsAppointments.getString("Location");
             String contactName = rsAppointments.getString("Contact_Name");
             String type = rsAppointments.getString("Type");
-            String startDate = rsAppointments.getString("Start");
-            String endDate = rsAppointments.getString("End");
+            Timestamp startDate = Timestamp.valueOf(rsAppointments.getString("Start"));
+            Timestamp endDate = Timestamp.valueOf(rsAppointments.getString("End"));
             int customerId = rsAppointments.getInt("Customer_ID");
             int userId = rsAppointments.getInt("User_ID");
             appointments.add(new Appointment(appointmentId,customerId, userId, title, description, location, type, startDate, endDate, contactName));
         }
+
         return appointments;
     }
 
@@ -263,48 +307,6 @@ public class DBQuery {
         }
 
         return contactId;
-    }
-
-    public static boolean addAppointment(String title, String description, String location, String contactName,
-                                      String type, Timestamp startDT, Timestamp endDT, String customerId, String userId) throws SQLException {
-        Timestamp localTime = Timestamp.valueOf(LocalDateTime.of(LocalDate.now(),LocalTime.now()));
-        String user = DBQuery.getUserName();
-        String contactId = DBQuery.getContactId(contactName);
-        String insertStatement = "INSERT INTO appointments(\n" +
-                "\tTitle,\n" +
-                "\tDescription,\n" +
-                "\tLocation,\n" +
-                "\tType,\n" +
-                "\tStart,\n" +
-                "\tEnd,\n" +
-                "\tCreate_Date,\n" +
-                "\tCreated_By, \n" +
-                "\tLast_Update,\n" +
-                "\tLast_Updated_By,\n" +
-                "\tCustomer_ID,\n" +
-                "\tUser_ID,\n" +
-                "\tContact_ID)\n" +
-                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        DBQuery.setPreparedStatement(connection,insertStatement);
-        PreparedStatement ps = DBQuery.getPreparedStatement();
-
-        ps.setString(1,title);
-        ps.setString(2,description);
-        ps.setString(3,location);
-        ps.setString(4,type);
-        ps.setTimestamp(5, startDT);
-        ps.setTimestamp(6, endDT);
-        ps.setTimestamp(7, localTime);
-        ps.setString(8,user);
-        ps.setTimestamp(9, localTime);
-        ps.setString(10,user);
-        ps.setString(11,customerId);
-        ps.setString(12,userId);
-        ps.setString(13,contactId);
-
-        ps.execute();
-        return ps.getUpdateCount() > 0;
     }
 
 }

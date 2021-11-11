@@ -1,10 +1,14 @@
 package model;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+
 public class Appointment {
     int appointmentId, customerId, userId;
-    String title, description, location, type, startDate, endDate, contactName;
+    String title, description, location, type, contactName;
+    Timestamp startDate, endDate;
 
-    public Appointment(int appointmentId, int customerId, int userId, String title, String description, String location, String type, String startDate, String endDate, String contactName) {
+    public Appointment(int appointmentId, int customerId, int userId, String title, String description, String location, String type, Timestamp startDate, Timestamp endDate, String contactName) {
         this.appointmentId = appointmentId;
         this.customerId = customerId;
         this.userId = userId;
@@ -73,19 +77,19 @@ public class Appointment {
         this.type = type;
     }
 
-    public String getStartDate() {
+    public Timestamp getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Timestamp startDate) {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
+    public Timestamp getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(Timestamp endDate) {
         this.endDate = endDate;
     }
 

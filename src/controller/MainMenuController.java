@@ -104,6 +104,25 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
+    void onActionModifyCustomer(ActionEvent event) throws IOException {
+        if(customerTable.getSelectionModel().getSelectedItem() != null) {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/view/ModifyCustomer.fxml"));
+            loader.load();
+
+            ModifyCustomerController MCController = loader.getController();
+            MCController.sendCustomer(customerTable.getSelectionModel().getSelectedItem());
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Parent root = loader.getRoot();
+            Scene scene = new Scene(root);
+            stage.setTitle("Modify Customer");
+            stage.setScene(scene);
+            stage.show();
+
+        }
+    }
+    @FXML
     void onActionAddAppointment(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/AddAppointment.fxml"));
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -111,6 +130,26 @@ public class MainMenuController implements Initializable {
         stage.setTitle("Add Appointment");
         stage.setScene(scene);
         stage.show();
+    }
+
+    @FXML
+    void onActionModifyAppt(ActionEvent event) throws IOException {
+        if(appointmentTable.getSelectionModel().getSelectedItem() != null) {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/view/ModifyAppointment.fxml"));
+            loader.load();
+
+            ModifyAppointmentController MAController = loader.getController();
+            MAController.sendAppointment(appointmentTable.getSelectionModel().getSelectedItem());
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Parent root = loader.getRoot();
+            Scene scene = new Scene(root);
+            stage.setTitle("Modify Appointment");
+            stage.setScene(scene);
+            stage.show();
+        }
+
     }
 
     @FXML
@@ -133,25 +172,7 @@ public class MainMenuController implements Initializable {
 
     }
 
-    @FXML
-    void onActionModifyCustomer(ActionEvent event) throws IOException {
-        if(customerTable.getSelectionModel().getSelectedItem() != null) {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/view/ModifyCustomer.fxml"));
-            loader.load();
 
-            ModifyCustomerController MCController = loader.getController();
-            MCController.sendCustomer(customerTable.getSelectionModel().getSelectedItem());
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Parent root = loader.getRoot();
-            Scene scene = new Scene(root);
-            stage.setTitle("Modify Customer");
-            stage.setScene(scene);
-            stage.show();
-
-        }
-    }
 
     @FXML
     void onActionViewAllAppt(ActionEvent event) throws SQLException {

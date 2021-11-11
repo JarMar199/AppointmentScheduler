@@ -73,6 +73,7 @@ public class AddAppointmentController implements Initializable{
         LocalDate startDate = startDatePicker.getValue();
         LocalTime startTime = startTimeComboBox.getSelectionModel().getSelectedItem();
         Timestamp startDateTime = Timestamp.valueOf(LocalDateTime.of(startDate,startTime));
+
         LocalDate endDate = endDatePicker.getValue();
         LocalTime endTime = endTimeComboBox.getSelectionModel().getSelectedItem();
         Timestamp endDateTime = Timestamp.valueOf(LocalDateTime.of(endDate,endTime));
