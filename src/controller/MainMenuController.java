@@ -104,7 +104,7 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
-    void onActionModifyCustomer(ActionEvent event) throws IOException {
+    void onActionModifyCustomer(ActionEvent event) throws IOException, SQLException {
         if(customerTable.getSelectionModel().getSelectedItem() != null) {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/view/ModifyCustomer.fxml"));

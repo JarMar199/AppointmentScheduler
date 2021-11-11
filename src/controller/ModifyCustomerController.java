@@ -64,13 +64,15 @@ public class ModifyCustomerController implements Initializable {
         stateComboBox.setItems(DBQuery.getStates(selectedCountry));
     }
 
-    public void sendCustomer(Customer customer) {
+    public void sendCustomer(Customer customer) throws SQLException {
         customerIdTxt.setText(String.valueOf(customer.getId()));
         nameTxt.setText(customer.getName());
         addressTxt.setText(customer.getAddress());
         postalTxt.setText(customer.getPostal());
         phoneTxt.setText(customer.getPhone());
         countryComboBox.setValue(customer.getCountry());
+        String selectedCountry = countryComboBox.getSelectionModel().getSelectedItem();
+        stateComboBox.setItems(DBQuery.getStates(selectedCountry));
         stateComboBox.setValue(customer.getState());
     }
 
@@ -82,7 +84,7 @@ public class ModifyCustomerController implements Initializable {
         String postal = postalTxt.getText();
         String phone = phoneTxt.getText();
         String state = stateComboBox.getSelectionModel().getSelectedItem();
-
+        //TODO
         if (DBQuery.modifyCustomer(customerId, name, address, postal, phone, state)) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Success");
@@ -106,8 +108,6 @@ public class ModifyCustomerController implements Initializable {
 
         try {
             countryComboBox.setItems(DBQuery.getCountries());
-            String selectedCountry = countryComboBox.getSelectionModel().getSelectedItem();
-            stateComboBox.setItems(DBQuery.getStates(selectedCountry));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

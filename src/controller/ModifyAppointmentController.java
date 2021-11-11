@@ -76,8 +76,9 @@ public class ModifyAppointmentController implements Initializable{
         LocalDate endDate = endDatePicker.getValue();
         LocalTime endTime = endTimeComboBox.getSelectionModel().getSelectedItem();
         Timestamp endDateTime = Timestamp.valueOf(LocalDateTime.of(endDate,endTime));
+        String appointmentId = appointmentIdTxt.getText();
         //TODO
-        if(DBQuery.addAppointment(title, description, location, contactName, type, startDateTime, endDateTime, customerId, userId)){
+        if(DBQuery.modifyAppointment(title, description, location, contactName, type, startDateTime, endDateTime, customerId, userId, appointmentId)){
             System.out.println("Success");
         }else
             System.out.println("Failed");

@@ -135,8 +135,7 @@ public class DBQuery {
         return ps.getUpdateCount() > 0;
     }
 
-    public static boolean addAppointment(String title, String description, String location, String contactName,
-                                         String type, Timestamp startDT, Timestamp endDT, String customerId, String userId) throws SQLException {
+    public static boolean addAppointment(String title, String description, String location, String contactName, String type, Timestamp startDT, Timestamp endDT, String customerId, String userId) throws SQLException {
         Timestamp localTime = Timestamp.valueOf(LocalDateTime.of(LocalDate.now(),LocalTime.now()));
         String user = DBQuery.getUserName();
         String contactId = DBQuery.getContactId(contactName);
@@ -175,6 +174,47 @@ public class DBQuery {
 
         ps.execute();
         return ps.getUpdateCount() > 0;
+    }
+
+    public static boolean modifyAppointment(String title, String description, String location, String contactName,
+    String type, Timestamp startDT, Timestamp endDT, String customerId, String userId, String appointmentId) throws SQLException {
+        Timestamp localTime = Timestamp.valueOf(LocalDateTime.of(LocalDate.now(),LocalTime.now()));
+        String user = DBQuery.getUserName();
+        String contactId = DBQuery.getContactId(contactName);
+        String updateStatement = "UPDATE appointments\n" +
+                "SET \n" +
+                "\tTitle = ?,\n" +
+                "\tDescription = ?,\n" +
+                "\tLocation = ?,\n" +
+                "\tType = ?,\n" +
+                "\tStart = ?,\n" +
+                "\tEnd = ?,\n" +
+                "\tLast_Update = ?,\n" +
+                "\tLast_Updated_By = ?,\n" +
+                "\tCustomer_ID = ?,\n" +
+                "\tUser_ID = ?,\n" +
+                "\tContact_ID = ?\n" +
+                "WHERE Appointment_ID = ?";
+        DBQuery.setPreparedStatement(connection, updateStatement);
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+
+        ps.setString(1,title);
+        ps.setString(2,description);
+        ps.setString(3,location);
+        ps.setString(4,type);
+        ps.setTimestamp(5, startDT);
+        ps.setTimestamp(6, endDT);
+        ps.setTimestamp(7, localTime);
+        ps.setString(8,user);
+        ps.setString(9,customerId);
+        ps.setString(10,userId);
+        ps.setString(11,contactId);
+        ps.setString(12, appointmentId);
+
+
+        ps.execute();
+        return ps.getUpdateCount() > 0;
+
     }
 
 
