@@ -38,9 +38,6 @@ public class ModifyAppointmentController implements Initializable{
     private TextField descriptionTxt;
 
     @FXML
-    private DatePicker endDatePicker;
-
-    @FXML
     private ComboBox<LocalTime> endTimeComboBox;
 
     @FXML
@@ -73,9 +70,8 @@ public class ModifyAppointmentController implements Initializable{
         LocalDate startDate = startDatePicker.getValue();
         LocalTime startTime = startTimeComboBox.getSelectionModel().getSelectedItem();
         Timestamp startDateTime = Timestamp.valueOf(LocalDateTime.of(startDate,startTime));
-        LocalDate endDate = endDatePicker.getValue();
         LocalTime endTime = endTimeComboBox.getSelectionModel().getSelectedItem();
-        Timestamp endDateTime = Timestamp.valueOf(LocalDateTime.of(endDate,endTime));
+        Timestamp endDateTime = Timestamp.valueOf(LocalDateTime.of(startDate,endTime));
         String appointmentId = appointmentIdTxt.getText();
         //TODO
         if(DBQuery.modifyAppointment(title, description, location, contactName, type, startDateTime, endDateTime, customerId, userId, appointmentId)){
@@ -109,7 +105,6 @@ public class ModifyAppointmentController implements Initializable{
         startDatePicker.setValue(appointment.getStartDate().toLocalDateTime().toLocalDate());
         startTimeComboBox.setValue(LocalTime.from(appointment.getStartDate().toLocalDateTime()));
         endTimeComboBox.setValue(LocalTime.from(appointment.getEndDate().toLocalDateTime()));
-        endDatePicker.setValue(appointment.getEndDate().toLocalDateTime().toLocalDate());
         customerComboBox.setValue(String.valueOf(appointment.getCustomerId()));
         userComboBox.setValue(String.valueOf(appointment.getUserId()));
 

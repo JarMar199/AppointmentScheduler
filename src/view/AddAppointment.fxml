@@ -45,36 +45,30 @@
             <TextField fx:id="titleTxt" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="descriptionTxt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="locationTxt" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="typeTxt" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <ComboBox fx:id="contactComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <ComboBox fx:id="userComboBox" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-            <ComboBox fx:id="customerComboBox" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
             <DatePicker fx:id="startDatePicker" GridPane.columnIndex="3" />
+            <ComboBox fx:id="startTimeComboBox" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <ComboBox fx:id="endTimeComboBox" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <ComboBox fx:id="customerComboBox" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <ComboBox fx:id="userComboBox" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
             <Label text="Start Date" GridPane.columnIndex="2">
                <padding>
                   <Insets left="50.0" />
                </padding>
             </Label>
             <Label text="Type" GridPane.rowIndex="4" />
-            <Label text="End Date" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <Label text="Customer ID" GridPane.columnIndex="2" GridPane.rowIndex="3">
                <padding>
                   <Insets left="50.0" />
                </padding>
             </Label>
-            <Label text="Customer ID" GridPane.columnIndex="2" GridPane.rowIndex="4">
+            <Label text="User ID" GridPane.columnIndex="2" GridPane.rowIndex="4">
                <padding>
                   <Insets left="50.0" />
                </padding>
             </Label>
-            <Label text="User ID" GridPane.columnIndex="2" GridPane.rowIndex="5">
-               <padding>
-                  <Insets left="50.0" />
-               </padding>
-            </Label>
-            <TextField fx:id="typeTxt" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <ComboBox fx:id="startTimeComboBox" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <DatePicker fx:id="endDatePicker" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-            <ComboBox fx:id="endTimeComboBox" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-            <Label text="End Time" GridPane.columnIndex="2" GridPane.rowIndex="3">
+            <Label text="End Time" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <padding>
                   <Insets left="50.0" />
                </padding>

@@ -80,7 +80,7 @@ public class DBQuery {
         LocalDate date = LocalDate.now();
         LocalTime time = LocalTime.now();
         String user = DBQuery.getUserName();
-        Timestamp timestamp = Timestamp.valueOf(LocalDateTime.of(date,time));
+        Timestamp timestamp = Timestamp.valueOf(StartEndTime.localToUTCConversion(LocalDateTime.of(date,time)));
         String divisionId = DBQuery.getDivisionId(state);
 
         String insertStatement = "INSERT INTO customers(Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID)\n" +
@@ -106,7 +106,7 @@ public class DBQuery {
         LocalDate date = LocalDate.now();
         LocalTime time = LocalTime.now();
         String user = DBQuery.getUserName();
-        Timestamp timestamp = Timestamp.valueOf(LocalDateTime.of(date,time));
+        Timestamp timestamp = Timestamp.valueOf(StartEndTime.localToUTCConversion(LocalDateTime.of(date,time)));
         String divisionId = DBQuery.getDivisionId(state);
 
         String updateStatement = "UPDATE customers SET \n" +
@@ -350,6 +350,7 @@ public class DBQuery {
         }
         return customerIds;
     }
+
     public static ObservableList<String> getUserId() throws SQLException {
         ObservableList<String> userIds = FXCollections.observableArrayList();
         String selectStatement = "SELECT User_ID from users ORDER BY User_ID ASC";

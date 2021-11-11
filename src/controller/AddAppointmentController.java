@@ -35,8 +35,6 @@ public class AddAppointmentController implements Initializable{
     @FXML
     private TextField descriptionTxt;
 
-    @FXML
-    private DatePicker endDatePicker;
 
     @FXML
     private ComboBox<LocalTime> endTimeComboBox;
@@ -72,9 +70,8 @@ public class AddAppointmentController implements Initializable{
         LocalTime startTime = startTimeComboBox.getSelectionModel().getSelectedItem();
         LocalDateTime startDT = LocalDateTime.of(startDate,startTime);
         Timestamp startDateTimeUTC = Timestamp.valueOf(StartEndTime.localToUTCConversion(startDT));
-        LocalDate endDate = endDatePicker.getValue();
         LocalTime endTime = endTimeComboBox.getSelectionModel().getSelectedItem();
-        LocalDateTime endDT = LocalDateTime.of(endDate,endTime);
+        LocalDateTime endDT = LocalDateTime.of(startDate,endTime);
         Timestamp endDateTime = Timestamp.valueOf(StartEndTime.localToUTCConversion(endDT));
 
         //TODO
