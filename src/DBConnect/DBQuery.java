@@ -470,4 +470,25 @@ public class DBQuery {
         return contactId;
     }
 
+    public static ObservableList<Appointment> getUserAppts(String userId) throws SQLException {
+        ObservableList<Appointment> userAppts = FXCollections.observableArrayList();
+        LocalDate localDate = LocalDate.now();
+        String selectStatement = "SELECT appointment_ID, start FROM appointments\n" +
+                "INNER JOIN users ON appointments.User_ID = users.User_ID\n" +
+                "WHERE users.User_Name = ?\n" +
+                "AND date( appointments.start) = ?";
+        DBQuery.setPreparedStatement(connection, selectStatement);
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+        ps.setString(1,userId);
+        ps.setString(2,String.valueOf(localDate));
+        ps.execute();
+        ResultSet rsUserAppts = ps.getResultSet();
+        while (rsUserAppts.next()) {
+            int appointmentId = rsUserAppts.getInt("appointment_ID");
+            LocalDateTime start = StartEndTime.utcToLocalConversion(rsUserAppts.getTimestamp("start").toLocalDateTime());
+            userAppts.add(new Appointment(appointmentId,Timestamp.valueOf(start)));
+        }
+        return userAppts;
+    }
+
 }

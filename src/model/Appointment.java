@@ -21,6 +21,11 @@ public class Appointment {
         this.contactName = contactName;
     }
 
+    public Appointment(int appointmentId, Timestamp startDate){
+        this.appointmentId = appointmentId;
+        this.startDate = startDate;
+    }
+
     public int getAppointmentId() {
         return appointmentId;
     }

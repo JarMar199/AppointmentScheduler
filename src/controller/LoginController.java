@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.time.*;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -76,6 +77,26 @@ public class LoginController implements Initializable {
                 stage.setTitle("Main Menu");
                 stage.setScene(scene);
                 stage.show();
+                ObservableList<Appointment> userAppts = DBQuery.getUserAppts(enteredUserName);
+                LocalTime currentTime = LocalTime.of(4,45);
+                userAppts.forEach(appointment -> {
+                    LocalTime startTime = appointment.getStartDate().toLocalDateTime().toLocalTime();
+                    long timeDifference = ChronoUnit.MINUTES.between(currentTime,startTime);
+                    if(timeDifference > 0 && timeDifference <= 15){
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Upcoming");
+                        String alertMsg = "Appointment: " + appointment.getAppointmentId() + " Starts at: " + appointment.getStartDate();
+                        alert.setContentText(alertMsg);
+                        alert.showAndWait();
+                        return;
+                    }
+                });
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Upcoming");
+                String alertMsg = "No upcoming appointments";
+                alert.setHeaderText("Information");
+                alert.setContentText(alertMsg);
+                alert.showAndWait();
                 return;
             }
         }
