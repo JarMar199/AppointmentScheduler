@@ -69,7 +69,7 @@
             <Button mnemonicParsing="false" onAction="#onActionDeleteCustomer" prefWidth="127.0" text="Delete Customer" />
          </children>
       </VBox>
-      <Button layoutX="694.0" layoutY="10.0" mnemonicParsing="false" prefWidth="127.0" text="Reports" />
+      <Button layoutX="694.0" layoutY="10.0" mnemonicParsing="false" onAction="#onActionReports" prefWidth="127.0" text="Reports" />
       <HBox alignment="CENTER_LEFT" layoutX="559.0" layoutY="253.0" prefHeight="34.0" prefWidth="447.0" spacing="20.0">
          <children>
             <Button mnemonicParsing="false" onAction="#onActionAddAppointment" prefWidth="127.0" text="Add Appoinment" />

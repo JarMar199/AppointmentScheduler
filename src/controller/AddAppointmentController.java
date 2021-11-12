@@ -14,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.Alerts;
 import model.StartEndTime;
+import model.Utils;
 
 import java.io.IOException;
 import java.net.URL;
@@ -228,8 +229,7 @@ public class AddAppointmentController implements Initializable{
         }
         startTimeComboBox.setItems(StartEndTime.getStartTimes());
         endTimeComboBox.setItems(StartEndTime.getTEndTimes());
-        ObservableList<String> types = FXCollections.observableArrayList("Meeting", "Lunch", "Coffee Break", "Review");
-        typeComboBox.setItems(types);
+        typeComboBox.setItems(Utils.getTypes());
     }
 
 

@@ -97,6 +97,7 @@ public class MainMenuController implements Initializable {
     private RadioButton viewWeekRBtn;
 
 
+
     @FXML
     void onActionAddCustomer(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/AddCustomer.fxml"));
@@ -290,6 +291,16 @@ public class MainMenuController implements Initializable {
         } else if(viewWeekRBtn.isSelected()) {
             onActionViewWeekAppt(event);
         }
+    }
+
+    @FXML
+    void onActionReports(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/view/Reports.fxml"));
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setTitle("Reports");
+        stage.setScene(scene);
+        stage.show();
     }
 
 

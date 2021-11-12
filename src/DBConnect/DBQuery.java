@@ -550,5 +550,7 @@ public class DBQuery {
         return false;
     }
 
-    public static int numOfAppts(String customer)
+    public static int numOfAppts(String customer){
+        return 0;
+    }
 }

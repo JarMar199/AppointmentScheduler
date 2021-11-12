@@ -1,8 +1,10 @@
 package controller;
 
+import DBConnect.DBQuery;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -11,44 +13,46 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import model.Appointment;
+import model.Utils;
 
 public class ReportsController implements Initializable {
 
     @FXML
-    private TableColumn<?, ?> appointmentIdCol;
+    private TableColumn<Appointment, Integer> appointmentIdCol;
 
     @FXML
     private Label apptCountLbl;
 
     @FXML
-    private TableColumn<?, ?> apptCustomerIdCol;
+    private TableColumn<Appointment, Integer> apptCustomerIdCol;
 
     @FXML
-    private ComboBox<?> comboBoxContact;
+    private ComboBox<String> contactComboBox;
 
     @FXML
-    private ComboBox<?> comboBoxMonth;
+    private ComboBox<String> monthComboBox;
 
     @FXML
-    private ComboBox<?> comboBoxType;
+    private ComboBox<String> typeComboBox;
 
     @FXML
-    private TableColumn<?, ?> descriptionCol;
+    private TableColumn<Appointment, String> descriptionCol;
 
     @FXML
-    private TableColumn<?, ?> endCol;
+    private TableColumn<Appointment, String> endCol;
 
     @FXML
-    private TableView<?> scheduleTable;
+    private TableView<Appointment> scheduleTable;
 
     @FXML
-    private TableColumn<?, ?> startCol;
+    private TableColumn<Appointment, String> startCol;
 
     @FXML
-    private TableColumn<?, ?> titleCol;
+    private TableColumn<Appointment, String> titleCol;
 
     @FXML
-    private TableColumn<?, ?> typeCol;
+    private TableColumn<Appointment, String> typeCol;
 
     @FXML
     void onActionContactSelect(ActionEvent event) {
@@ -69,5 +73,13 @@ public class ReportsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        try {
+            contactComboBox.setItems(DBQuery.getContacts());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        monthComboBox.setItems(Utils.getMonths());
+        typeComboBox.setItems(Utils.getTypes());
     }
 }

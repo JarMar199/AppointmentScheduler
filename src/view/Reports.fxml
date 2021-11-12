@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="428.0" prefWidth="1019.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ReportsController">
    <children>
       <TableView fx:id="scheduleTable" layoutX="22.0" layoutY="157.0" prefHeight="200.0" prefWidth="779.0">
@@ -25,8 +24,8 @@
       <HBox layoutX="14.0" layoutY="68.0" prefHeight="27.0" prefWidth="894.0" spacing="30.0">
          <children>
             <Label text="Select Month/Type to view appointment coun:t" />
-            <ComboBox fx:id="comboBoxMonth" onAction="#onActionMonthSelect" prefWidth="150.0" />
-            <ComboBox fx:id="comboBoxType" onAction="#onActionTypeSelect" prefWidth="150.0" />
+            <ComboBox fx:id="monthComboBox" onAction="#onActionMonthSelect" prefWidth="150.0" />
+            <ComboBox fx:id="typeComboBox" onAction="#onActionTypeSelect" prefWidth="150.0" />
             <Label lineSpacing="30.0" text="Appointments: " />
             <Label fx:id="apptCountLbl" text="Label" />
          </children>
@@ -36,6 +35,6 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <ComboBox fx:id="comboBoxContact" layoutX="32.0" layoutY="123.0" onAction="#onActionContactSelect" prefWidth="150.0" />
+      <ComboBox fx:id="contactComboBox" layoutX="32.0" layoutY="123.0" onAction="#onActionContactSelect" prefWidth="150.0" />
    </children>
 </AnchorPane>
