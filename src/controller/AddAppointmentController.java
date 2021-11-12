@@ -131,6 +131,32 @@ public class AddAppointmentController implements Initializable{
             LocalDateTime endDT = LocalDateTime.of(startDate, endTime);
             Timestamp endDateTime = Timestamp.valueOf(StartEndTime.localToUTCConversion(endDT));
 
+            if(startDT.isAfter(endDT) || startDT.isEqual(endDT)){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                String errorTitle = "Error";
+                String errorMsg = "Start time must be before end time";
+                alert.setTitle(errorTitle);
+                alert.setContentText(errorMsg);
+                alert.showAndWait();
+                return;
+            }
+
+            LocalTime estStartDT = StartEndTime.localToEST(startDT).toLocalTime();
+            LocalTime estEndDT = StartEndTime.localToEST(endDT).toLocalTime();
+            LocalTime estOpening = LocalTime.of(8,0);
+            LocalTime estClosing = LocalTime.of(22,0);
+
+            if(estStartDT.isBefore(estOpening) || estStartDT.isAfter(estClosing) || estEndDT.isBefore(estOpening) || estEndDT.isAfter(estClosing)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                String errorTitle = "Error";
+                String errorMsg = "Please select times during business hours";
+                alert.setTitle(errorTitle);
+                alert.setContentText(errorMsg);
+                alert.showAndWait();
+                return;
+            }
+
+
             if (DBQuery.addAppointment(title, description, location, contactName, type, startDateTimeUTC, endDateTime, customerId, userId)) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Success");
@@ -178,8 +204,8 @@ public class AddAppointmentController implements Initializable{
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        startTimeComboBox.setItems(StartEndTime.getTimes());
-        endTimeComboBox.setItems(StartEndTime.getTimes());
+        startTimeComboBox.setItems(StartEndTime.getStartTimes());
+        endTimeComboBox.setItems(StartEndTime.getTEndTimes());
     }
 
 

@@ -22,6 +22,29 @@ public class StartEndTime {
         return startEndTimes;
     }
 
+    public static ObservableList<LocalTime> getStartTimes() {
+        ObservableList<LocalTime> startTimes= FXCollections.observableArrayList();
+        startTimes.add(startTime);
+        startTime =startTime.plusMinutes(30);
+        while(startTime.isAfter(endTime)){
+            startTimes.add(startTime);
+            startTime =startTime.plusMinutes(30);
+        }
+        return startTimes;
+    }
+
+    public static ObservableList<LocalTime> getTEndTimes() {
+        ObservableList<LocalTime> endTimes= FXCollections.observableArrayList();
+
+        startTime =startTime.plusMinutes(30);
+        while(startTime.isAfter(endTime)){
+            endTimes.add(startTime);
+            startTime =startTime.plusMinutes(30);
+        }
+        endTimes.add(startTime);
+        return endTimes;
+    }
+
     public static LocalDateTime localToUTCConversion(LocalDateTime localDT) {
         ZoneId localZoneId = ZoneId.systemDefault();
         ZoneId utcZoneId = ZoneId.of("UTC");
@@ -38,5 +61,20 @@ public class StartEndTime {
         return localZDT.toLocalDateTime();
     }
 
+    public static LocalDateTime estToLocal(LocalDateTime estDT) {
+        ZoneId localZoneId = ZoneId.systemDefault();
+        ZoneId eSTZoneId = ZoneId.of("America/New_York");
+        ZonedDateTime estZDT = ZonedDateTime.of(estDT, eSTZoneId);
+        ZonedDateTime localZDT = ZonedDateTime.ofInstant(estZDT.toInstant(), localZoneId);
+        return  localZDT.toLocalDateTime();
+    }
+
+    public static LocalDateTime localToEST(LocalDateTime localDT) {
+        ZoneId localZoneId = ZoneId.systemDefault();
+        ZoneId estZoneId = ZoneId.of("America/New_York");
+        ZonedDateTime localZDT = ZonedDateTime.of(localDT, localZoneId);
+        ZonedDateTime estZDT = ZonedDateTime.ofInstant(localZDT.toInstant(), estZoneId);
+        return  estZDT.toLocalDateTime();
+    }
 
 }
