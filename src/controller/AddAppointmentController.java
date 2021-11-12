@@ -189,7 +189,6 @@ public class AddAppointmentController implements Initializable{
                 stage.setTitle("Main Menu");
                 stage.setScene(scene);
                 stage.show();
-                System.out.println("Success");
                 }  else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 String errorTitle = "Error";

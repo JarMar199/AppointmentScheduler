@@ -521,7 +521,7 @@ public class DBQuery {
 
     public static boolean checkConflictsModify(String customerId, Timestamp startTime, Timestamp endTime, String apptId) throws SQLException {
         ObservableList<Appointment> customerAppts = FXCollections.observableArrayList();
-        String selectStatement = "SELECT Appointment_ID, Start, End, Customer_ID FROM appointments WHERE Customer_ID = ? AND Appointment_ID =?";
+        String selectStatement = "SELECT Appointment_ID, Start, End, Customer_ID FROM appointments WHERE Customer_ID = ? AND Appointment_ID <> ?";
         DBQuery.setPreparedStatement(connection, selectStatement);
         PreparedStatement ps = DBQuery.getPreparedStatement();
         ps.setString(1, customerId);

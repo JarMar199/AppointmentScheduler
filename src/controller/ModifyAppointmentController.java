@@ -126,9 +126,11 @@ public class ModifyAppointmentController implements Initializable{
             LocalDate startDate = startDatePicker.getValue();
             LocalTime startTime = startTimeComboBox.getSelectionModel().getSelectedItem();
             LocalDateTime startDT = LocalDateTime.of(startDate, startTime);
+            Timestamp startTimestamp = Timestamp.valueOf(startDT);
             Timestamp startDateTimeUTC = Timestamp.valueOf(StartEndTime.localToUTCConversion(startDT));
             LocalTime endTime = endTimeComboBox.getSelectionModel().getSelectedItem();
             LocalDateTime endDT = LocalDateTime.of(startDate, endTime);
+            Timestamp endTimestamp = Timestamp.valueOf(endDT);
             Timestamp endDateTime = Timestamp.valueOf(StartEndTime.localToUTCConversion(endDT));
             String appointmentId = appointmentIdTxt.getText();
 
@@ -136,6 +138,15 @@ public class ModifyAppointmentController implements Initializable{
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 String errorTitle = "Error";
                 String errorMsg = "Start time must be before end time";
+                alert.setTitle(errorTitle);
+                alert.setContentText(errorMsg);
+                alert.showAndWait();
+                return;
+            }
+            if(startDate.isBefore(LocalDate.now())){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                String errorTitle = "Error";
+                String errorMsg = "Entered date must be today or in future";
                 alert.setTitle(errorTitle);
                 alert.setContentText(errorMsg);
                 alert.showAndWait();
@@ -157,12 +168,22 @@ public class ModifyAppointmentController implements Initializable{
                 return;
             }
 
-            //TODO
+            if(DBQuery.checkConflictsModify(customerId,startTimestamp, endTimestamp, appointmentId)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                String errorTitle = "Error";
+                String errorMsg = "Schedule conflict. Please enter new times";
+                alert.setTitle(errorTitle);
+                alert.setContentText(errorMsg);
+                alert.showAndWait();
+                return;
+            }
+
+
             if (DBQuery.modifyAppointment(title, description, location, contactName, type, startDateTimeUTC, endDateTime, customerId, userId, appointmentId)) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Success");
                 alert.setHeaderText("Confirmation");
-                alert.setContentText("Appointment successfully added");
+                alert.setContentText("Appointment successfully saved");
                 alert.showAndWait();
                 Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
