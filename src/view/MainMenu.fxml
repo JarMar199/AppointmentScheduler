@@ -46,7 +46,7 @@
                   <ToggleGroup fx:id="viewApptTG" />
                </toggleGroup>
             </RadioButton>
-            <DatePicker fx:id="apptDatePickerFilter" prefHeight="25.0" prefWidth="216.0" promptText="Select Day to by View Month/Week" />
+            <DatePicker fx:id="apptDatePickerFilter" onAction="#onActionDateSelect" prefHeight="25.0" prefWidth="216.0" promptText="Select Day to by View Month/Week" />
             <RadioButton fx:id="viewMonthRBtn" mnemonicParsing="false" onAction="#onActionViewMonthAppt" text="View by Month" toggleGroup="$viewApptTG" />
             <RadioButton fx:id="viewWeekRBtn" mnemonicParsing="false" onAction="#onActionViewWeekAppt" text="View by Week" toggleGroup="$viewApptTG" />
          </children>

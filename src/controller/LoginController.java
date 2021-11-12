@@ -49,11 +49,12 @@ public class LoginController implements Initializable {
     @FXML
     void onActionQueryTest(ActionEvent event) throws SQLException {
         LocalDate sundays = LocalDate.now(
-               ZoneId.of("America/Los_Angeles")
+               ZoneId.systemDefault()
        ).with(
-               TemporalAdjusters.previous(DayOfWeek.SUNDAY)
+               TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY)
        );
        System.out.println(sundays);
+       System.out.println(sundays.getDayOfMonth());
     }
 
 

@@ -17,6 +17,7 @@ import model.Customer;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -247,13 +248,48 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
-    void onActionViewMonthAppt(ActionEvent event) {
-
+    void onActionViewMonthAppt(ActionEvent event) throws SQLException {
+        LocalDate selectedCalendarMonth = apptDatePickerFilter.getValue();
+        if(selectedCalendarMonth != null) {
+            appointmentTable.setItems(DBQuery.viewMonthlyAppointmentTable(selectedCalendarMonth));
+            appointmentIdCol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+            titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+            descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+            locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+            contactCol.setCellValueFactory(new PropertyValueFactory<>("contactName"));
+            typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+            startCol.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+            endCol.setCellValueFactory(new PropertyValueFactory<>("endDate"));
+            apptCustomerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+            userIdCol.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        }
     }
 
     @FXML
-    void onActionViewWeekAppt(ActionEvent event) {
+    void onActionViewWeekAppt(ActionEvent event) throws SQLException {
+        LocalDate selectedCalendarMonth = apptDatePickerFilter.getValue();
+        if(selectedCalendarMonth != null) {
+            appointmentTable.setItems(DBQuery.viewWeeklyAppointmentTable(selectedCalendarMonth));
+            appointmentIdCol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+            titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+            descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+            locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+            contactCol.setCellValueFactory(new PropertyValueFactory<>("contactName"));
+            typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+            startCol.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+            endCol.setCellValueFactory(new PropertyValueFactory<>("endDate"));
+            apptCustomerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+            userIdCol.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        }
+    }
 
+    @FXML
+    void onActionDateSelect(ActionEvent event) throws SQLException {
+        if(viewMonthRBtn.isSelected()) {
+            onActionViewMonthAppt(event);
+        } else if(viewWeekRBtn.isSelected()) {
+            onActionViewWeekAppt(event);
+        }
     }
 
 

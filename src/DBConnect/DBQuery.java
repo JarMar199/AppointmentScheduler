@@ -9,6 +9,7 @@ import model.StartEndTime;
 
 import java.sql.*;
 import java.time.*;
+import java.time.temporal.TemporalAdjusters;
 
 public class DBQuery {
 
@@ -300,8 +301,97 @@ public class DBQuery {
         PreparedStatement ps = DBQuery.getPreparedStatement();
         ps.execute();
         ResultSet rsAppointments = ps.getResultSet();
-        ZoneId localZoneId = ZoneId.systemDefault();
-        ZoneId utcZoneId = ZoneId.of("UTC");
+
+        while(rsAppointments.next()) {
+            int appointmentId = rsAppointments.getInt("Appointment_ID");
+            String title = rsAppointments.getString("Title");
+            String description = rsAppointments.getString("Description");
+            String location = rsAppointments.getString("Location");
+            String contactName = rsAppointments.getString("Contact_Name");
+            String type = rsAppointments.getString("Type");
+
+            Timestamp startDate = Timestamp.valueOf(rsAppointments.getString("Start"));
+            Timestamp localStartDate = Timestamp.valueOf(StartEndTime.utcToLocalConversion(startDate.toLocalDateTime()));
+            Timestamp endDate = Timestamp.valueOf(rsAppointments.getString("End"));
+            Timestamp localEndDate = Timestamp.valueOf(StartEndTime.utcToLocalConversion(endDate.toLocalDateTime()));
+
+            int customerId = rsAppointments.getInt("Customer_ID");
+            int userId = rsAppointments.getInt("User_ID");
+            appointments.add(new Appointment(appointmentId,customerId, userId, title, description, location, type, localStartDate, localEndDate, contactName));
+        }
+
+        return appointments;
+    }
+
+    public static ObservableList<Appointment> viewMonthlyAppointmentTable(LocalDate selectedMonth) throws SQLException {
+        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+        String selectStatement = "SELECT \n" +
+                "\tappointments.Appointment_ID, \n" +
+                "\tappointments.Title, \n" +
+                "\tappointments.Description,\n" +
+                "\tappointments.Location,\n" +
+                "    contacts.Contact_Name,\n" +
+                "    appointments.Type,\n" +
+                "\tappointments.Start,\n" +
+                "\tappointments.end,\n" +
+                "    appointments.Customer_ID,\n" +
+                "\tappointments.User_ID\n" +
+                "FROM appointments INNER JOIN contacts ON appointments.Contact_ID = contacts.Contact_ID\n" +
+                "WHERE MONTH(Start) = ?\n" +
+                "GROUP BY Appointment_ID, Title, Description, Location, Contact_Name, Type, Start, End, Customer_ID, User_ID";
+        DBQuery.setPreparedStatement(connection,selectStatement);
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+
+        ps.setInt(1,selectedMonth.getMonthValue());
+        ps.execute();
+        ResultSet rsAppointments = ps.getResultSet();
+
+        while(rsAppointments.next()) {
+            int appointmentId = rsAppointments.getInt("Appointment_ID");
+            String title = rsAppointments.getString("Title");
+            String description = rsAppointments.getString("Description");
+            String location = rsAppointments.getString("Location");
+            String contactName = rsAppointments.getString("Contact_Name");
+            String type = rsAppointments.getString("Type");
+
+            Timestamp startDate = Timestamp.valueOf(rsAppointments.getString("Start"));
+            Timestamp localStartDate = Timestamp.valueOf(StartEndTime.utcToLocalConversion(startDate.toLocalDateTime()));
+            Timestamp endDate = Timestamp.valueOf(rsAppointments.getString("End"));
+            Timestamp localEndDate = Timestamp.valueOf(StartEndTime.utcToLocalConversion(endDate.toLocalDateTime()));
+
+            int customerId = rsAppointments.getInt("Customer_ID");
+            int userId = rsAppointments.getInt("User_ID");
+            appointments.add(new Appointment(appointmentId,customerId, userId, title, description, location, type, localStartDate, localEndDate, contactName));
+        }
+
+        return appointments;
+    }
+
+    public static ObservableList<Appointment> viewWeeklyAppointmentTable(LocalDate selectedMonth) throws SQLException {
+        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+        String selectStatement = "SELECT \n" +
+                "\tappointments.Appointment_ID, \n" +
+                "\tappointments.Title, \n" +
+                "\tappointments.Description,\n" +
+                "\tappointments.Location,\n" +
+                "    contacts.Contact_Name,\n" +
+                "    appointments.Type,\n" +
+                "\tappointments.Start,\n" +
+                "\tappointments.end,\n" +
+                "    appointments.Customer_ID,\n" +
+                "\tappointments.User_ID\n" +
+                "FROM appointments INNER JOIN contacts ON appointments.Contact_ID = contacts.Contact_ID\n" +
+                "WHERE MONTH(Start) = ?  AND DAY(Start) >= ? AND DAY(Start) < (? + 7)\n" +
+                "GROUP BY Appointment_ID, Title, Description, Location, Contact_Name, Type, Start, End, Customer_ID, User_ID";
+        DBQuery.setPreparedStatement(connection,selectStatement);
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+
+        ps.setInt(1,selectedMonth.getMonthValue());
+        ps.setInt(2,selectedMonth.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY)).getDayOfMonth());
+        ps.setInt(3,selectedMonth.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY)).getDayOfMonth());
+        ps.execute();
+        ResultSet rsAppointments = ps.getResultSet();
+
         while(rsAppointments.next()) {
             int appointmentId = rsAppointments.getInt("Appointment_ID");
             String title = rsAppointments.getString("Title");
