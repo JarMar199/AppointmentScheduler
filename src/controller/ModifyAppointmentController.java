@@ -1,6 +1,8 @@
 package controller;
 
 import DBConnect.DBQuery;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -69,6 +71,9 @@ public class ModifyAppointmentController implements Initializable{
     private ComboBox<String> customerComboBox;
 
     @FXML
+    private ComboBox<String> typeComboBox;
+
+    @FXML
     private TextField descriptionTxt;
 
     @FXML
@@ -86,8 +91,6 @@ public class ModifyAppointmentController implements Initializable{
     @FXML
     private TextField titleTxt;
 
-    @FXML
-    private TextField typeTxt;
 
     @FXML
     private ComboBox<String> userComboBox;
@@ -101,7 +104,7 @@ public class ModifyAppointmentController implements Initializable{
             Alerts.errorBlank(descriptionLbl.getText());
         else if (locationTxt.getText().isEmpty())
             Alerts.errorBlank(locationLbl.getText());
-        else if (typeTxt.getText().isEmpty())
+        else if (typeComboBox.getSelectionModel().isEmpty())
             Alerts.errorBlank(typeLbl.getText());
         else if (contactComboBox.getSelectionModel().isEmpty())
             Alerts.errorBlank((contactLbl.getText()));
@@ -119,7 +122,7 @@ public class ModifyAppointmentController implements Initializable{
             String title = titleTxt.getText();
             String description = descriptionTxt.getText();
             String location = locationTxt.getText();
-            String type = typeTxt.getText();
+            String type = typeComboBox.getSelectionModel().getSelectedItem();
             String contactName = contactComboBox.getSelectionModel().getSelectedItem();
             String customerId = customerComboBox.getSelectionModel().getSelectedItem();
             String userId = userComboBox.getSelectionModel().getSelectedItem();
@@ -222,7 +225,7 @@ public class ModifyAppointmentController implements Initializable{
         titleTxt.setText(appointment.getTitle());
         descriptionTxt.setText(appointment.getDescription());
         locationTxt.setText(appointment.getLocation());
-        typeTxt.setText(appointment.getType());
+        typeComboBox.setValue(appointment.getType());
         contactComboBox.setValue(appointment.getContactName());
         startDatePicker.setValue(appointment.getStartDate().toLocalDateTime().toLocalDate());
         startTimeComboBox.setValue(LocalTime.from(appointment.getStartDate().toLocalDateTime()));
@@ -244,6 +247,8 @@ public class ModifyAppointmentController implements Initializable{
         }
         startTimeComboBox.setItems(StartEndTime.getTimes());
         endTimeComboBox.setItems(StartEndTime.getTimes());
+        ObservableList<String> types = FXCollections.observableArrayList("Meeting", "Lunch", "Coffee Break", "Review");
+        typeComboBox.setItems(types);
     }
 
 

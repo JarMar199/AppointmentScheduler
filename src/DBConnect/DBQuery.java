@@ -549,4 +549,6 @@ public class DBQuery {
         }
         return false;
     }
+
+    public static int numOfAppts(String customer)
 }

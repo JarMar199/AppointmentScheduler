@@ -1,5 +1,6 @@
 package model;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.Time;
@@ -9,6 +10,7 @@ public class Appointment {
     int appointmentId, customerId, userId;
     String title, description, location, type, contactName;
     Timestamp startDate, endDate;
+
 
     public Appointment(int appointmentId, int customerId, int userId, String title, String description, String location, String type, Timestamp startDate, Timestamp endDate, String contactName) {
         this.appointmentId = appointmentId;
@@ -35,6 +37,15 @@ public class Appointment {
         this.endDate = endDate;
     }
 
+    public Appointment(int appointmentId, int customerId, String title, String description, String type, Timestamp startDate, Timestamp endDate) {
+        this.appointmentId = appointmentId;
+        this.customerId = customerId;
+        this.title = title;
+        this.description = description;
+        this.type = type;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 
     public int getAppointmentId() {
         return appointmentId;
@@ -115,4 +126,6 @@ public class Appointment {
     public void setContactName(String contactName) {
         this.contactName = contactName;
     }
+
+
 }

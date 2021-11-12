@@ -47,16 +47,6 @@ public class LoginController implements Initializable {
     @FXML
     private TextField userNameTxt;
 
-    @FXML
-    void onActionQueryTest(ActionEvent event) throws SQLException {
-        LocalDate sundays = LocalDate.now(
-               ZoneId.systemDefault()
-       ).with(
-               TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY)
-       );
-       System.out.println(sundays);
-       System.out.println(sundays.getDayOfMonth());
-    }
 
 
     @FXML

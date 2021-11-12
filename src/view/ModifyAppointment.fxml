@@ -46,7 +46,7 @@
             <TextField fx:id="titleTxt" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="descriptionTxt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="locationTxt" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField fx:id="typeTxt" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <ComboBox fx:id="typeComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <ComboBox fx:id="contactComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <DatePicker fx:id="startDatePicker" GridPane.columnIndex="3" GridPane.rowIndex="1" />
             <ComboBox fx:id="startTimeComboBox" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />

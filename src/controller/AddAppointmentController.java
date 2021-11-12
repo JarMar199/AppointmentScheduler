@@ -1,6 +1,8 @@
 package controller;
 
 import DBConnect.DBQuery;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -68,6 +70,9 @@ public class AddAppointmentController implements Initializable{
     private ComboBox<String> customerComboBox;
 
     @FXML
+    private ComboBox<String> typeComboBox;
+
+    @FXML
     private TextField descriptionTxt;
 
 
@@ -86,8 +91,6 @@ public class AddAppointmentController implements Initializable{
     @FXML
     private TextField titleTxt;
 
-    @FXML
-    private TextField typeTxt;
 
     @FXML
     private ComboBox<String> userComboBox;
@@ -101,7 +104,7 @@ public class AddAppointmentController implements Initializable{
             Alerts.errorBlank(descriptionLbl.getText());
         else if (locationTxt.getText().isEmpty())
             Alerts.errorBlank(locationLbl.getText());
-        else if (typeTxt.getText().isEmpty())
+        else if (typeComboBox.getSelectionModel().isEmpty())
             Alerts.errorBlank(typeLbl.getText());
         else if (contactComboBox.getSelectionModel().isEmpty())
             Alerts.errorBlank((contactLbl.getText()));
@@ -119,7 +122,7 @@ public class AddAppointmentController implements Initializable{
             String title = titleTxt.getText();
             String description = descriptionTxt.getText();
             String location = locationTxt.getText();
-            String type = typeTxt.getText();
+            String type = typeComboBox.getSelectionModel().getSelectedItem();
             String contactName = contactComboBox.getSelectionModel().getSelectedItem();
             String customerId = customerComboBox.getSelectionModel().getSelectedItem();
             String userId = userComboBox.getSelectionModel().getSelectedItem();
@@ -225,6 +228,8 @@ public class AddAppointmentController implements Initializable{
         }
         startTimeComboBox.setItems(StartEndTime.getStartTimes());
         endTimeComboBox.setItems(StartEndTime.getTEndTimes());
+        ObservableList<String> types = FXCollections.observableArrayList("Meeting", "Lunch", "Coffee Break", "Review");
+        typeComboBox.setItems(types);
     }
 
 
