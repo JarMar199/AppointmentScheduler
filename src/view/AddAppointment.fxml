@@ -36,11 +36,11 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Appointment ID" />
-            <Label text="Title" GridPane.rowIndex="1" />
-            <Label text="Description" GridPane.rowIndex="2" />
-            <Label text="Location" GridPane.rowIndex="3" />
-            <Label text="Contact" GridPane.rowIndex="5" />
+            <Label fx:id="apptIdLbl" text="Appointment ID" />
+            <Label fx:id="titleLbl" text="Title" GridPane.rowIndex="1" />
+            <Label fx:id="descriptionLbl" text="Description" GridPane.rowIndex="2" />
+            <Label fx:id="locationLbl" text="Location" GridPane.rowIndex="3" />
+            <Label fx:id="contactLbl" text="Contact" GridPane.rowIndex="5" />
             <TextField fx:id="appointmentIdTxt" disable="true" editable="false" promptText="Auto Gen" GridPane.columnIndex="1" />
             <TextField fx:id="titleTxt" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="descriptionTxt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
@@ -52,28 +52,28 @@
             <ComboBox fx:id="endTimeComboBox" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
             <ComboBox fx:id="customerComboBox" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
             <ComboBox fx:id="userComboBox" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-            <Label text="Start Date" GridPane.columnIndex="2">
+            <Label fx:id="startDateLbl" text="Start Date" GridPane.columnIndex="2">
                <padding>
                   <Insets left="50.0" />
                </padding>
             </Label>
-            <Label text="Type" GridPane.rowIndex="4" />
-            <Label text="Customer ID" GridPane.columnIndex="2" GridPane.rowIndex="3">
+            <Label fx:id="typeLbl" text="Type" GridPane.rowIndex="4" />
+            <Label fx:id="customerIdLbl" text="Customer ID" GridPane.columnIndex="2" GridPane.rowIndex="3">
                <padding>
                   <Insets left="50.0" />
                </padding>
             </Label>
-            <Label text="User ID" GridPane.columnIndex="2" GridPane.rowIndex="4">
+            <Label fx:id="userIdLbl" text="User ID" GridPane.columnIndex="2" GridPane.rowIndex="4">
                <padding>
                   <Insets left="50.0" />
                </padding>
             </Label>
-            <Label text="End Time" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <Label fx:id="endTimeLbl" text="End Time" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <padding>
                   <Insets left="50.0" />
                </padding>
             </Label>
-            <Label text="Start Time" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <Label fx:id="startTimeLbl" text="Start Time" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="50.0" />
                </GridPane.margin>

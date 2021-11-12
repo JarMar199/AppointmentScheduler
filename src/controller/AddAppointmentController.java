@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import model.Alerts;
 import model.StartEndTime;
 
 import java.io.IOException;
@@ -18,13 +19,47 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.*;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AddAppointmentController implements Initializable{
 
     @FXML
+    private Label apptIdLbl;
+
+    @FXML
+    private Label contactLbl;
+
+    @FXML
+    private Label customerIdLbl;
+
+    @FXML
+    private Label descriptionLbl;
+
+    @FXML
     private TextField appointmentIdTxt;
+
+    @FXML
+    private Label endTimeLbl;
+
+    @FXML
+    private Label locationLbl;
+
+    @FXML
+    private Label startDateLbl;
+
+    @FXML
+    private Label startTimeLbl;
+
+    @FXML
+    private Label titleLbl;
+
+    @FXML
+    private Label typeLbl;
+
+    @FXML
+    private Label userIdLbl;
 
     @FXML
     private ComboBox<String> contactComboBox;
@@ -58,28 +93,66 @@ public class AddAppointmentController implements Initializable{
     private ComboBox<String> userComboBox;
 
     @FXML
-    void onActionSaveAppointment(ActionEvent event) throws SQLException {
-        String title = titleTxt.getText();
-        String description = descriptionTxt.getText();
-        String location = locationTxt.getText();
-        String type = typeTxt.getText();
-        String contactName = contactComboBox.getSelectionModel().getSelectedItem();
-        String customerId = customerComboBox.getSelectionModel().getSelectedItem();
-        String userId = userComboBox.getSelectionModel().getSelectedItem();
-        LocalDate startDate = startDatePicker.getValue();
-        LocalTime startTime = startTimeComboBox.getSelectionModel().getSelectedItem();
-        LocalDateTime startDT = LocalDateTime.of(startDate,startTime);
-        Timestamp startDateTimeUTC = Timestamp.valueOf(StartEndTime.localToUTCConversion(startDT));
-        LocalTime endTime = endTimeComboBox.getSelectionModel().getSelectedItem();
-        LocalDateTime endDT = LocalDateTime.of(startDate,endTime);
-        Timestamp endDateTime = Timestamp.valueOf(StartEndTime.localToUTCConversion(endDT));
+    void onActionSaveAppointment(ActionEvent event) throws SQLException, IOException {
 
-        //TODO
-        if(DBQuery.addAppointment(title, description, location, contactName, type, startDateTimeUTC, endDateTime, customerId, userId)){
-            System.out.println("Success");
-        }else
-            System.out.println("Failed");
+        if(titleTxt.getText().isEmpty())
+            Alerts.errorBlank(titleLbl.getText());
+        else if (descriptionTxt.getText().isEmpty())
+            Alerts.errorBlank(descriptionLbl.getText());
+        else if (locationTxt.getText().isEmpty())
+            Alerts.errorBlank(locationLbl.getText());
+        else if (typeTxt.getText().isEmpty())
+            Alerts.errorBlank(typeLbl.getText());
+        else if (contactComboBox.getSelectionModel().isEmpty())
+            Alerts.errorBlank((contactLbl.getText()));
+        else if (customerComboBox.getSelectionModel().isEmpty())
+            Alerts.errorBlank(customerIdLbl.getText());
+        else if (userComboBox.getSelectionModel().isEmpty())
+            Alerts.errorBlank((userIdLbl.getText()));
+        else if (startDatePicker.getValue()  == null)
+            Alerts.errorBlank(startDateLbl.getText());
+        else if (startTimeComboBox.getSelectionModel().isEmpty())
+            Alerts.errorBlank((startTimeLbl.getText()));
+        else if (endTimeComboBox.getSelectionModel().isEmpty())
+            Alerts.errorBlank((endTimeLbl.getText()));
+        else {
+            String title = titleTxt.getText();
+            String description = descriptionTxt.getText();
+            String location = locationTxt.getText();
+            String type = typeTxt.getText();
+            String contactName = contactComboBox.getSelectionModel().getSelectedItem();
+            String customerId = customerComboBox.getSelectionModel().getSelectedItem();
+            String userId = userComboBox.getSelectionModel().getSelectedItem();
+            LocalDate startDate = startDatePicker.getValue();
+            LocalTime startTime = startTimeComboBox.getSelectionModel().getSelectedItem();
+            LocalDateTime startDT = LocalDateTime.of(startDate, startTime);
+            Timestamp startDateTimeUTC = Timestamp.valueOf(StartEndTime.localToUTCConversion(startDT));
+            LocalTime endTime = endTimeComboBox.getSelectionModel().getSelectedItem();
+            LocalDateTime endDT = LocalDateTime.of(startDate, endTime);
+            Timestamp endDateTime = Timestamp.valueOf(StartEndTime.localToUTCConversion(endDT));
 
+            if (DBQuery.addAppointment(title, description, location, contactName, type, startDateTimeUTC, endDateTime, customerId, userId)) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Success");
+                alert.setHeaderText("Confirmation");
+                alert.setContentText("Appointment successfully added");
+                alert.showAndWait();
+                Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                Scene scene = new Scene(root);
+                stage.setTitle("Main Menu");
+                stage.setScene(scene);
+                stage.show();
+                System.out.println("Success");
+                }  else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                String errorTitle = "Error";
+                String errorMsg = "There was an error saving appointment";
+                alert.setTitle(errorTitle);
+                alert.setContentText(errorMsg);
+                alert.showAndWait();
+            }
+        }
     }
 
     @FXML
