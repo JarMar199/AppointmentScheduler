@@ -1,5 +1,7 @@
 package model;
 
+import javafx.collections.ObservableList;
+
 import java.sql.Time;
 import java.sql.Timestamp;
 
@@ -25,6 +27,14 @@ public class Appointment {
         this.appointmentId = appointmentId;
         this.startDate = startDate;
     }
+
+    public Appointment(int appointmentId, int customerId, Timestamp startDate, Timestamp endDate) {
+        this.appointmentId = appointmentId;
+        this.customerId = customerId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
 
     public int getAppointmentId() {
         return appointmentId;

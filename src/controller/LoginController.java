@@ -78,8 +78,9 @@ public class LoginController implements Initializable {
                 stage.setScene(scene);
                 stage.show();
                 ObservableList<Appointment> userAppts = DBQuery.getUserAppts(enteredUserName);
-                LocalTime currentTime = LocalTime.of(4,45);
-                userAppts.forEach(appointment -> {
+                LocalTime currentTime = LocalTime.now();
+
+                for (Appointment appointment : userAppts) {
                     LocalTime startTime = appointment.getStartDate().toLocalDateTime().toLocalTime();
                     long timeDifference = ChronoUnit.MINUTES.between(currentTime,startTime);
                     if(timeDifference > 0 && timeDifference <= 15){
@@ -90,7 +91,7 @@ public class LoginController implements Initializable {
                         alert.showAndWait();
                         return;
                     }
-                });
+                }
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Upcoming");
                 String alertMsg = "No upcoming appointments";
@@ -98,6 +99,7 @@ public class LoginController implements Initializable {
                 alert.setContentText(alertMsg);
                 alert.showAndWait();
                 return;
+
             }
         }
 

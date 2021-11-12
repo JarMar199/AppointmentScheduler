@@ -126,15 +126,27 @@ public class AddAppointmentController implements Initializable{
             LocalDate startDate = startDatePicker.getValue();
             LocalTime startTime = startTimeComboBox.getSelectionModel().getSelectedItem();
             LocalDateTime startDT = LocalDateTime.of(startDate, startTime);
+            Timestamp startTimestamp = Timestamp.valueOf(startDT);
             Timestamp startDateTimeUTC = Timestamp.valueOf(StartEndTime.localToUTCConversion(startDT));
             LocalTime endTime = endTimeComboBox.getSelectionModel().getSelectedItem();
             LocalDateTime endDT = LocalDateTime.of(startDate, endTime);
+            Timestamp endTimestamp = Timestamp.valueOf(endDT);
             Timestamp endDateTime = Timestamp.valueOf(StartEndTime.localToUTCConversion(endDT));
 
             if(startDT.isAfter(endDT) || startDT.isEqual(endDT)){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 String errorTitle = "Error";
                 String errorMsg = "Start time must be before end time";
+                alert.setTitle(errorTitle);
+                alert.setContentText(errorMsg);
+                alert.showAndWait();
+                return;
+            }
+
+            if(startDate.isBefore(LocalDate.now())){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                String errorTitle = "Error";
+                String errorMsg = "Entered date must be today or in future";
                 alert.setTitle(errorTitle);
                 alert.setContentText(errorMsg);
                 alert.showAndWait();
@@ -155,7 +167,15 @@ public class AddAppointmentController implements Initializable{
                 alert.showAndWait();
                 return;
             }
-
+            if(DBQuery.checkConflictsAdd(customerId, startTimestamp, endTimestamp)){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                String errorTitle = "Error";
+                String errorMsg = "Schedule conflict. Please enter new times";
+                alert.setTitle(errorTitle);
+                alert.setContentText(errorMsg);
+                alert.showAndWait();
+                return;
+            }
 
             if (DBQuery.addAppointment(title, description, location, contactName, type, startDateTimeUTC, endDateTime, customerId, userId)) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);

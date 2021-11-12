@@ -1,6 +1,5 @@
 package DBConnect;
 
-import javafx.beans.binding.ObjectExpression;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointment;
@@ -10,6 +9,7 @@ import model.StartEndTime;
 import java.sql.*;
 import java.time.*;
 import java.time.temporal.TemporalAdjusters;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class DBQuery {
 
@@ -18,29 +18,27 @@ public class DBQuery {
     private static String userName;
 
 
-
-
     //Create Statement Object
     public static void setPreparedStatement(Connection connection, String sqlStatement) throws SQLException {
         statement = connection.prepareStatement(sqlStatement);
     }
 
     //Return Statement Object
-    public static PreparedStatement getPreparedStatement(){
+    public static PreparedStatement getPreparedStatement() {
         return statement;
     }
 
 
     public static ObservableList<String> getStates(String country) throws SQLException {
         ObservableList<String> states = FXCollections.observableArrayList();
-        String selectStatement ="SELECT Division FROM first_level_divisions WHERE Country_ID = (SELECT Country_ID FROM countries WHERE Country = ?)";
+        String selectStatement = "SELECT Division FROM first_level_divisions WHERE Country_ID = (SELECT Country_ID FROM countries WHERE Country = ?)";
         DBQuery.setPreparedStatement(connection, selectStatement);
         PreparedStatement ps = DBQuery.getPreparedStatement();
 
         ps.setString(1, country);
         ps.execute();
         ResultSet rsStates = ps.getResultSet();
-        while(rsStates.next()){
+        while (rsStates.next()) {
             String state = rsStates.getString("Division");
             states.add(state);
         }
@@ -49,12 +47,12 @@ public class DBQuery {
 
     public static ObservableList<String> getCountries() throws SQLException {
         ObservableList<String> countries = FXCollections.observableArrayList();
-        String selectStatement ="SELECT Country FROM countries";
-        DBQuery.setPreparedStatement(connection,selectStatement);
+        String selectStatement = "SELECT Country FROM countries";
+        DBQuery.setPreparedStatement(connection, selectStatement);
         PreparedStatement ps = DBQuery.getPreparedStatement();
         ps.execute();
         ResultSet rsCountries = ps.getResultSet();
-        while(rsCountries.next()){
+        while (rsCountries.next()) {
             String country = rsCountries.getString("Country");
             countries.add(country);
         }
@@ -62,8 +60,8 @@ public class DBQuery {
     }
 
     public static ResultSet getLogin() throws SQLException {
-        String selectStatement ="SELECT User_Name, Password FROM users";
-        DBQuery.setPreparedStatement(connection,selectStatement);
+        String selectStatement = "SELECT User_Name, Password FROM users";
+        DBQuery.setPreparedStatement(connection, selectStatement);
         PreparedStatement ps = DBQuery.getPreparedStatement();
         ps.execute();
         return ps.getResultSet();
@@ -81,22 +79,22 @@ public class DBQuery {
         LocalDate date = LocalDate.now();
         LocalTime time = LocalTime.now();
         String user = DBQuery.getUserName();
-        Timestamp timestamp = Timestamp.valueOf(StartEndTime.localToUTCConversion(LocalDateTime.of(date,time)));
+        Timestamp timestamp = Timestamp.valueOf(StartEndTime.localToUTCConversion(LocalDateTime.of(date, time)));
         String divisionId = DBQuery.getDivisionId(state);
 
         String insertStatement = "INSERT INTO customers(Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID)\n" +
                 "VALUES (?,?,?,?,?,?,?,?,?)";
-        DBQuery.setPreparedStatement(connection,insertStatement);
+        DBQuery.setPreparedStatement(connection, insertStatement);
         PreparedStatement ps = DBQuery.getPreparedStatement();
 
-        ps.setString(1,name);
-        ps.setString(2,address);
-        ps.setString(3,postal);
-        ps.setString(4,phone);
+        ps.setString(1, name);
+        ps.setString(2, address);
+        ps.setString(3, postal);
+        ps.setString(4, phone);
         ps.setString(5, String.valueOf(timestamp));
-        ps.setString(6,user);
+        ps.setString(6, user);
         ps.setString(7, String.valueOf(timestamp));
-        ps.setString(8,user);
+        ps.setString(8, user);
         ps.setString(9, divisionId);
 
         ps.execute();
@@ -107,7 +105,7 @@ public class DBQuery {
         LocalDate date = LocalDate.now();
         LocalTime time = LocalTime.now();
         String user = DBQuery.getUserName();
-        Timestamp timestamp = Timestamp.valueOf(StartEndTime.localToUTCConversion(LocalDateTime.of(date,time)));
+        Timestamp timestamp = Timestamp.valueOf(StartEndTime.localToUTCConversion(LocalDateTime.of(date, time)));
         String divisionId = DBQuery.getDivisionId(state);
 
         String updateStatement = "UPDATE customers SET \n" +
@@ -119,15 +117,15 @@ public class DBQuery {
                 "    Last_Updated_By = ?,\n" +
                 "    Division_ID = ?\n" +
                 "WHERE Customer_ID = ?";
-        DBQuery.setPreparedStatement(connection,updateStatement);
+        DBQuery.setPreparedStatement(connection, updateStatement);
         PreparedStatement ps = DBQuery.getPreparedStatement();
 
-        ps.setString(1,name);
-        ps.setString(2,address);
-        ps.setString(3,postal);
-        ps.setString(4,phone);
+        ps.setString(1, name);
+        ps.setString(2, address);
+        ps.setString(3, postal);
+        ps.setString(4, phone);
         ps.setString(5, String.valueOf(timestamp));
-        ps.setString(6,user);
+        ps.setString(6, user);
         ps.setInt(7, Integer.parseInt(divisionId));
         ps.setInt(8, customerId);
 
@@ -139,19 +137,19 @@ public class DBQuery {
         String deleteStatement = "DELETE FROM appointments WHERE Customer_ID = ?";
         DBQuery.setPreparedStatement(connection, deleteStatement);
         PreparedStatement ps = DBQuery.getPreparedStatement();
-        ps.setInt(1,customerId);
+        ps.setInt(1, customerId);
         ps.execute();
 
         deleteStatement = "DELETE FROM customers WHERE Customer_ID = ?";
         DBQuery.setPreparedStatement(connection, deleteStatement);
         ps = DBQuery.getPreparedStatement();
-        ps.setInt(1,customerId);
+        ps.setInt(1, customerId);
         ps.execute();
         return ps.getUpdateCount() > 0;
     }
 
     public static boolean addAppointment(String title, String description, String location, String contactName, String type, Timestamp startDT, Timestamp endDT, String customerId, String userId) throws SQLException {
-        Timestamp utcTime = Timestamp.valueOf(StartEndTime.localToUTCConversion(LocalDateTime.of(LocalDate.now(),LocalTime.now())));
+        Timestamp utcTime = Timestamp.valueOf(StartEndTime.localToUTCConversion(LocalDateTime.of(LocalDate.now(), LocalTime.now())));
         String user = DBQuery.getUserName();
         String contactId = DBQuery.getContactId(contactName);
         String insertStatement = "INSERT INTO appointments(\n" +
@@ -170,30 +168,30 @@ public class DBQuery {
                 "\tContact_ID)\n" +
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        DBQuery.setPreparedStatement(connection,insertStatement);
+        DBQuery.setPreparedStatement(connection, insertStatement);
         PreparedStatement ps = DBQuery.getPreparedStatement();
 
-        ps.setString(1,title);
-        ps.setString(2,description);
-        ps.setString(3,location);
-        ps.setString(4,type);
+        ps.setString(1, title);
+        ps.setString(2, description);
+        ps.setString(3, location);
+        ps.setString(4, type);
         ps.setTimestamp(5, startDT);
         ps.setTimestamp(6, endDT);
         ps.setTimestamp(7, utcTime);
-        ps.setString(8,user);
+        ps.setString(8, user);
         ps.setTimestamp(9, utcTime);
-        ps.setString(10,user);
-        ps.setString(11,customerId);
-        ps.setString(12,userId);
-        ps.setString(13,contactId);
+        ps.setString(10, user);
+        ps.setString(11, customerId);
+        ps.setString(12, userId);
+        ps.setString(13, contactId);
 
         ps.execute();
         return ps.getUpdateCount() > 0;
     }
 
     public static boolean modifyAppointment(String title, String description, String location, String contactName,
-    String type, Timestamp startDT, Timestamp endDT, String customerId, String userId, String appointmentId) throws SQLException {
-        Timestamp utcTime = Timestamp.valueOf(StartEndTime.localToUTCConversion(LocalDateTime.of(LocalDate.now(),LocalTime.now())));
+                                            String type, Timestamp startDT, Timestamp endDT, String customerId, String userId, String appointmentId) throws SQLException {
+        Timestamp utcTime = Timestamp.valueOf(StartEndTime.localToUTCConversion(LocalDateTime.of(LocalDate.now(), LocalTime.now())));
         String user = DBQuery.getUserName();
         String contactId = DBQuery.getContactId(contactName);
         String updateStatement = "UPDATE appointments\n" +
@@ -213,17 +211,17 @@ public class DBQuery {
         DBQuery.setPreparedStatement(connection, updateStatement);
         PreparedStatement ps = DBQuery.getPreparedStatement();
 
-        ps.setString(1,title);
-        ps.setString(2,description);
-        ps.setString(3,location);
-        ps.setString(4,type);
+        ps.setString(1, title);
+        ps.setString(2, description);
+        ps.setString(3, location);
+        ps.setString(4, type);
         ps.setTimestamp(5, startDT);
         ps.setTimestamp(6, endDT);
         ps.setTimestamp(7, utcTime);
-        ps.setString(8,user);
-        ps.setString(9,customerId);
-        ps.setString(10,userId);
-        ps.setString(11,contactId);
+        ps.setString(8, user);
+        ps.setString(9, customerId);
+        ps.setString(10, userId);
+        ps.setString(11, contactId);
         ps.setString(12, appointmentId);
 
 
@@ -237,7 +235,7 @@ public class DBQuery {
         DBQuery.setPreparedStatement(connection, deleteStatement);
         PreparedStatement ps = DBQuery.getPreparedStatement();
 
-        ps.setInt(1,appointmentId);
+        ps.setInt(1, appointmentId);
         ps.execute();
         return ps.getUpdateCount() > 0;
     }
@@ -246,7 +244,7 @@ public class DBQuery {
     public static String getDivisionId(String division) throws SQLException {
         String divisionId = null;
         String selectStatement = "SELECT Division_ID FROM first_level_divisions WHERE Division = ?";
-        DBQuery.setPreparedStatement(connection,selectStatement);
+        DBQuery.setPreparedStatement(connection, selectStatement);
         PreparedStatement ps = DBQuery.getPreparedStatement();
         ps.setString(1, division);
         ps.execute();
@@ -265,11 +263,11 @@ public class DBQuery {
                 "INNER JOIN first_level_divisions ON customers.Division_ID = first_level_divisions.Division_ID\n" +
                 "INNER JOIN countries ON first_level_divisions.Country_ID = countries.Country_ID\n" +
                 "GROUP BY Customer_ID, Customer_Name, Address, Postal_Code, Phone, Division, Country";
-        DBQuery.setPreparedStatement(connection,selectStatement);
+        DBQuery.setPreparedStatement(connection, selectStatement);
         PreparedStatement ps = DBQuery.getPreparedStatement();
         ps.execute();
         ResultSet rsCustomers = ps.getResultSet();
-        while(rsCustomers.next()) {
+        while (rsCustomers.next()) {
             int customerId = rsCustomers.getInt("Customer_ID");
             String name = rsCustomers.getString("Customer_Name");
             String address = rsCustomers.getString("Address");
@@ -277,7 +275,7 @@ public class DBQuery {
             String phone = rsCustomers.getString("phone");
             String state = rsCustomers.getString("State/Province");
             String country = rsCustomers.getString("Country");
-            customers.add(new Customer(customerId,name,address,postal,phone, state,country));
+            customers.add(new Customer(customerId, name, address, postal, phone, state, country));
         }
         return customers;
     }
@@ -297,12 +295,12 @@ public class DBQuery {
                 "\tappointments.User_ID\n" +
                 "FROM appointments INNER JOIN contacts ON appointments.Contact_ID = contacts.Contact_ID\n" +
                 "GROUP BY Appointment_ID, Title, Description, Location, Contact_Name, Type, Start, End, Customer_ID, User_ID";
-        DBQuery.setPreparedStatement(connection,selectStatement);
+        DBQuery.setPreparedStatement(connection, selectStatement);
         PreparedStatement ps = DBQuery.getPreparedStatement();
         ps.execute();
         ResultSet rsAppointments = ps.getResultSet();
 
-        while(rsAppointments.next()) {
+        while (rsAppointments.next()) {
             int appointmentId = rsAppointments.getInt("Appointment_ID");
             String title = rsAppointments.getString("Title");
             String description = rsAppointments.getString("Description");
@@ -317,7 +315,7 @@ public class DBQuery {
 
             int customerId = rsAppointments.getInt("Customer_ID");
             int userId = rsAppointments.getInt("User_ID");
-            appointments.add(new Appointment(appointmentId,customerId, userId, title, description, location, type, localStartDate, localEndDate, contactName));
+            appointments.add(new Appointment(appointmentId, customerId, userId, title, description, location, type, localStartDate, localEndDate, contactName));
         }
 
         return appointments;
@@ -339,14 +337,14 @@ public class DBQuery {
                 "FROM appointments INNER JOIN contacts ON appointments.Contact_ID = contacts.Contact_ID\n" +
                 "WHERE MONTH(Start) = ?\n" +
                 "GROUP BY Appointment_ID, Title, Description, Location, Contact_Name, Type, Start, End, Customer_ID, User_ID";
-        DBQuery.setPreparedStatement(connection,selectStatement);
+        DBQuery.setPreparedStatement(connection, selectStatement);
         PreparedStatement ps = DBQuery.getPreparedStatement();
 
-        ps.setInt(1,selectedMonth.getMonthValue());
+        ps.setInt(1, selectedMonth.getMonthValue());
         ps.execute();
         ResultSet rsAppointments = ps.getResultSet();
 
-        while(rsAppointments.next()) {
+        while (rsAppointments.next()) {
             int appointmentId = rsAppointments.getInt("Appointment_ID");
             String title = rsAppointments.getString("Title");
             String description = rsAppointments.getString("Description");
@@ -361,7 +359,7 @@ public class DBQuery {
 
             int customerId = rsAppointments.getInt("Customer_ID");
             int userId = rsAppointments.getInt("User_ID");
-            appointments.add(new Appointment(appointmentId,customerId, userId, title, description, location, type, localStartDate, localEndDate, contactName));
+            appointments.add(new Appointment(appointmentId, customerId, userId, title, description, location, type, localStartDate, localEndDate, contactName));
         }
 
         return appointments;
@@ -383,16 +381,16 @@ public class DBQuery {
                 "FROM appointments INNER JOIN contacts ON appointments.Contact_ID = contacts.Contact_ID\n" +
                 "WHERE MONTH(Start) = ?  AND DAY(Start) >= ? AND DAY(Start) < (? + 7)\n" +
                 "GROUP BY Appointment_ID, Title, Description, Location, Contact_Name, Type, Start, End, Customer_ID, User_ID";
-        DBQuery.setPreparedStatement(connection,selectStatement);
+        DBQuery.setPreparedStatement(connection, selectStatement);
         PreparedStatement ps = DBQuery.getPreparedStatement();
 
-        ps.setInt(1,selectedMonth.getMonthValue());
-        ps.setInt(2,selectedMonth.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY)).getDayOfMonth());
-        ps.setInt(3,selectedMonth.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY)).getDayOfMonth());
+        ps.setInt(1, selectedMonth.getMonthValue());
+        ps.setInt(2, selectedMonth.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY)).getDayOfMonth());
+        ps.setInt(3, selectedMonth.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY)).getDayOfMonth());
         ps.execute();
         ResultSet rsAppointments = ps.getResultSet();
 
-        while(rsAppointments.next()) {
+        while (rsAppointments.next()) {
             int appointmentId = rsAppointments.getInt("Appointment_ID");
             String title = rsAppointments.getString("Title");
             String description = rsAppointments.getString("Description");
@@ -407,7 +405,7 @@ public class DBQuery {
 
             int customerId = rsAppointments.getInt("Customer_ID");
             int userId = rsAppointments.getInt("User_ID");
-            appointments.add(new Appointment(appointmentId,customerId, userId, title, description, location, type, localStartDate, localEndDate, contactName));
+            appointments.add(new Appointment(appointmentId, customerId, userId, title, description, location, type, localStartDate, localEndDate, contactName));
         }
 
         return appointments;
@@ -420,7 +418,7 @@ public class DBQuery {
         PreparedStatement ps = DBQuery.getPreparedStatement();
         ps.execute();
         ResultSet rsContacts = ps.getResultSet();
-        while(rsContacts.next()) {
+        while (rsContacts.next()) {
             String contact = rsContacts.getString("Contact_Name");
             contacts.add(contact);
         }
@@ -458,7 +456,7 @@ public class DBQuery {
     public static String getContactId(String contact) throws SQLException {
         String contactId = null;
         String selectStatement = "SELECT Contact_ID FROM contacts WHERE Contact_Name = ?";
-        DBQuery.setPreparedStatement(connection,selectStatement);
+        DBQuery.setPreparedStatement(connection, selectStatement);
         PreparedStatement ps = DBQuery.getPreparedStatement();
         ps.setString(1, contact);
         ps.execute();
@@ -479,16 +477,76 @@ public class DBQuery {
                 "AND date( appointments.start) = ?";
         DBQuery.setPreparedStatement(connection, selectStatement);
         PreparedStatement ps = DBQuery.getPreparedStatement();
-        ps.setString(1,userId);
-        ps.setString(2,String.valueOf(localDate));
+        ps.setString(1, userId);
+        ps.setString(2, String.valueOf(localDate));
         ps.execute();
         ResultSet rsUserAppts = ps.getResultSet();
         while (rsUserAppts.next()) {
             int appointmentId = rsUserAppts.getInt("appointment_ID");
             LocalDateTime start = StartEndTime.utcToLocalConversion(rsUserAppts.getTimestamp("start").toLocalDateTime());
-            userAppts.add(new Appointment(appointmentId,Timestamp.valueOf(start)));
+            userAppts.add(new Appointment(appointmentId, Timestamp.valueOf(start)));
         }
         return userAppts;
     }
 
+    public static boolean checkConflictsAdd(String customerId, Timestamp startTime, Timestamp endTime) throws SQLException {
+        ObservableList<Appointment> customerAppts = FXCollections.observableArrayList();
+        String selectStatement = "SELECT Appointment_ID, Start, End, Customer_ID FROM appointments WHERE Customer_ID = ?";
+        DBQuery.setPreparedStatement(connection, selectStatement);
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+        ps.setString(1, customerId);
+        ps.execute();
+        ResultSet rsCustomerAppts = ps.getResultSet();
+        while (rsCustomerAppts.next()) {
+            int appointmentId = rsCustomerAppts.getInt("Appointment_ID");
+            Timestamp apptLocalStart = Timestamp.valueOf(StartEndTime.utcToLocalConversion(rsCustomerAppts.getTimestamp("Start").toLocalDateTime()));
+            Timestamp apptLocalEnd = Timestamp.valueOf(StartEndTime.utcToLocalConversion(rsCustomerAppts.getTimestamp("End").toLocalDateTime()));
+            int apptCustomerId = rsCustomerAppts.getInt("Customer_ID");
+            customerAppts.add(new Appointment(appointmentId, apptCustomerId, apptLocalStart, apptLocalEnd));
+        }
+
+        for (Appointment appointment : customerAppts) {
+            Timestamp apptStart = appointment.getStartDate();
+            Timestamp apptEnd = appointment.getEndDate();
+            if ((startTime.equals(apptStart) || startTime.after(apptStart)) && startTime.before(apptEnd)) {
+                return true;
+            } else if (endTime.after(apptStart) && ((endTime.before(apptEnd) || endTime.equals(apptEnd)))){
+                return true;
+            }else if ((startTime.before(apptStart) || startTime.equals(apptStart)) && (endTime.after(apptEnd) || endTime.equals(apptEnd))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean checkConflictsModify(String customerId, Timestamp startTime, Timestamp endTime, String apptId) throws SQLException {
+        ObservableList<Appointment> customerAppts = FXCollections.observableArrayList();
+        String selectStatement = "SELECT Appointment_ID, Start, End, Customer_ID FROM appointments WHERE Customer_ID = ? AND Appointment_ID =?";
+        DBQuery.setPreparedStatement(connection, selectStatement);
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+        ps.setString(1, customerId);
+        ps.setString(2, apptId);
+        ps.execute();
+        ResultSet rsCustomerAppts = ps.getResultSet();
+        while (rsCustomerAppts.next()) {
+            int appointmentId = rsCustomerAppts.getInt("Appointment_ID");
+            Timestamp apptLocalStart = Timestamp.valueOf(StartEndTime.utcToLocalConversion(rsCustomerAppts.getTimestamp("Start").toLocalDateTime()));
+            Timestamp apptLocalEnd = Timestamp.valueOf(StartEndTime.utcToLocalConversion(rsCustomerAppts.getTimestamp("End").toLocalDateTime()));
+            int apptCustomerId = rsCustomerAppts.getInt("Customer_ID");
+            customerAppts.add(new Appointment(appointmentId, apptCustomerId, apptLocalStart, apptLocalEnd));
+        }
+
+        for (Appointment appointment : customerAppts) {
+            Timestamp apptStart = appointment.getStartDate();
+            Timestamp apptEnd = appointment.getEndDate();
+            if ((startTime.equals(apptStart) || startTime.after(apptStart)) && startTime.before(apptEnd)) {
+                return true;
+            } else if (endTime.after(apptStart) && ((endTime.before(apptEnd) || endTime.equals(apptEnd)))){
+                return true;
+            }else if ((startTime.before(apptStart) || startTime.equals(apptStart)) && (endTime.after(apptEnd) || endTime.equals(apptEnd))) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
