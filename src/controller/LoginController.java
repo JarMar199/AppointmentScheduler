@@ -47,7 +47,10 @@ public class LoginController implements Initializable {
     @FXML
     private TextField userNameTxt;
 
-
+    @FXML
+    void onActionQuery(ActionEvent event) throws SQLException {
+        System.out.println( DBQuery.numOfAppts("November","Lunch"));
+    }
 
     @FXML
     void onActionLogin(ActionEvent event) throws IOException, SQLException {

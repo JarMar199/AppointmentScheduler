@@ -550,7 +550,42 @@ public class DBQuery {
         return false;
     }
 
-    public static int numOfAppts(String customer){
-        return 0;
+    public static String numOfAppts(String month, String type) throws SQLException {
+        String selectStatement = "SELECT Count(*) AS Num_Appts FROM appointments\n" +
+                "WHERE month(Start) = date_format(str_to_date(?,'%M'),'%c') AND TYPE = ?";
+        DBQuery.setPreparedStatement(connection, selectStatement);
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+        ps.setString(1, month);
+        ps.setString(2, type);
+        ps.execute();
+        String numAppt = "0";
+        ResultSet rsNumAppts = ps.getResultSet();
+        while(rsNumAppts.next())
+           numAppt = rsNumAppts.getString("Num_Appts");
+        return numAppt;
     }
+
+    public static ObservableList<Appointment> getSchedule(String contact) throws SQLException {
+        String selectStatement = "SELECT Appointment_ID, Title, Type, Description, Start, End, Customer_ID FROM appointments\n" +
+                "INNER JOIN contacts ON appointments.Contact_ID = contacts.Contact_ID\n" +
+                "WHERE Contact_Name = ?";
+        ObservableList<Appointment> contactAppts = FXCollections.observableArrayList();
+        DBQuery.setPreparedStatement(connection, selectStatement);
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+        ps.setString(1, contact);
+        ps.execute();
+        ResultSet rsContactAppts = ps.getResultSet();
+        while(rsContactAppts.next()){
+            int apptId = rsContactAppts.getInt("Appointment_ID");
+            String title = rsContactAppts.getString("Title");
+            String type = rsContactAppts.getString("Type");
+            String description = rsContactAppts.getString("Description");
+            Timestamp start = rsContactAppts.getTimestamp("Start");
+            Timestamp end = rsContactAppts.getTimestamp("End");
+            int customerId = rsContactAppts.getInt("Customer_ID");
+            contactAppts.add(new Appointment(apptId, customerId,title,description,type,start,end));
+        }
+        return contactAppts;
+    }
+
 }

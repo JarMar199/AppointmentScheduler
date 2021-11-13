@@ -1,18 +1,25 @@
 package controller;
 
 import DBConnect.DBQuery;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import model.Appointment;
 import model.Utils;
 
@@ -55,20 +62,49 @@ public class ReportsController implements Initializable {
     private TableColumn<Appointment, String> typeCol;
 
     @FXML
-    void onActionContactSelect(ActionEvent event) {
-
+    void onActionContactSelect(ActionEvent event) throws SQLException {
+        String contact = contactComboBox.getSelectionModel().getSelectedItem();
+        scheduleTable.setItems(DBQuery.getSchedule(contact));
+        appointmentIdCol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+        titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        startCol.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        endCol.setCellValueFactory(new PropertyValueFactory<>("endDate"));
+        apptCustomerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
     }
 
     @FXML
-    void onActionMonthSelect(ActionEvent event) {
+    void onActionMonthSelect(ActionEvent event) throws SQLException {
+        String month = monthComboBox.getSelectionModel().getSelectedItem();
+        String type = typeComboBox.getSelectionModel().getSelectedItem();
 
+        if(!monthComboBox.getSelectionModel().isEmpty() && !typeComboBox.getSelectionModel().isEmpty()) {
+            String numAppts = DBQuery.numOfAppts(month, type);
+            apptCountLbl.setText(numAppts);
+        }
     }
 
     @FXML
-    void onActionTypeSelect(ActionEvent event) {
+    void onActionTypeSelect(ActionEvent event) throws SQLException {
+        String month = monthComboBox.getSelectionModel().getSelectedItem();
+        String type = typeComboBox.getSelectionModel().getSelectedItem();
 
+        if(!monthComboBox.getSelectionModel().isEmpty() && !typeComboBox.getSelectionModel().isEmpty()) {
+            String numAppts = DBQuery.numOfAppts(month, type);
+            apptCountLbl.setText(numAppts);
+        }
     }
 
+    @FXML
+    void onActionMainMenu(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setTitle("Main Menu");
+        stage.setScene(scene);
+        stage.show();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
