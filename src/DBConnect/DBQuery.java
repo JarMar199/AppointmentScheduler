@@ -11,6 +11,9 @@ import java.time.*;
 import java.time.temporal.TemporalAdjusters;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Database queries to get information
+ */
 public class DBQuery {
 
     private static final Connection connection = DBConnection.getConnection();
@@ -18,17 +21,25 @@ public class DBQuery {
     private static String userName;
 
 
-    //Create Statement Object
+    /**
+     * @param connection
+     * @param sqlStatement Creates a SQL prepared statement
+     */
     public static void setPreparedStatement(Connection connection, String sqlStatement) throws SQLException {
         statement = connection.prepareStatement(sqlStatement);
     }
 
-    //Return Statement Object
+    /**
+     * @return the statement
+     */
     public static PreparedStatement getPreparedStatement() {
         return statement;
     }
 
-
+    /**
+     * @param country Generates list of states based on country selection
+     * @return the list of states/provinces
+     */
     public static ObservableList<String> getStates(String country) throws SQLException {
         ObservableList<String> states = FXCollections.observableArrayList();
         String selectStatement = "SELECT Division FROM first_level_divisions WHERE Country_ID = (SELECT Country_ID FROM countries WHERE Country = ?)";
@@ -45,6 +56,9 @@ public class DBQuery {
         return states;
     }
 
+    /**
+     * @return the list of  countries
+     */
     public static ObservableList<String> getCountries() throws SQLException {
         ObservableList<String> countries = FXCollections.observableArrayList();
         String selectStatement = "SELECT Country FROM countries";
@@ -59,6 +73,9 @@ public class DBQuery {
         return countries;
     }
 
+    /**
+     * @return the result set for usernames and passwords
+     */
     public static ResultSet getLogin() throws SQLException {
         String selectStatement = "SELECT User_Name, Password FROM users";
         DBQuery.setPreparedStatement(connection, selectStatement);
@@ -67,14 +84,24 @@ public class DBQuery {
         return ps.getResultSet();
     }
 
+    /**
+     * @param loggedInUser the logged in user to set
+     */
     public static void setUserName(String loggedInUser) {
         userName = loggedInUser;
     }
 
+    /**
+     * @return the logged in user
+     */
     public static String getUserName() {
         return userName;
     }
 
+    /**
+     *
+     * Query to add customer to the database
+     */
     public static boolean addCustomer(String name, String address, String postal, String phone, String state) throws SQLException {
         LocalDate date = LocalDate.now();
         LocalTime time = LocalTime.now();
@@ -101,6 +128,9 @@ public class DBQuery {
         return ps.getUpdateCount() > 0;
     }
 
+    /**
+     * Query to Update customer information in the database
+     */
     public static boolean modifyCustomer(int customerId, String name, String address, String postal, String phone, String state) throws SQLException {
         LocalDate date = LocalDate.now();
         LocalTime time = LocalTime.now();
@@ -133,6 +163,9 @@ public class DBQuery {
         return ps.getUpdateCount() > 0;
     }
 
+    /**
+     * @return Deletes customer and associated appointments from database
+     */
     public static boolean deleteCustomer(int customerId) throws SQLException {
         String deleteStatement = "DELETE FROM appointments WHERE Customer_ID = ?";
         DBQuery.setPreparedStatement(connection, deleteStatement);
@@ -148,6 +181,9 @@ public class DBQuery {
         return ps.getUpdateCount() > 0;
     }
 
+    /**
+     * Query to add appointment to database
+     */
     public static boolean addAppointment(String title, String description, String location, String contactName, String type, Timestamp startDT, Timestamp endDT, String customerId, String userId) throws SQLException {
         Timestamp utcTime = Timestamp.valueOf(StartEndTime.localToUTCConversion(LocalDateTime.of(LocalDate.now(), LocalTime.now())));
         String user = DBQuery.getUserName();
@@ -189,6 +225,9 @@ public class DBQuery {
         return ps.getUpdateCount() > 0;
     }
 
+    /**
+     * Query to Update an existing appointment in the database
+     */
     public static boolean modifyAppointment(String title, String description, String location, String contactName,
                                             String type, Timestamp startDT, Timestamp endDT, String customerId, String userId, String appointmentId) throws SQLException {
         Timestamp utcTime = Timestamp.valueOf(StartEndTime.localToUTCConversion(LocalDateTime.of(LocalDate.now(), LocalTime.now())));
@@ -230,6 +269,9 @@ public class DBQuery {
 
     }
 
+    /**
+     * Query to Delete an appointment from the database
+     */
     public static boolean deleteAppointment(int appointmentId) throws SQLException {
         String deleteStatement = "DELETE FROM appointments WHERE Appointment_ID = ?";
         DBQuery.setPreparedStatement(connection, deleteStatement);
@@ -240,7 +282,10 @@ public class DBQuery {
         return ps.getUpdateCount() > 0;
     }
 
-
+    /**
+     * @param division the division to search for the ID
+     * @return the division ID
+     */
     public static String getDivisionId(String division) throws SQLException {
         String divisionId = null;
         String selectStatement = "SELECT Division_ID FROM first_level_divisions WHERE Division = ?";
@@ -256,6 +301,9 @@ public class DBQuery {
         return divisionId;
     }
 
+    /**
+     * @return  list of customers that are in the database
+     */
     public static ObservableList<Customer> getCustomerTable() throws SQLException {
         ObservableList<Customer> customers = FXCollections.observableArrayList();
         String selectStatement = "SELECT customers.Customer_ID, customers.Customer_Name, customers.Address, customers.Postal_Code, customers.Phone,first_level_divisions.Division AS 'State/Province' , countries.Country\n" +
@@ -280,6 +328,9 @@ public class DBQuery {
         return customers;
     }
 
+    /**
+     * @return list of all appointments in the database
+     */
     public static ObservableList<Appointment> viewAllAppointmentTable() throws SQLException {
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         String selectStatement = "SELECT \n" +
@@ -321,6 +372,11 @@ public class DBQuery {
         return appointments;
     }
 
+    /**
+     * @param selectedMonth the month to filter with
+     * @return list of filtered appointments with the selected month
+
+     */
     public static ObservableList<Appointment> viewMonthlyAppointmentTable(LocalDate selectedMonth) throws SQLException {
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         String selectStatement = "SELECT \n" +
@@ -365,6 +421,10 @@ public class DBQuery {
         return appointments;
     }
 
+    /**
+     * @param selectedMonth
+     * @return list of filtered appointments for the selected week
+     */
     public static ObservableList<Appointment> viewWeeklyAppointmentTable(LocalDate selectedMonth) throws SQLException {
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         String selectStatement = "SELECT \n" +
@@ -411,6 +471,9 @@ public class DBQuery {
         return appointments;
     }
 
+    /**
+     * @return list of contacts in database
+     */
     public static ObservableList<String> getContacts() throws SQLException {
         ObservableList<String> contacts = FXCollections.observableArrayList();
         String selectStatement = "SELECT Contact_Name FROM contacts";
@@ -425,6 +488,9 @@ public class DBQuery {
         return contacts;
     }
 
+    /**
+     * @return list of customer IDs in database
+     */
     public static ObservableList<String> getCustomerIds() throws SQLException {
         ObservableList<String> customerIds = FXCollections.observableArrayList();
         String selectStatement = "SELECT Customer_ID from customers ORDER BY Customer_ID ASC";
@@ -439,6 +505,9 @@ public class DBQuery {
         return customerIds;
     }
 
+    /**
+     * @return list of user IDs in database
+     */
     public static ObservableList<String> getUserId() throws SQLException {
         ObservableList<String> userIds = FXCollections.observableArrayList();
         String selectStatement = "SELECT User_ID from users ORDER BY User_ID ASC";
@@ -453,6 +522,11 @@ public class DBQuery {
         return userIds;
     }
 
+    /**
+     *
+     * @param contact the contact to search the ID
+     * @return the contact ID of inputted contact
+     */
     public static String getContactId(String contact) throws SQLException {
         String contactId = null;
         String selectStatement = "SELECT Contact_ID FROM contacts WHERE Contact_Name = ?";
@@ -468,6 +542,10 @@ public class DBQuery {
         return contactId;
     }
 
+    /**
+     * @param userId search for assoactied appointments to userId
+     * @return list of appointments for the inputted userId
+     */
     public static ObservableList<Appointment> getUserAppts(String userId) throws SQLException {
         ObservableList<Appointment> userAppts = FXCollections.observableArrayList();
         LocalDate localDate = LocalDate.now();
@@ -489,6 +567,9 @@ public class DBQuery {
         return userAppts;
     }
 
+    /**
+     * @return validates appointment time can be scheduled without overlaps in previous scheduled appointments
+     */
     public static boolean checkConflictsAdd(String customerId, Timestamp startTime, Timestamp endTime) throws SQLException {
         ObservableList<Appointment> customerAppts = FXCollections.observableArrayList();
         String selectStatement = "SELECT Appointment_ID, Start, End, Customer_ID FROM appointments WHERE Customer_ID = ?";
@@ -519,6 +600,9 @@ public class DBQuery {
         return false;
     }
 
+    /**
+     * @return validates existing appointment time can be modified without overlaps in previous scheduled appointments
+     */
     public static boolean checkConflictsModify(String customerId, Timestamp startTime, Timestamp endTime, String apptId) throws SQLException {
         ObservableList<Appointment> customerAppts = FXCollections.observableArrayList();
         String selectStatement = "SELECT Appointment_ID, Start, End, Customer_ID FROM appointments WHERE Customer_ID = ? AND Appointment_ID <> ?";
@@ -550,6 +634,11 @@ public class DBQuery {
         return false;
     }
 
+    /**
+     * @param month the month to search for
+     * @param type the type to search for
+     * @return the number of appointments in search criteria
+     */
     public static String numOfAppts(String month, String type) throws SQLException {
         String selectStatement = "SELECT Count(*) AS Num_Appts FROM appointments\n" +
                 "WHERE month(Start) = date_format(str_to_date(?,'%M'),'%c') AND TYPE = ?";
@@ -565,6 +654,10 @@ public class DBQuery {
         return numAppt;
     }
 
+    /**
+     * @param contact the contact to search
+     * @return the appointment schedule for the selected contact
+     */
     public static ObservableList<Appointment> getSchedule(String contact) throws SQLException {
         String selectStatement = "SELECT Appointment_ID, Title, Type, Description, Start, End, Customer_ID FROM appointments\n" +
                 "INNER JOIN contacts ON appointments.Contact_ID = contacts.Contact_ID\n" +

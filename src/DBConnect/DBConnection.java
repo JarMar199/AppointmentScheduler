@@ -3,7 +3,9 @@ package DBConnect;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-
+/**
+ * Credientials to login to database
+ */
 public abstract class DBConnection {
     private static final String protocol = "jdbc";
     private static final String vendor = ":mysql:";
@@ -15,6 +17,9 @@ public abstract class DBConnection {
     private static String password = "Passw0rd!"; // Password
     public static Connection connection;  // Connection Interface
 
+    /**
+     * Logs into database
+     */
     public static void openConnection()
     {
         try {
@@ -28,10 +33,16 @@ public abstract class DBConnection {
         }
     }
 
+    /**
+     * @return the connected database
+     */
     public static Connection getConnection(){
         return connection;
     }
 
+    /**
+     * Logs out of database
+     */
     public static void closeConnection() {
         try {
             connection.close();
