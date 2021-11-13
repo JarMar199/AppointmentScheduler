@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="428.0" prefWidth="1019.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ReportsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="508.0" prefWidth="1019.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ReportsController">
    <children>
-      <TableView fx:id="scheduleTable" layoutX="22.0" layoutY="157.0" prefHeight="200.0" prefWidth="779.0">
+      <TableView fx:id="scheduleTable" layoutX="22.0" layoutY="157.0" prefHeight="137.0" prefWidth="779.0">
          <columns>
             <TableColumn fx:id="appointmentIdCol" prefWidth="65.0" text="Appt ID" />
             <TableColumn fx:id="titleCol" prefWidth="65.0" text="Title" />
@@ -24,7 +24,7 @@
       </TableView>
       <HBox layoutX="14.0" layoutY="68.0" prefHeight="27.0" prefWidth="894.0" spacing="30.0">
          <children>
-            <Label text="Select Month/Type to view appointment coun:t" />
+            <Label text="Select Month/Type to view appointment count:" />
             <ComboBox fx:id="monthComboBox" onAction="#onActionMonthSelect" prefWidth="150.0" />
             <ComboBox fx:id="typeComboBox" onAction="#onActionTypeSelect" prefWidth="150.0" />
             <Label lineSpacing="30.0" text="Appointments: ">
@@ -42,7 +42,12 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <ComboBox fx:id="contactComboBox" layoutX="32.0" layoutY="123.0" onAction="#onActionContactSelect" prefWidth="150.0" />
       <Button layoutX="882.0" layoutY="16.0" mnemonicParsing="false" onAction="#onActionMainMenu" prefHeight="25.0" prefWidth="95.0" text="Main Menu" />
+      <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="110.0" prefHeight="47.0" prefWidth="594.0" spacing="25.0">
+         <children>
+            <Label text="Select Contact to view scheduled  appointments" />
+            <ComboBox fx:id="contactComboBox" onAction="#onActionContactSelect" prefWidth="150.0" />
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

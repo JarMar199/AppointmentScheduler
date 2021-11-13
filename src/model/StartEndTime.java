@@ -61,13 +61,6 @@ public class StartEndTime {
         return localZDT.toLocalDateTime();
     }
 
-    public static LocalDateTime estToLocal(LocalDateTime estDT) {
-        ZoneId localZoneId = ZoneId.systemDefault();
-        ZoneId eSTZoneId = ZoneId.of("America/New_York");
-        ZonedDateTime estZDT = ZonedDateTime.of(estDT, eSTZoneId);
-        ZonedDateTime localZDT = ZonedDateTime.ofInstant(estZDT.toInstant(), localZoneId);
-        return  localZDT.toLocalDateTime();
-    }
 
     public static LocalDateTime localToEST(LocalDateTime localDT) {
         ZoneId localZoneId = ZoneId.systemDefault();
