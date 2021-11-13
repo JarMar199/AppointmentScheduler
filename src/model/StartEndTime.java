@@ -8,23 +8,16 @@ import java.sql.Timestamp;
 import java.time.*;
 
 /**
- *
+ * Class for populating and converting time
  */
 public class StartEndTime {
    private static LocalTime startTime = LocalTime.of(0,0);
    private static LocalTime endTime = LocalTime.of(0,0);
 
-    public static ObservableList<LocalTime> getTimes() {
-        ObservableList<LocalTime> startEndTimes= FXCollections.observableArrayList();
-        startEndTimes.add(startTime);
-        startTime =startTime.plusMinutes(30);
-        while(startTime.isAfter(endTime)){
-            startEndTimes.add(startTime);
-            startTime =startTime.plusMinutes(30);
-        }
-        return startEndTimes;
-    }
 
+    /**
+     * @return List of hours
+     */
     public static ObservableList<LocalTime> getStartTimes() {
         ObservableList<LocalTime> startTimes= FXCollections.observableArrayList();
         startTimes.add(startTime);
@@ -36,6 +29,9 @@ public class StartEndTime {
         return startTimes;
     }
 
+    /**
+     * @return list of hours
+     */
     public static ObservableList<LocalTime> getEndTimes() {
         ObservableList<LocalTime> endTimes= FXCollections.observableArrayList();
 
@@ -48,6 +44,10 @@ public class StartEndTime {
         return endTimes;
     }
 
+    /**
+     * @param localDT Converts local system date and time to UTC
+     * @return the date and time in UTC
+     */
     public static LocalDateTime localToUTCConversion(LocalDateTime localDT) {
         ZoneId localZoneId = ZoneId.systemDefault();
         ZoneId utcZoneId = ZoneId.of("UTC");
@@ -56,6 +56,10 @@ public class StartEndTime {
         return  utcZDT.toLocalDateTime();
     }
 
+    /**
+     * @param utcDT Converts UTC to local system date and time
+     * @returnthe local system date and time
+     */
     public static LocalDateTime utcToLocalConversion(LocalDateTime utcDT) {
         ZoneId localZoneId = ZoneId.systemDefault();
         ZoneId utcZoneId = ZoneId.of("UTC");
@@ -64,7 +68,10 @@ public class StartEndTime {
         return localZDT.toLocalDateTime();
     }
 
-
+    /**
+     * @param localDT Converts local system date and time to EST
+     * @return the date and time in EST
+     */
     public static LocalDateTime localToEST(LocalDateTime localDT) {
         ZoneId localZoneId = ZoneId.systemDefault();
         ZoneId estZoneId = ZoneId.of("America/New_York");

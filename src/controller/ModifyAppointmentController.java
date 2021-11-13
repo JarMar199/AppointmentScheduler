@@ -261,8 +261,8 @@ public class ModifyAppointmentController implements Initializable{
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        startTimeComboBox.setItems(StartEndTime.getTimes());
-        endTimeComboBox.setItems(StartEndTime.getTimes());
+        startTimeComboBox.setItems(StartEndTime.getStartTimes());
+        endTimeComboBox.setItems(StartEndTime.getEndTimes());
         typeComboBox.setItems(Utils.getTypes());
     }
 
