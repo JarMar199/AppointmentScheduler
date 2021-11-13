@@ -12,8 +12,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.Appointment;
+import model.Utils;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.sql.*;
 import java.time.*;
@@ -48,22 +49,20 @@ public class LoginController implements Initializable {
     private TextField userNameTxt;
 
     @FXML
-    void onActionQuery(ActionEvent event) throws SQLException {
-        System.out.println( DBQuery.numOfAppts("November","Lunch"));
-    }
-
-    @FXML
     void onActionLogin(ActionEvent event) throws IOException, SQLException {
         String enteredUserName = userNameTxt.getText().trim();
         String enteredPassword = passwordTxt.getText().trim();
+        LocalDateTime localDateTime = LocalDateTime.now();
         ResultSet rs = DBQuery.getLogin();
 
-        while (rs.next() && rs !=null) {
+        while (rs.next()) {
             String User_name = rs.getString("User_name");
             String Password = rs.getString("Password");
 
             if (enteredUserName.equals(User_name) && enteredPassword.equals(Password)){
                 DBQuery.setUserName(User_name);
+                Utils.loginAttemptSuccessful(enteredUserName, localDateTime);
+
                 Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
                 Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
                 Scene scene = new Scene(root);
@@ -95,7 +94,7 @@ public class LoginController implements Initializable {
 
             }
         }
-
+        Utils.loginAttemptFail(enteredUserName,localDateTime);
         Alert alert = new Alert(Alert.AlertType.ERROR);
         String errorTitle = "Error";
         String errorMsg = "Incorrect User Name or Password";
