@@ -123,7 +123,7 @@ public class ModifyCustomerController implements Initializable {
             Alerts.errorBlank(postalLbl.getText());
         else if (phone.isEmpty())
             Alerts.errorBlank(phoneLbl.getText());
-        else if (state.isEmpty())
+        else if (state == null)
             Alerts.errorBlank(stateLbl.getText());
         else {
             if (DBQuery.modifyCustomer(customerId, name, address, postal, phone, state)) {

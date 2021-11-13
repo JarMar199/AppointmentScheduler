@@ -42,7 +42,7 @@
                 <Label fx:id="countryLbl" text="Country" GridPane.rowIndex="5" />
                 <ComboBox fx:id="countryComboBox" onAction="#setCountryComboBox" prefHeight="25.0" prefWidth="186.0" promptText="Select Country" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                 <Label fx:id="stateLbl" text="State/Province" GridPane.rowIndex="6" />
-                <ComboBox fx:id="stateComboBox" prefHeight="25.0" prefWidth="183.0" promptText="Select State/Province" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                <ComboBox fx:id="stateComboBox" prefHeight="25.0" prefWidth="183.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             </children>
         </GridPane>
         <Label alignment="CENTER" layoutX="4.0" layoutY="-1.0" prefHeight="39.0" prefWidth="594.0" text="Add Customer" AnchorPane.bottomAnchor="479.0">

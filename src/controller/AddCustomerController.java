@@ -108,7 +108,7 @@ public class AddCustomerController implements Initializable {
             Alerts.errorBlank(postalLbl.getText());
         else if (phone.isEmpty())
             Alerts.errorBlank(phoneLbl.getText());
-        else if (state.isEmpty())
+        else if (state == null)
             Alerts.errorBlank(stateLbl.getText());
         else {
             if (DBQuery.addCustomer(name, address, postal, phone, state)) {
