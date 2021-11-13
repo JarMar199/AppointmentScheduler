@@ -23,6 +23,9 @@ import javafx.stage.Stage;
 import model.Appointment;
 import model.Utils;
 
+/**
+ * Generates several reports for viewing
+ */
 public class ReportsController implements Initializable {
 
     @FXML
@@ -61,6 +64,9 @@ public class ReportsController implements Initializable {
     @FXML
     private TableColumn<Appointment, String> typeCol;
 
+    /**
+     * @param event Displays selected contact's schedule
+     */
     @FXML
     void onActionContactSelect(ActionEvent event) throws SQLException {
         String contact = contactComboBox.getSelectionModel().getSelectedItem();
@@ -74,6 +80,9 @@ public class ReportsController implements Initializable {
         apptCustomerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
     }
 
+    /**
+     * @param event Displays number of customer appointments by month and type
+     */
     @FXML
     void onActionMonthSelect(ActionEvent event) throws SQLException {
         String month = monthComboBox.getSelectionModel().getSelectedItem();
@@ -85,6 +94,9 @@ public class ReportsController implements Initializable {
         }
     }
 
+    /**
+     * @param event Displays number of customer appointments by month and type
+     */
     @FXML
     void onActionTypeSelect(ActionEvent event) throws SQLException {
         String month = monthComboBox.getSelectionModel().getSelectedItem();
@@ -96,6 +108,9 @@ public class ReportsController implements Initializable {
         }
     }
 
+    /**
+     * @param event returns user to main menu
+     */
     @FXML
     void onActionMainMenu(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
@@ -106,6 +121,11 @@ public class ReportsController implements Initializable {
         stage.show();
     }
 
+    //TODO Generate another report
+
+    /**
+     * retrieves contacts, months, and types for user selection
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

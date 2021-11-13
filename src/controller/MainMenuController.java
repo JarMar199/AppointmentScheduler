@@ -97,7 +97,10 @@ public class MainMenuController implements Initializable {
     private RadioButton viewWeekRBtn;
 
 
-
+    /**
+     *
+     * @param event takes user to Add Customer display screen
+     */
     @FXML
     void onActionAddCustomer(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/AddCustomer.fxml"));
@@ -108,6 +111,10 @@ public class MainMenuController implements Initializable {
         stage.show();
     }
 
+    /**
+     *
+     * @param event takes user to modify customer display with selected customer
+     */
     @FXML
     void onActionModifyCustomer(ActionEvent event) throws IOException, SQLException {
         if(customerTable.getSelectionModel().getSelectedItem() != null) {
@@ -128,6 +135,10 @@ public class MainMenuController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param event delete selected customer and associated appointments from database
+     */
     @FXML
     void onActionDeleteCustomer(ActionEvent event) throws SQLException {
         Customer selectedCustomer = customerTable.getSelectionModel().getSelectedItem();
@@ -148,6 +159,10 @@ public class MainMenuController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param event takes user to Add appointment display screen
+     */
     @FXML
     void onActionAddAppointment(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/AddAppointment.fxml"));
@@ -158,6 +173,10 @@ public class MainMenuController implements Initializable {
         stage.show();
     }
 
+    /**
+     *
+     * @param event takes user to modify appointment screen with selected appointment
+     */
     @FXML
     void onActionModifyAppt(ActionEvent event) throws IOException {
         if(appointmentTable.getSelectionModel().getSelectedItem() != null) {
@@ -178,6 +197,10 @@ public class MainMenuController implements Initializable {
 
     }
 
+    /**
+     *
+     * @param event delete selected appointment from database
+     */
     @FXML
     void onActionDeleteAppt(ActionEvent event) throws SQLException {
         Appointment selectedAppointment = appointmentTable.getSelectionModel().getSelectedItem();
@@ -196,6 +219,10 @@ public class MainMenuController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param event returns user to Login screen
+     */
     @FXML
     void onActionLogout(ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you wish to logout?");
@@ -217,7 +244,10 @@ public class MainMenuController implements Initializable {
     }
 
 
-
+    /**
+     *
+     * display all appointments on tableview
+     */
     public void setViewAllApptTbl() throws SQLException {
         appointmentTable.setItems(DBQuery.viewAllAppointmentTable());
         appointmentIdCol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
@@ -232,6 +262,10 @@ public class MainMenuController implements Initializable {
         userIdCol.setCellValueFactory(new PropertyValueFactory<>("userId"));
     }
 
+    /**
+     *
+     * displays customer information on tableview
+     */
     public void setCustomerTable() throws SQLException {
         customerTable.setItems(DBQuery.getCustomerTable());
         customerIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -243,11 +277,19 @@ public class MainMenuController implements Initializable {
         countryCol.setCellValueFactory(new PropertyValueFactory<>("country"));
     }
 
+    /**
+     *
+     * @param event displays all appointments when radio button selected
+     */
     @FXML
     void onActionViewAllAppt(ActionEvent event) throws SQLException {
         setViewAllApptTbl();
     }
 
+    /**
+     *
+     * @param event displays appointments for selected month
+     */
     @FXML
     void onActionViewMonthAppt(ActionEvent event) throws SQLException {
         LocalDate selectedCalendarMonth = apptDatePickerFilter.getValue();
@@ -266,6 +308,10 @@ public class MainMenuController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param event displays one week appointments starting from Sunday for selected week
+     */
     @FXML
     void onActionViewWeekAppt(ActionEvent event) throws SQLException {
         LocalDate selectedCalendarMonth = apptDatePickerFilter.getValue();
@@ -284,6 +330,10 @@ public class MainMenuController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param event Displays either monthly or weekly appointments dependent on view selection
+     */
     @FXML
     void onActionDateSelect(ActionEvent event) throws SQLException {
         if(viewMonthRBtn.isSelected()) {
@@ -293,6 +343,10 @@ public class MainMenuController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param event takes user to Reports display screen
+     */
     @FXML
     void onActionReports(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/Reports.fxml"));
@@ -303,7 +357,9 @@ public class MainMenuController implements Initializable {
         stage.show();
     }
 
-
+    /**
+     * displays information for customer and appointment tables
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {

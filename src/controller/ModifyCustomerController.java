@@ -8,11 +8,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
+import model.Alerts;
 import model.Customer;
 
 import java.io.IOException;
@@ -21,7 +19,28 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Modify an existing customer in database
+ */
 public class ModifyCustomerController implements Initializable {
+    @FXML
+    private Label addressLbl;
+
+    @FXML
+    private Label countryLbl;
+
+    @FXML
+    private Label nameLbl;
+
+    @FXML
+    private Label phoneLbl;
+
+    @FXML
+    private Label postalLbl;
+
+    @FXML
+    private Label stateLbl;
+
     @FXML
     private TextField addressTxt;
 
@@ -43,7 +62,9 @@ public class ModifyCustomerController implements Initializable {
     @FXML
     private ComboBox<String> countryComboBox;
 
-
+    /**
+     * @param event returns user to Main Menu screen
+     */
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you wish to cancel?");
@@ -58,12 +79,18 @@ public class ModifyCustomerController implements Initializable {
         }
     }
 
+    /**
+     * @param event inputs country values to Country field from database
+     */
     @FXML
     void setCountryComboBox(ActionEvent event) throws SQLException {
         String selectedCountry = countryComboBox.getSelectionModel().getSelectedItem();
         stateComboBox.setItems(DBQuery.getStates(selectedCountry));
     }
 
+    /**
+     * @param customer Populates customer information to be modified
+     */
     public void sendCustomer(Customer customer) throws SQLException {
         customerIdTxt.setText(String.valueOf(customer.getId()));
         nameTxt.setText(customer.getName());
@@ -76,6 +103,9 @@ public class ModifyCustomerController implements Initializable {
         stateComboBox.setValue(customer.getState());
     }
 
+    /**
+     * @param event saves updated customer information to database
+     */
     @FXML
     void onActionSaveCustomer(ActionEvent event) throws SQLException, IOException {
         int customerId = Integer.parseInt(customerIdTxt.getText());
@@ -84,25 +114,45 @@ public class ModifyCustomerController implements Initializable {
         String postal = postalTxt.getText();
         String phone = phoneTxt.getText();
         String state = stateComboBox.getSelectionModel().getSelectedItem();
-        //TODO
-        if (DBQuery.modifyCustomer(customerId, name, address, postal, phone, state)) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Success");
-            alert.setHeaderText("Confirmation");
-            alert.setContentText("Customer successfully saved");
-            alert.showAndWait();
-            Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setTitle("Main Menu");
-            stage.setScene(scene);
-            stage.show();
-        } else
-            System.out.println("Failed");
 
+        if(name.isEmpty())
+            Alerts.errorBlank(nameLbl.getText());
+        else if (address.isEmpty())
+            Alerts.errorBlank(addressLbl.getText());
+        else if (postal.isEmpty())
+            Alerts.errorBlank(postalLbl.getText());
+        else if (phone.isEmpty())
+            Alerts.errorBlank(phoneLbl.getText());
+        else if (state.isEmpty())
+            Alerts.errorBlank(stateLbl.getText());
+        else {
+            if (DBQuery.modifyCustomer(customerId, name, address, postal, phone, state)) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Success");
+                alert.setHeaderText("Confirmation");
+                alert.setContentText("Customer successfully saved");
+                alert.showAndWait();
+                Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                Scene scene = new Scene(root);
+                stage.setTitle("Main Menu");
+                stage.setScene(scene);
+                stage.show();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                String errorTitle = "Error";
+                String errorMsg = "There was an error saving appointment";
+                alert.setTitle(errorTitle);
+                alert.setContentText(errorMsg);
+                alert.showAndWait();
+            }
+        }
 
     }
 
+    /**
+     * retrieves available countries for users to choose
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

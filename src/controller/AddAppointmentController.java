@@ -26,6 +26,9 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Add appointment to database
+ */
 public class AddAppointmentController implements Initializable{
 
     @FXML
@@ -96,6 +99,10 @@ public class AddAppointmentController implements Initializable{
     @FXML
     private ComboBox<String> userComboBox;
 
+    /**
+     * @param event Saves appointment to database.
+     *              Validates user input before saving appointment information
+     */
     @FXML
     void onActionSaveAppointment(ActionEvent event) throws SQLException, IOException {
 
@@ -204,6 +211,9 @@ public class AddAppointmentController implements Initializable{
         }
     }
 
+    /**
+     * @param event return user to main menu screen
+     */
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you wish to cancel?");
@@ -218,6 +228,9 @@ public class AddAppointmentController implements Initializable{
         }
     }
 
+    /**
+     * retrieves contact, customer. user, and times for user selection
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {

@@ -27,6 +27,9 @@ import java.time.LocalTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Modifies an existing appointment in database
+ */
 public class ModifyAppointmentController implements Initializable{
 
     @FXML
@@ -96,6 +99,9 @@ public class ModifyAppointmentController implements Initializable{
     @FXML
     private ComboBox<String> userComboBox;
 
+    /**
+     * @param event Saves updated appointment information
+     */
     @FXML
     void onActionSaveAppointment(ActionEvent event) throws SQLException, IOException {
 
@@ -207,6 +213,9 @@ public class ModifyAppointmentController implements Initializable{
         }
     }
 
+    /**
+     * @param event returns user to main menu screen
+     */
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you wish to cancel?");
@@ -221,6 +230,10 @@ public class ModifyAppointmentController implements Initializable{
         }
     }
 
+    /**
+     * @param appointment fills information for appointment to be modified.
+     *                    Selected appointment information is populated to form
+     */
     public void sendAppointment(Appointment appointment) {
         appointmentIdTxt.setText(String.valueOf(appointment.getAppointmentId()));
         titleTxt.setText(appointment.getTitle());
@@ -236,7 +249,9 @@ public class ModifyAppointmentController implements Initializable{
 
     }
 
-
+    /**
+     * retrieves contact, customer. user, and times for user selection
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {

@@ -2,6 +2,9 @@ package model;
 
 import javafx.scene.control.Alert;
 
+/**
+ * Creates alert for blank fields
+ */
 public class Alerts {
 
     public static void errorBlank(String label){

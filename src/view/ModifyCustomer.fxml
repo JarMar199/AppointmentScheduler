@@ -30,18 +30,18 @@
             </rowConstraints>
             <children>
                 <Label text="Customer ID" />
-                <Label text="Name" GridPane.rowIndex="1" />
-                <Label text="Address" GridPane.rowIndex="2" />
-                <Label text="Postal Code" GridPane.rowIndex="3" />
-                <Label text="Phone Number" GridPane.rowIndex="4" />
+                <Label fx:id="nameLbl" text="Name" GridPane.rowIndex="1" />
+                <Label fx:id="addressLbl" text="Address" GridPane.rowIndex="2" />
+                <Label fx:id="postalLbl" text="Postal Code" GridPane.rowIndex="3" />
+                <Label fx:id="phoneLbl" text="Phone Number" GridPane.rowIndex="4" />
                 <TextField fx:id="customerIdTxt" disable="true" editable="false" GridPane.columnIndex="1" />
                 <TextField fx:id="nameTxt" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                 <TextField fx:id="addressTxt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                 <TextField fx:id="postalTxt" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                 <TextField fx:id="phoneTxt" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                <Label text="Country" GridPane.rowIndex="5" />
+                <Label fx:id="countryLbl" text="Country" GridPane.rowIndex="5" />
                 <ComboBox fx:id="countryComboBox" onAction="#setCountryComboBox" prefHeight="25.0" prefWidth="186.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                <Label text="State/Province" GridPane.rowIndex="6" />
+                <Label fx:id="stateLbl" text="State/Province" GridPane.rowIndex="6" />
                 <ComboBox fx:id="stateComboBox" prefHeight="25.0" prefWidth="183.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             </children>
         </GridPane>

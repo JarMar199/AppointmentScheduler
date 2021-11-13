@@ -3,3 +3,4 @@ User test logged in at 2021-11-12 19:14:13 from America/Los_Angeles
 User test unsuccessful login attempt at 2021-11-12 19:15:05 from America/Los_Angeles
 User user unsuccessful login attempt at 2021-11-12 19:15:09 from America/Los_Angeles
 User test logged in at 2021-11-12 19:15:13 from America/Los_Angeles
+User admin logged in at 2021-11-12 19:25:21 from America/Los_Angeles

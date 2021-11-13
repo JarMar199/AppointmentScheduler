@@ -23,6 +23,10 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * Login screen that requires Username and Password to use application
+ */
+
 public class LoginController implements Initializable {
     @FXML
     private Label titleLbl;
@@ -48,6 +52,11 @@ public class LoginController implements Initializable {
     @FXML
     private TextField userNameTxt;
 
+    /**
+     *
+     * @param event Attempts login with input credentials.
+     *              Validates username and password. Displays error message if unsuccessful. All login attempts are recorded.
+     */
     @FXML
     void onActionLogin(ActionEvent event) throws IOException, SQLException {
         String enteredUserName = userNameTxt.getText().trim();
@@ -109,6 +118,9 @@ public class LoginController implements Initializable {
     }
 
 
+    /**
+     * Displays login screen in English or French
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

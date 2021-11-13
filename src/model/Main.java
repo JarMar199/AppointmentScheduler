@@ -11,6 +11,9 @@ import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * Creates an appointment and management application that uses a database
+ */
 public class Main extends Application {
 
     @Override
