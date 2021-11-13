@@ -7,6 +7,9 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.*;
 
+/**
+ *
+ */
 public class StartEndTime {
    private static LocalTime startTime = LocalTime.of(0,0);
    private static LocalTime endTime = LocalTime.of(0,0);
@@ -33,7 +36,7 @@ public class StartEndTime {
         return startTimes;
     }
 
-    public static ObservableList<LocalTime> getTEndTimes() {
+    public static ObservableList<LocalTime> getEndTimes() {
         ObservableList<LocalTime> endTimes= FXCollections.observableArrayList();
 
         startTime =startTime.plusMinutes(30);

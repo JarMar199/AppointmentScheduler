@@ -1,8 +1,6 @@
 package controller;
 
 import DBConnect.DBQuery;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,10 +17,8 @@ import model.Utils;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.*;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -241,7 +237,7 @@ public class AddAppointmentController implements Initializable{
             throwables.printStackTrace();
         }
         startTimeComboBox.setItems(StartEndTime.getStartTimes());
-        endTimeComboBox.setItems(StartEndTime.getTEndTimes());
+        endTimeComboBox.setItems(StartEndTime.getEndTimes());
         typeComboBox.setItems(Utils.getTypes());
     }
 

@@ -3,6 +3,9 @@ package model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+/**
+ * Creates a customer
+ */
 public class Customer {
      int id;
      String name, address, postal, phone, state, country;
@@ -17,60 +20,53 @@ public class Customer {
         this.country = country;
     }
 
-
+    /**
+     * @return the customer id
+     */
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    /**
+     * @return the customer name
+     */
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    /**
+     * @return the address
+     */
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
+    /**
+     * @return the postal code
+     */
     public String getPostal() {
         return postal;
     }
 
-    public void setPostal(String postal) {
-        this.postal = postal;
-    }
-
+    /**
+     * @return the phone number
+     */
     public String getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
+    /**
+     * @return the state or province
+     */
     public String getState() {
         return state;
     }
 
-    public void setState(String state) {
-        this.state = state;
-    }
-
+    /**
+     * @return the country
+     */
     public String getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
 }

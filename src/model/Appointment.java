@@ -6,6 +6,9 @@ import javafx.collections.ObservableList;
 import java.sql.Time;
 import java.sql.Timestamp;
 
+/**
+ * Creates an appointment object
+ */
 public class Appointment {
     int appointmentId, customerId, userId;
     String title, description, location, type, contactName;
@@ -25,11 +28,17 @@ public class Appointment {
         this.contactName = contactName;
     }
 
+    /**
+     * Constructor for user appointment data
+     */
     public Appointment(int appointmentId, Timestamp startDate){
         this.appointmentId = appointmentId;
         this.startDate = startDate;
     }
 
+    /**
+     * Constructor for appointment conflicts
+     */
     public Appointment(int appointmentId, int customerId, Timestamp startDate, Timestamp endDate) {
         this.appointmentId = appointmentId;
         this.customerId = customerId;
@@ -37,6 +46,9 @@ public class Appointment {
         this.endDate = endDate;
     }
 
+    /**
+     * Constructor for contact schedule appointment data
+     */
     public Appointment(int appointmentId, int customerId, String title, String description, String type, Timestamp startDate, Timestamp endDate) {
         this.appointmentId = appointmentId;
         this.customerId = customerId;
@@ -47,85 +59,97 @@ public class Appointment {
         this.endDate = endDate;
     }
 
+    /**
+     * @return the appointment id
+     */
     public int getAppointmentId() {
         return appointmentId;
     }
 
-    public void setAppointmentId(int appointmentId) {
-        this.appointmentId = appointmentId;
-    }
 
+
+    /**
+     * @return the customer id
+     */
     public int getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
-    }
-
+    /**
+     * @return the user id
+     */
     public int getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
+    /**
+     * @return the title
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     * @param title the title to set
+     */
     public void setTitle(String title) {
         this.title = title;
     }
 
+    /**
+     * @return the description
+     */
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
+    /**
+     * @return the location
+     */
     public String getLocation() {
         return location;
     }
 
+    /**
+     * @param location the location to set
+     */
     public void setLocation(String location) {
         this.location = location;
     }
 
+    /**
+     * @return the type
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * @param type the type to set
+     */
     public void setType(String type) {
         this.type = type;
     }
 
+    /**
+     * @return the start date and time
+     */
     public Timestamp getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Timestamp startDate) {
-        this.startDate = startDate;
-    }
-
+    /**
+     * @return the end date and time
+     */
     public Timestamp getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Timestamp endDate) {
-        this.endDate = endDate;
-    }
-
+    /**
+     * @return the contact name
+     */
     public String getContactName() {
         return contactName;
     }
-
-    public void setContactName(String contactName) {
-        this.contactName = contactName;
-    }
-
 
 }
