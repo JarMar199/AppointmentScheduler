@@ -16,26 +16,25 @@ import java.util.ResourceBundle;
  */
 public class Main extends Application {
 
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-
-        Parent root = FXMLLoader.load(getClass().getResource("../view/Login.fxml"));
-        String loginTitle = "Login";
-        if(Locale.getDefault().equals(Locale.FRANCE)) {
-            ResourceBundle resource = ResourceBundle.getBundle("Login_fr");
-            loginTitle = resource.getString("Login");
-        }
-        primaryStage.setTitle(loginTitle);
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
-    }
-
-
     public static void main(String[] args) throws SQLException {
         //Locale.setDefault(new Locale("FR","fr"));
         DBConnection.openConnection();
         launch(args);
         DBConnection.closeConnection();
 
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+
+        Parent root = FXMLLoader.load(getClass().getResource("../view/Login.fxml"));
+        String loginTitle = "Login";
+        if (Locale.getDefault().equals(Locale.FRANCE)) {
+            ResourceBundle resource = ResourceBundle.getBundle("Login_fr");
+            loginTitle = resource.getString("Login");
+        }
+        primaryStage.setTitle(loginTitle);
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
     }
 }

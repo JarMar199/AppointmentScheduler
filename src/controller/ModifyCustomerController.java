@@ -116,7 +116,7 @@ public class ModifyCustomerController implements Initializable {
         String phone = phoneTxt.getText();
         String state = stateComboBox.getSelectionModel().getSelectedItem();
 
-        if(name.isEmpty())
+        if (name.isEmpty())
             Alerts.errorBlank(nameLbl.getText());
         else if (address.isEmpty())
             Alerts.errorBlank(addressLbl.getText());

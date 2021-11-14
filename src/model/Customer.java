@@ -1,14 +1,11 @@
 package model;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 /**
  * Creates a customer
  */
 public class Customer {
-     int id;
-     String name, address, postal, phone, state, country;
+    int id;
+    String name, address, postal, phone, state, country;
 
     public Customer(int id, String name, String address, String postal, String phone, String state, String country) {
         this.id = id;

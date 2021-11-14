@@ -25,14 +25,15 @@ public class Utils {
     /**
      * @return the list of months
      */
-    public static ObservableList<String> getMonths(){
+    public static ObservableList<String> getMonths() {
         ObservableList<String> months = FXCollections.observableArrayList("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
         return months;
     }
 
     /**
      * Records successful login to file
-     * @param user username entered
+     *
+     * @param user          username entered
      * @param localDateTime date and time on local machine
      * @throws IOException exception
      */
@@ -47,7 +48,8 @@ public class Utils {
 
     /**
      * Records unsuccessful login attempt to file
-     * @param user username entered
+     *
+     * @param user          username entered
      * @param localDateTime date and time on local machine
      * @throws IOException exception
      */

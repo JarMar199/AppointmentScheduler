@@ -1,9 +1,5 @@
 package model;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
-import java.sql.Time;
 import java.sql.Timestamp;
 
 /**
@@ -32,20 +28,22 @@ public class Appointment {
 
     /**
      * Constructor for user appointment data
+     *
      * @param appointmentId appointment id to set
-     * @param startDate start date and time to set
+     * @param startDate     start date and time to set
      */
-    public Appointment(int appointmentId, Timestamp startDate){
+    public Appointment(int appointmentId, Timestamp startDate) {
         this.appointmentId = appointmentId;
         this.startDate = startDate;
     }
 
     /**
      * Constructor for appointment conflicts
+     *
      * @param appointmentId appointment id to set
-     * @param customerId customer id to set
-     * @param startDate start date and time to set
-     * @param endDate end date and tiem to set
+     * @param customerId    customer id to set
+     * @param startDate     start date and time to set
+     * @param endDate       end date and tiem to set
      */
     public Appointment(int appointmentId, int customerId, Timestamp startDate, Timestamp endDate) {
         this.appointmentId = appointmentId;
@@ -56,13 +54,14 @@ public class Appointment {
 
     /**
      * Constructor for contact schedule appointment data
+     *
      * @param appointmentId appointment id to set
-     * @param customerId customer id to set
-     * @param title title to set
-     * @param description description to set
-     * @param type type to set
-     * @param startDate start date and time to set
-     * @param endDate end date and time to set
+     * @param customerId    customer id to set
+     * @param title         title to set
+     * @param description   description to set
+     * @param type          type to set
+     * @param startDate     start date and time to set
+     * @param endDate       end date and time to set
      */
     public Appointment(int appointmentId, int customerId, String title, String description, String type, Timestamp startDate, Timestamp endDate) {
         this.appointmentId = appointmentId;
@@ -76,12 +75,13 @@ public class Appointment {
 
     /**
      * Constructor for User report
+     *
      * @param appointmentId the appointment id to set
-     * @param title the title to set
-     * @param description the description to set
-     * @param type the type to set
-     * @param lastUpdate the last update date and time to set
-     * @param updateBy the updated by to set
+     * @param title         the title to set
+     * @param description   the description to set
+     * @param type          the type to set
+     * @param lastUpdate    the last update date and time to set
+     * @param updateBy      the updated by to set
      */
     public Appointment(int appointmentId, String title, String description, String type, Timestamp lastUpdate, String updateBy) {
         this.appointmentId = appointmentId;
@@ -98,7 +98,6 @@ public class Appointment {
     public int getAppointmentId() {
         return appointmentId;
     }
-
 
 
     /**

@@ -1,8 +1,6 @@
 package controller;
 
 import DBConnect.DBQuery;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,7 +28,7 @@ import java.util.ResourceBundle;
 /**
  * Modifies an existing appointment in database
  */
-public class ModifyAppointmentController implements Initializable{
+public class ModifyAppointmentController implements Initializable {
 
     @FXML
     private Label apptIdLbl;
@@ -105,7 +103,7 @@ public class ModifyAppointmentController implements Initializable{
     @FXML
     void onActionSaveAppointment(ActionEvent event) throws SQLException, IOException {
 
-        if(titleTxt.getText().isEmpty())
+        if (titleTxt.getText().isEmpty())
             Alerts.errorBlank(titleLbl.getText());
         else if (descriptionTxt.getText().isEmpty())
             Alerts.errorBlank(descriptionLbl.getText());
@@ -119,7 +117,7 @@ public class ModifyAppointmentController implements Initializable{
             Alerts.errorBlank(customerIdLbl.getText());
         else if (userComboBox.getSelectionModel().isEmpty())
             Alerts.errorBlank((userIdLbl.getText()));
-        else if (startDatePicker.getValue()  == null)
+        else if (startDatePicker.getValue() == null)
             Alerts.errorBlank(startDateLbl.getText());
         else if (startTimeComboBox.getSelectionModel().isEmpty())
             Alerts.errorBlank((startTimeLbl.getText()));
@@ -153,7 +151,7 @@ public class ModifyAppointmentController implements Initializable{
                 alert.showAndWait();
                 return;
             }
-            if(startDate.isBefore(LocalDate.now())){
+            if (startDate.isBefore(LocalDate.now())) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 String errorTitle = "Error";
                 String errorMsg = "Entered date must be today or in future";
@@ -178,7 +176,7 @@ public class ModifyAppointmentController implements Initializable{
                 return;
             }
 
-            if(DBQuery.checkConflictsModify(customerId,startTimestamp, endTimestamp, appointmentId)) {
+            if (DBQuery.checkConflictsModify(customerId, startTimestamp, endTimestamp, appointmentId)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 String errorTitle = "Error";
                 String errorMsg = "Schedule conflict. Please enter new times";

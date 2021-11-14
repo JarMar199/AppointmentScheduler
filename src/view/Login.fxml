@@ -21,6 +21,5 @@
       <Label fx:id="locationLbl" layoutX="50.0" layoutY="312.0" text="Location:" />
       <Label fx:id="locationTxt" layoutX="137.0" layoutY="312.0" prefHeight="17.0" prefWidth="125.0" />
       <PasswordField fx:id="passwordTxt" layoutX="157.0" layoutY="182.0" prefHeight="25.0" prefWidth="167.0" />
-      <Button layoutX="175.0" layoutY="329.0" mnemonicParsing="false" onAction="#testQuery" text="Query" />
    </children>
 </AnchorPane>

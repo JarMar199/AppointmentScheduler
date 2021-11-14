@@ -98,13 +98,12 @@ public class MainMenuController implements Initializable {
 
 
     /**
-     *
      * @param event takes user to Add Customer display screen
      */
     @FXML
     void onActionAddCustomer(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/AddCustomer.fxml"));
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setTitle("Add Customer");
         stage.setScene(scene);
@@ -112,12 +111,11 @@ public class MainMenuController implements Initializable {
     }
 
     /**
-     *
      * @param event takes user to modify customer display with selected customer
      */
     @FXML
     void onActionModifyCustomer(ActionEvent event) throws IOException, SQLException {
-        if(customerTable.getSelectionModel().getSelectedItem() != null) {
+        if (customerTable.getSelectionModel().getSelectedItem() != null) {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/view/ModifyCustomer.fxml"));
             loader.load();
@@ -136,13 +134,12 @@ public class MainMenuController implements Initializable {
     }
 
     /**
-     *
      * @param event delete selected customer and associated appointments from database
      */
     @FXML
     void onActionDeleteCustomer(ActionEvent event) throws SQLException {
         Customer selectedCustomer = customerTable.getSelectionModel().getSelectedItem();
-        if(selectedCustomer != null) {
+        if (selectedCustomer != null) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete customer? All appointments associated will be deleted.");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -160,13 +157,12 @@ public class MainMenuController implements Initializable {
     }
 
     /**
-     *
      * @param event takes user to Add appointment display screen
      */
     @FXML
     void onActionAddAppointment(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/AddAppointment.fxml"));
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setTitle("Add Appointment");
         stage.setScene(scene);
@@ -174,12 +170,11 @@ public class MainMenuController implements Initializable {
     }
 
     /**
-     *
      * @param event takes user to modify appointment screen with selected appointment
      */
     @FXML
     void onActionModifyAppt(ActionEvent event) throws IOException {
-        if(appointmentTable.getSelectionModel().getSelectedItem() != null) {
+        if (appointmentTable.getSelectionModel().getSelectedItem() != null) {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/view/ModifyAppointment.fxml"));
             loader.load();
@@ -198,21 +193,20 @@ public class MainMenuController implements Initializable {
     }
 
     /**
-     *
      * @param event delete selected appointment from database
      */
     @FXML
     void onActionDeleteAppt(ActionEvent event) throws SQLException {
         Appointment selectedAppointment = appointmentTable.getSelectionModel().getSelectedItem();
-        if(selectedAppointment != null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Cancel Appointment "+ selectedAppointment.getAppointmentId() + " Type: " + selectedAppointment.getType() + "?");
+        if (selectedAppointment != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Cancel Appointment " + selectedAppointment.getAppointmentId() + " Type: " + selectedAppointment.getType() + "?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 DBQuery.deleteAppointment(Integer.valueOf(selectedAppointment.getAppointmentId()));
                 Alert alertConfirm = new Alert(Alert.AlertType.INFORMATION);
                 alertConfirm.setTitle("Success");
                 alertConfirm.setHeaderText("Confirmation");
-                alertConfirm.setContentText("Appointment: " + selectedAppointment.getAppointmentId() + " Type: " + selectedAppointment.getType() + " cancelled." );
+                alertConfirm.setContentText("Appointment: " + selectedAppointment.getAppointmentId() + " Type: " + selectedAppointment.getType() + " cancelled.");
                 alertConfirm.showAndWait();
                 setViewAllApptTbl();
             }
@@ -220,14 +214,13 @@ public class MainMenuController implements Initializable {
     }
 
     /**
-     *
      * @param event returns user to Login screen
      */
     @FXML
     void onActionLogout(ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you wish to logout?");
         Optional<ButtonType> result = alert.showAndWait();
-        if(result.isPresent() && result.get() == ButtonType.OK) {
+        if (result.isPresent() && result.get() == ButtonType.OK) {
             Parent root = FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
@@ -245,8 +238,8 @@ public class MainMenuController implements Initializable {
 
 
     /**
-     *
      * display all appointments on tableview
+     *
      * @throws SQLException exception
      */
 
@@ -265,8 +258,8 @@ public class MainMenuController implements Initializable {
     }
 
     /**
-     *
      * displays customer information on tableview
+     *
      * @throws SQLException SQL exception
      */
     public void setCustomerTable() throws SQLException {
@@ -281,7 +274,6 @@ public class MainMenuController implements Initializable {
     }
 
     /**
-     *
      * @param event displays all appointments when radio button selected
      */
     @FXML
@@ -290,13 +282,12 @@ public class MainMenuController implements Initializable {
     }
 
     /**
-     *
      * @param event displays appointments for selected month
      */
     @FXML
     void onActionViewMonthAppt(ActionEvent event) throws SQLException {
         LocalDate selectedCalendarMonth = apptDatePickerFilter.getValue();
-        if(selectedCalendarMonth != null) {
+        if (selectedCalendarMonth != null) {
             appointmentTable.setItems(DBQuery.viewMonthlyAppointmentTable(selectedCalendarMonth));
             appointmentIdCol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
             titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -312,13 +303,12 @@ public class MainMenuController implements Initializable {
     }
 
     /**
-     *
      * @param event displays one week appointments starting from Sunday for selected week
      */
     @FXML
     void onActionViewWeekAppt(ActionEvent event) throws SQLException {
         LocalDate selectedCalendarMonth = apptDatePickerFilter.getValue();
-        if(selectedCalendarMonth != null) {
+        if (selectedCalendarMonth != null) {
             appointmentTable.setItems(DBQuery.viewWeeklyAppointmentTable(selectedCalendarMonth));
             appointmentIdCol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
             titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -334,26 +324,24 @@ public class MainMenuController implements Initializable {
     }
 
     /**
-     *
      * @param event Displays either monthly or weekly appointments dependent on view selection
      */
     @FXML
     void onActionDateSelect(ActionEvent event) throws SQLException {
-        if(viewMonthRBtn.isSelected()) {
+        if (viewMonthRBtn.isSelected()) {
             onActionViewMonthAppt(event);
-        } else if(viewWeekRBtn.isSelected()) {
+        } else if (viewWeekRBtn.isSelected()) {
             onActionViewWeekAppt(event);
         }
     }
 
     /**
-     *
      * @param event takes user to Reports display screen
      */
     @FXML
     void onActionReports(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/Reports.fxml"));
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setTitle("Reports");
         stage.setScene(scene);
@@ -368,7 +356,6 @@ public class MainMenuController implements Initializable {
         try {
             setCustomerTable();
             setViewAllApptTbl();
-
 
 
         } catch (SQLException throwables) {

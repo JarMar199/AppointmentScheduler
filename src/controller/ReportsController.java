@@ -1,18 +1,10 @@
 package controller;
 
 import DBConnect.DBQuery;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-
-import java.io.IOException;
-import java.net.URL;
-import java.sql.SQLException;
-import java.util.ResourceBundle;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -23,8 +15,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Appointment;
-import model.Interface;
 import model.Utils;
+
+import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
 
 /**
  * Generates several reports for viewing
@@ -93,6 +89,7 @@ public class ReportsController implements Initializable {
 
     /**
      * Filters appointments by the user that updated the appontments last
+     *
      * @param event displays appointments on table for selected user
      * @throws SQLException SQL exception
      */
@@ -134,7 +131,7 @@ public class ReportsController implements Initializable {
         String month = monthComboBox.getSelectionModel().getSelectedItem();
         String type = typeComboBox.getSelectionModel().getSelectedItem();
 
-        if(!monthComboBox.getSelectionModel().isEmpty() && !typeComboBox.getSelectionModel().isEmpty()) {
+        if (!monthComboBox.getSelectionModel().isEmpty() && !typeComboBox.getSelectionModel().isEmpty()) {
             String numAppts = DBQuery.numOfAppts(month, type);
             apptCountLbl.setText(numAppts);
         }
@@ -148,7 +145,7 @@ public class ReportsController implements Initializable {
         String month = monthComboBox.getSelectionModel().getSelectedItem();
         String type = typeComboBox.getSelectionModel().getSelectedItem();
 
-        if(!monthComboBox.getSelectionModel().isEmpty() && !typeComboBox.getSelectionModel().isEmpty()) {
+        if (!monthComboBox.getSelectionModel().isEmpty() && !typeComboBox.getSelectionModel().isEmpty()) {
             String numAppts = DBQuery.numOfAppts(month, type);
             apptCountLbl.setText(numAppts);
         }

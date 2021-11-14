@@ -11,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.Alerts;
-import model.Interface;
 import model.StartEndTime;
 import model.Utils;
 
@@ -19,14 +18,16 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
  * Add appointment to database
  */
-public class AddAppointmentController implements Initializable{
+public class AddAppointmentController implements Initializable {
 
     @FXML
     private Label apptIdLbl;
@@ -104,7 +105,7 @@ public class AddAppointmentController implements Initializable{
     void onActionSaveAppointment(ActionEvent event) throws SQLException, IOException {
 
 
-        if(titleTxt.getText().isEmpty())
+        if (titleTxt.getText().isEmpty())
             Alerts.errorBlank(titleLbl.getText());
         else if (descriptionTxt.getText().isEmpty())
             Alerts.errorBlank(descriptionLbl.getText());
@@ -118,7 +119,7 @@ public class AddAppointmentController implements Initializable{
             Alerts.errorBlank(customerIdLbl.getText());
         else if (userComboBox.getSelectionModel().isEmpty())
             Alerts.errorBlank((userIdLbl.getText()));
-        else if (startDatePicker.getValue()  == null)
+        else if (startDatePicker.getValue() == null)
             Alerts.errorBlank(startDateLbl.getText());
         else if (startTimeComboBox.getSelectionModel().isEmpty())
             Alerts.errorBlank((startTimeLbl.getText()));
@@ -142,7 +143,7 @@ public class AddAppointmentController implements Initializable{
             Timestamp endTimestamp = Timestamp.valueOf(endDT);
             Timestamp endDateTime = Timestamp.valueOf(StartEndTime.localToUTCConversion(endDT));
 
-            if(startDT.isAfter(endDT) || startDT.isEqual(endDT)){
+            if (startDT.isAfter(endDT) || startDT.isEqual(endDT)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 String errorTitle = "Error";
                 String errorMsg = "Start time must be before end time";
@@ -152,7 +153,7 @@ public class AddAppointmentController implements Initializable{
                 return;
             }
 
-            if(startDate.isBefore(LocalDate.now())){
+            if (startDate.isBefore(LocalDate.now())) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 String errorTitle = "Error";
                 String errorMsg = "Entered date must be today or in future";
@@ -164,10 +165,10 @@ public class AddAppointmentController implements Initializable{
 
             LocalTime estStartDT = StartEndTime.localToEST(startDT).toLocalTime();
             LocalTime estEndDT = StartEndTime.localToEST(endDT).toLocalTime();
-            LocalTime estOpening = LocalTime.of(8,0);
-            LocalTime estClosing = LocalTime.of(22,0);
+            LocalTime estOpening = LocalTime.of(8, 0);
+            LocalTime estClosing = LocalTime.of(22, 0);
 
-            if(estStartDT.isBefore(estOpening) || estStartDT.isAfter(estClosing) || estEndDT.isBefore(estOpening) || estEndDT.isAfter(estClosing)) {
+            if (estStartDT.isBefore(estOpening) || estStartDT.isAfter(estClosing) || estEndDT.isBefore(estOpening) || estEndDT.isAfter(estClosing)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 String errorTitle = "Error";
                 String errorMsg = "Please select times during business hours";
@@ -176,7 +177,7 @@ public class AddAppointmentController implements Initializable{
                 alert.showAndWait();
                 return;
             }
-            if(DBQuery.checkConflictsAdd(customerId, startTimestamp, endTimestamp)){
+            if (DBQuery.checkConflictsAdd(customerId, startTimestamp, endTimestamp)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 String errorTitle = "Error";
                 String errorMsg = "Schedule conflict. Please enter new times";
@@ -198,7 +199,7 @@ public class AddAppointmentController implements Initializable{
                 stage.setTitle("Main Menu");
                 stage.setScene(scene);
                 stage.show();
-                }  else {
+            } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 String errorTitle = "Error";
                 String errorMsg = "There was an error saving appointment";

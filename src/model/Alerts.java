@@ -7,7 +7,7 @@ import javafx.scene.control.Alert;
  */
 public class Alerts {
 
-    public static void errorBlank(String label){
+    public static void errorBlank(String label) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         String errorTitle = "Error";
         String errorMsg = label + " is blank";

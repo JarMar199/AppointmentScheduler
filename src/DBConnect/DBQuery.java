@@ -4,11 +4,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointment;
 import model.Customer;
-import model.Interface;
 import model.StartEndTime;
 
 import java.sql.*;
-import java.time.*;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 
 /**
@@ -23,7 +25,8 @@ public class DBQuery {
 
     /**
      * Generates prepared statement
-     * @param connection the connected database
+     *
+     * @param connection   the connected database
      * @param sqlStatement Creates a SQL prepared statement
      * @throws SQLException SQL exception
      */
@@ -61,6 +64,7 @@ public class DBQuery {
 
     /**
      * Query to get list of coutries
+     *
      * @return the list of  countries
      * @throws SQLException SQL exception
      */
@@ -80,6 +84,7 @@ public class DBQuery {
 
     /**
      * Query to get list of usernames and passwords
+     *
      * @return the result set for usernames and passwords
      * @throws SQLException SQL exception
      */
@@ -92,14 +97,6 @@ public class DBQuery {
     }
 
     /**
-     * Sets logged in user name
-     * @param loggedInUser the logged in user to set
-     */
-    public static void setUserName(String loggedInUser) {
-        userName = loggedInUser;
-    }
-
-    /**
      * @return the logged in user
      */
     public static String getUserName() {
@@ -107,12 +104,22 @@ public class DBQuery {
     }
 
     /**
+     * Sets logged in user name
+     *
+     * @param loggedInUser the logged in user to set
+     */
+    public static void setUserName(String loggedInUser) {
+        userName = loggedInUser;
+    }
+
+    /**
      * Adds customer to database
-     * @param name name to enter
+     *
+     * @param name    name to enter
      * @param address address to enter
-     * @param postal postal code to enter
-     * @param phone phone to enter
-     * @param state state to enter
+     * @param postal  postal code to enter
+     * @param phone   phone to enter
+     * @param state   state to enter
      * @return Adds customer information to database
      * @throws SQLException SQL exception
      */
@@ -144,12 +151,13 @@ public class DBQuery {
 
     /**
      * Query to Update customer information in the database
+     *
      * @param customerId customer selected to modify
-     * @param name name to enter
-     * @param address address to enter
-     * @param postal postal code to enter
-     * @param phone phone to enter
-     * @param state state to enter
+     * @param name       name to enter
+     * @param address    address to enter
+     * @param postal     postal code to enter
+     * @param phone      phone to enter
+     * @param state      state to enter
      * @return Updates customer information to database
      * @throws SQLException SQL exception
      */
@@ -187,6 +195,7 @@ public class DBQuery {
 
     /**
      * Query to delete customer from databse
+     *
      * @param customerId the selected customer to delete
      * @return Deletes customer and associated appointments from database
      * @throws SQLException SQL exception
@@ -208,15 +217,16 @@ public class DBQuery {
 
     /**
      * Query to add appointment to database
-     * @param title title to enter
+     *
+     * @param title       title to enter
      * @param description description to enter
-     * @param location locaton to enter
+     * @param location    locaton to enter
      * @param contactName contact name selected
-     * @param type type selected
-     * @param startDT start date and time to enter
-     * @param endDT end date and time to enter
-     * @param customerId custoemr id to selece
-     * @param userId user id to select
+     * @param type        type selected
+     * @param startDT     start date and time to enter
+     * @param endDT       end date and time to enter
+     * @param customerId  custoemr id to selece
+     * @param userId      user id to select
      * @return Adds appointment to database
      * @throws SQLException SQL Exception
      */
@@ -263,16 +273,17 @@ public class DBQuery {
 
     /**
      * Query to modify appointment
+     *
      * @param appointmentId appointment selected to modify
-     * @param title title to enter
-     * @param description description to enter
-     * @param location locaton to enter
-     * @param contactName contact name selected
-     * @param type type selected
-     * @param startDT start date and time to enter
-     * @param endDT end date and time to enter
-     * @param customerId custoemr id to selece
-     * @param userId user id to select
+     * @param title         title to enter
+     * @param description   description to enter
+     * @param location      locaton to enter
+     * @param contactName   contact name selected
+     * @param type          type selected
+     * @param startDT       start date and time to enter
+     * @param endDT         end date and time to enter
+     * @param customerId    custoemr id to selece
+     * @param userId        user id to select
      * @return Modifies existing appointment to database
      * @throws SQLException SQL Exception
      */
@@ -319,6 +330,7 @@ public class DBQuery {
 
     /**
      * Query to Delete an appointment from the database
+     *
      * @param appointmentId appointment selected to delete
      * @return Deletes appointment from database
      * @throws SQLException SQL exception
@@ -354,7 +366,7 @@ public class DBQuery {
     }
 
     /**
-     * @return  list of customers that are in the database
+     * @return list of customers that are in the database
      * @throws SQLException SQL exception
      */
     public static ObservableList<Customer> getCustomerTable() throws SQLException {
@@ -428,6 +440,7 @@ public class DBQuery {
 
     /**
      * View the selected month of appointments
+     *
      * @param selectedMonth the month to filter with
      * @return list of filtered appointments with the selected month
      * @throws SQLException SQL exception
@@ -478,6 +491,7 @@ public class DBQuery {
 
     /**
      * Views one week of appointments from previous Sunday of selected date
+     *
      * @param selectedMonth month selected to filter
      * @return list of filtered appointments for the selected week
      * @throws SQLException SQL exception
@@ -530,6 +544,7 @@ public class DBQuery {
 
     /**
      * Query for contacts in database
+     *
      * @return list of contacts in database
      * @throws SQLException SQL exception
      */
@@ -549,6 +564,7 @@ public class DBQuery {
 
     /**
      * Query for customer Ids in database
+     *
      * @return list of customer IDs in database
      * @throws SQLException SQL exception
      */
@@ -568,6 +584,7 @@ public class DBQuery {
 
     /**
      * Query for user Ids in database
+     *
      * @return list of user IDs in database
      * @throws SQLException SQL exception
      */
@@ -587,6 +604,7 @@ public class DBQuery {
 
     /**
      * Query for contact Id from selected contact
+     *
      * @param contact the contact to search the ID
      * @return the contact ID of inputted contact
      * @throws SQLException SQL exception
@@ -608,6 +626,7 @@ public class DBQuery {
 
     /**
      * Query for appointment information for selected user
+     *
      * @param userId search for assoactied appointments to userId
      * @return list of appointments for the inputted userId
      * @throws SQLException SQL exception
@@ -635,9 +654,10 @@ public class DBQuery {
 
     /**
      * Validates appointment can be saved without overlaps
+     *
      * @param customerId customer to search existing appointments
-     * @param startTime customer appointment start times
-     * @param endTime customer appointment end times
+     * @param startTime  customer appointment start times
+     * @param endTime    customer appointment end times
      * @return Validation if appointment can be scheduled without conflict
      * @throws SQLException SQL exception
      */
@@ -662,9 +682,9 @@ public class DBQuery {
             Timestamp apptEnd = appointment.getEndDate();
             if ((startTime.equals(apptStart) || startTime.after(apptStart)) && startTime.before(apptEnd)) {
                 return true;
-            } else if (endTime.after(apptStart) && ((endTime.before(apptEnd) || endTime.equals(apptEnd)))){
+            } else if (endTime.after(apptStart) && ((endTime.before(apptEnd) || endTime.equals(apptEnd)))) {
                 return true;
-            }else if ((startTime.before(apptStart) || startTime.equals(apptStart)) && (endTime.after(apptEnd) || endTime.equals(apptEnd))) {
+            } else if ((startTime.before(apptStart) || startTime.equals(apptStart)) && (endTime.after(apptEnd) || endTime.equals(apptEnd))) {
                 return true;
             }
         }
@@ -673,10 +693,11 @@ public class DBQuery {
 
     /**
      * Validates existing appointment can be saved without overlaps
-     * @param apptId appointment select to be modified and excluded in appointment search
+     *
+     * @param apptId     appointment select to be modified and excluded in appointment search
      * @param customerId customer to search existing appointments
-     * @param startTime customer appointment start times
-     * @param endTime customer appointment end times
+     * @param startTime  customer appointment start times
+     * @param endTime    customer appointment end times
      * @return Validation if appointment can be scheduled without conflict
      * @throws SQLException SQL exception
      */
@@ -702,9 +723,9 @@ public class DBQuery {
             Timestamp apptEnd = appointment.getEndDate();
             if ((startTime.equals(apptStart) || startTime.after(apptStart)) && startTime.before(apptEnd)) {
                 return true;
-            } else if (endTime.after(apptStart) && ((endTime.before(apptEnd) || endTime.equals(apptEnd)))){
+            } else if (endTime.after(apptStart) && ((endTime.before(apptEnd) || endTime.equals(apptEnd)))) {
                 return true;
-            }else if ((startTime.before(apptStart) || startTime.equals(apptStart)) && (endTime.after(apptEnd) || endTime.equals(apptEnd))) {
+            } else if ((startTime.before(apptStart) || startTime.equals(apptStart)) && (endTime.after(apptEnd) || endTime.equals(apptEnd))) {
                 return true;
             }
         }
@@ -713,8 +734,9 @@ public class DBQuery {
 
     /**
      * Query for number of appointments for month and type
+     *
      * @param month the month to search for
-     * @param type the type to search for
+     * @param type  the type to search for
      * @return the number of appointments in search criteria
      * @throws SQLException SQL exception
      */
@@ -728,13 +750,14 @@ public class DBQuery {
         ps.execute();
         String numAppt = "0";
         ResultSet rsNumAppts = ps.getResultSet();
-        while(rsNumAppts.next())
-           numAppt = rsNumAppts.getString("Num_Appts");
+        while (rsNumAppts.next())
+            numAppt = rsNumAppts.getString("Num_Appts");
         return numAppt;
     }
 
     /**
      * Query for selected contact's scheduled appointments
+     *
      * @param contact the contact to search
      * @return the appointment schedule for the selected contact
      * @throws SQLException SQL exception
@@ -749,7 +772,7 @@ public class DBQuery {
         ps.setString(1, contact);
         ps.execute();
         ResultSet rsContactAppts = ps.getResultSet();
-        while(rsContactAppts.next()){
+        while (rsContactAppts.next()) {
             int apptId = rsContactAppts.getInt("Appointment_ID");
             String title = rsContactAppts.getString("Title");
             String type = rsContactAppts.getString("Type");
@@ -757,13 +780,14 @@ public class DBQuery {
             Timestamp start = Timestamp.valueOf(StartEndTime.utcToLocalConversion(rsContactAppts.getTimestamp("Start").toLocalDateTime()));
             Timestamp end = Timestamp.valueOf(StartEndTime.utcToLocalConversion(rsContactAppts.getTimestamp("End").toLocalDateTime()));
             int customerId = rsContactAppts.getInt("Customer_ID");
-            contactAppts.add(new Appointment(apptId, customerId,title,description,type,start,end));
+            contactAppts.add(new Appointment(apptId, customerId, title, description, type, start, end));
         }
         return contactAppts;
     }
 
     /**
      * Query to get users from database
+     *
      * @return List of users
      * @throws SQLException SQL exception
      */
@@ -774,7 +798,7 @@ public class DBQuery {
         PreparedStatement ps = DBQuery.getPreparedStatement();
         ps.execute();
         ResultSet rsUsers = ps.getResultSet();
-        while(rsUsers.next()){
+        while (rsUsers.next()) {
             String userName = rsUsers.getString("User_Name");
             users.add(userName);
         }
@@ -783,6 +807,7 @@ public class DBQuery {
 
     /**
      * Query to get appointments updated by user
+     *
      * @param userName user to search
      * @return list of appointments of selected user
      * @throws SQLException SQL exception
@@ -798,7 +823,7 @@ public class DBQuery {
         ps.setString(1, userName);
         ps.execute();
         ResultSet rsLastUpdate = ps.getResultSet();
-        while(rsLastUpdate.next()) {
+        while (rsLastUpdate.next()) {
             int appointmentId = rsLastUpdate.getInt("Appointment_ID");
             String title = rsLastUpdate.getString("Title");
             String description = rsLastUpdate.getString("Description");
