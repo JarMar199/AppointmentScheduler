@@ -91,6 +91,11 @@ public class ReportsController implements Initializable {
     @FXML
     private ComboBox<String> userComboBox;
 
+    /**
+     * Filters appointments by the user that updated the appontments last
+     * @param event displays appointments on table for selected user
+     * @throws SQLException SQL exception
+     */
     @FXML
     void onActionUserSelect(ActionEvent event) throws SQLException {
         String user = userComboBox.getSelectionModel().getSelectedItem();
@@ -175,8 +180,6 @@ public class ReportsController implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
-
         monthComboBox.setItems(Utils.getMonths());
         typeComboBox.setItems(Utils.getTypes());
 

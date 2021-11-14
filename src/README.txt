@@ -26,8 +26,10 @@ Users can add, modify, and delete customers and appointments from the database.
  - Reports: Select information to filter by to generate reports
     - Number of customer appointments by month and type
     - Schedule of appointments by filtered by selected contact
-
-    -
+    (A.3.f)
+    -Last update report
+        -This report generates the appointments by the user that last updated it.
+        -This report could be used for appointment change audits to know which user last modified or created the appointment.
 
 
 
