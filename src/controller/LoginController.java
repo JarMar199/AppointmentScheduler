@@ -52,6 +52,11 @@ public class LoginController implements Initializable {
     @FXML
     private TextField userNameTxt;
 
+    @FXML
+    void testQuery(ActionEvent event) throws SQLException {
+        System.out.println(DBQuery.getUsers());
+    }
+
     /**
      *
      * @param event Attempts login with input credentials.

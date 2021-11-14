@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="508.0" prefWidth="1019.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ReportsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="531.0" prefWidth="1019.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ReportsController">
    <children>
-      <TableView fx:id="scheduleTable" layoutX="22.0" layoutY="157.0" prefHeight="137.0" prefWidth="779.0">
+      <TableView fx:id="scheduleTable" layoutX="14.0" layoutY="157.0" prefHeight="137.0" prefWidth="779.0">
          <columns>
             <TableColumn fx:id="appointmentIdCol" prefWidth="65.0" text="Appt ID" />
             <TableColumn fx:id="titleCol" prefWidth="65.0" text="Title" />
@@ -49,5 +49,17 @@
             <ComboBox fx:id="contactComboBox" onAction="#onActionContactSelect" prefWidth="150.0" />
          </children>
       </HBox>
+      <ComboBox fx:id="userComboBox" layoutX="272.0" layoutY="329.0" onAction="#onActionUserSelect" prefWidth="150.0" />
+      <Label layoutX="14.0" layoutY="333.0" text="Select User to view udate history" />
+      <TableView fx:id="updateTable" layoutX="14.0" layoutY="371.0" prefHeight="137.0" prefWidth="779.0">
+         <columns>
+            <TableColumn fx:id="updateApptIdCol" prefWidth="65.0" text="Appt ID" />
+            <TableColumn fx:id="updateTitleCol" prefWidth="65.0" text="Title" />
+            <TableColumn fx:id="updateDescriptionCol" prefWidth="106.0" text="Description" />
+            <TableColumn fx:id="updateTypeCol" prefWidth="120.0" text="Type" />
+            <TableColumn fx:id="updateLastCol" prefWidth="210.0" text="Last Update" />
+            <TableColumn fx:id="updatedByCol" prefWidth="212.0" text="Updated By" />
+         </columns>
+      </TableView>
    </children>
 </AnchorPane>

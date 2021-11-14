@@ -58,7 +58,7 @@ public class StartEndTime {
 
     /**
      * @param utcDT Converts UTC to local system date and time
-     * @returnthe local system date and time
+     * @return the local system date and time
      */
     public static LocalDateTime utcToLocalConversion(LocalDateTime utcDT) {
         ZoneId localZoneId = ZoneId.systemDefault();

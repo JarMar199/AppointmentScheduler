@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.Alerts;
+import model.Interface;
 import model.StartEndTime;
 import model.Utils;
 
@@ -101,6 +102,7 @@ public class AddAppointmentController implements Initializable{
      */
     @FXML
     void onActionSaveAppointment(ActionEvent event) throws SQLException, IOException {
+
 
         if(titleTxt.getText().isEmpty())
             Alerts.errorBlank(titleLbl.getText());

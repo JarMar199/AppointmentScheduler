@@ -247,7 +247,9 @@ public class MainMenuController implements Initializable {
     /**
      *
      * display all appointments on tableview
+     * @throws SQLException exception
      */
+
     public void setViewAllApptTbl() throws SQLException {
         appointmentTable.setItems(DBQuery.viewAllAppointmentTable());
         appointmentIdCol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
@@ -265,6 +267,7 @@ public class MainMenuController implements Initializable {
     /**
      *
      * displays customer information on tableview
+     * @throws SQLException SQL exception
      */
     public void setCustomerTable() throws SQLException {
         customerTable.setItems(DBQuery.getCustomerTable());

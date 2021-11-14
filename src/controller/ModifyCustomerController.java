@@ -90,6 +90,7 @@ public class ModifyCustomerController implements Initializable {
 
     /**
      * @param customer Populates customer information to be modified
+     * @throws SQLException SQL exception
      */
     public void sendCustomer(Customer customer) throws SQLException {
         customerIdTxt.setText(String.valueOf(customer.getId()));

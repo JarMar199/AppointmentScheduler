@@ -1,6 +1,8 @@
 package controller;
 
 import DBConnect.DBQuery;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
@@ -21,6 +23,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Appointment;
+import model.Interface;
 import model.Utils;
 
 /**
@@ -63,6 +66,44 @@ public class ReportsController implements Initializable {
 
     @FXML
     private TableColumn<Appointment, String> typeCol;
+
+    @FXML
+    private TableColumn<Appointment, Integer> updateApptIdCol;
+
+    @FXML
+    private TableColumn<Appointment, String> updateDescriptionCol;
+
+    @FXML
+    private TableView<Appointment> updateTable;
+
+    @FXML
+    private TableColumn<Appointment, String> updateTitleCol;
+
+    @FXML
+    private TableColumn<Appointment, String> updateTypeCol;
+
+    @FXML
+    private TableColumn<Appointment, String> updateLastCol;
+
+    @FXML
+    private TableColumn<Appointment, String> updatedByCol;
+
+    @FXML
+    private ComboBox<String> userComboBox;
+
+    @FXML
+    void onActionUserSelect(ActionEvent event) throws SQLException {
+        String user = userComboBox.getSelectionModel().getSelectedItem();
+        updateTable.setItems(DBQuery.getLastUpdate(user));
+        updateApptIdCol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+        updateTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        updateDescriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        updateTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        updateLastCol.setCellValueFactory(new PropertyValueFactory<>("lastUpdate"));
+        updatedByCol.setCellValueFactory(new PropertyValueFactory<>("lastUpdateBy"));
+
+    }
+
 
     /**
      * @param event Displays selected contact's schedule
@@ -121,8 +162,6 @@ public class ReportsController implements Initializable {
         stage.show();
     }
 
-    //TODO Generate another report
-
     /**
      * retrieves contacts, months, and types for user selection
      */
@@ -131,11 +170,15 @@ public class ReportsController implements Initializable {
 
         try {
             contactComboBox.setItems(DBQuery.getContacts());
+            userComboBox.setItems(DBQuery.getUsers());
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
+
         monthComboBox.setItems(Utils.getMonths());
         typeComboBox.setItems(Utils.getTypes());
+
     }
 }

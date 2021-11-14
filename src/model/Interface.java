@@ -1,6 +1,7 @@
 package model;
 
-public class Interface {
+public interface Interface {
 
+    String getString (String s);
 
 }

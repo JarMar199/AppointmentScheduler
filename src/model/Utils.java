@@ -19,8 +19,7 @@ public class Utils {
      * @return the list of available types
      */
     public static ObservableList<String> getTypes() {
-        ObservableList<String> types = FXCollections.observableArrayList("Meeting", "Lunch", "Coffee Break", "Review");
-        return types;
+        return FXCollections.observableArrayList("Meeting", "Lunch", "Coffee Break", "Review");
     }
 
     /**
@@ -32,8 +31,10 @@ public class Utils {
     }
 
     /**
-     * @param user
-     * @param localDateTime Records successful login attempt to file
+     * Records successful login to file
+     * @param user username entered
+     * @param localDateTime date and time on local machine
+     * @throws IOException exception
      */
     public static void loginAttemptSuccessful(String user, LocalDateTime localDateTime) throws IOException {
         String filename = "src/login_activity.txt", log;
@@ -45,9 +46,10 @@ public class Utils {
     }
 
     /**
-     *
-     * @param user
-     * @param localDateTime Records unsuccessful login attempt to file
+     * Records unsuccessful login attempt to file
+     * @param user username entered
+     * @param localDateTime date and time on local machine
+     * @throws IOException exception
      */
     public static void loginAttemptFail(String user, LocalDateTime localDateTime) throws IOException {
         String filename = "src/login_activity.txt", log;
