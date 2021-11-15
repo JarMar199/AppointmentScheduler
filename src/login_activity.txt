@@ -23,3 +23,12 @@ User admin logged in at 2021-11-13 16:41:01 from America/Los_Angeles
 User admin logged in at 2021-11-13 16:44:58 from America/Los_Angeles
 User admin logged in at 2021-11-13 17:47:59 from America/Los_Angeles
 User admin logged in at 2021-11-14 12:12:47 from America/Los_Angeles
+User admin logged in at 2021-11-14 12:22:37 from America/Los_Angeles
+User admin logged in at 2021-11-14 12:23:06 from America/Los_Angeles
+User admin logged in at 2021-11-14 12:23:52 from America/Los_Angeles
+User admin logged in at 2021-11-15 09:38:00 from America/Los_Angeles
+User admin logged in at 2021-11-15 09:45:28 from America/Los_Angeles
+User test logged in at 2021-11-15 09:46:03 from America/Los_Angeles
+User test logged in at 2021-11-15 09:46:56 from America/Los_Angeles
+User test unsuccessful login attempt at 2021-11-15 09:46:56 from America/Los_Angeles
+User admin logged in at 2021-11-15 10:16:31 from America/Los_Angeles

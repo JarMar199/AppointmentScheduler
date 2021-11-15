@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.Appointment;
+import model.Interface;
 import model.Utils;
 
 import java.io.IOException;
@@ -26,7 +27,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- * Login screen that requires Username and Password to use application
+ * Login screen that requires Username and Password to use application. Language is in English or French depending on system laguage default.
  */
 
 public class LoginController implements Initializable {
@@ -79,6 +80,7 @@ public class LoginController implements Initializable {
                 stage.setTitle("Main Menu");
                 stage.setScene(scene);
                 stage.show();
+
                 ObservableList<Appointment> userAppts = DBQuery.getUserAppts(enteredUserName);
                 LocalTime currentTime = LocalTime.now();
 
@@ -122,11 +124,13 @@ public class LoginController implements Initializable {
 
     /**
      * Displays login screen in English or French
+     * Lambda Expression to set display user location
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        locationTxt.setText(ZoneId.systemDefault().getId());
+        //Lambda expression for setting location
+        Interface zone =() -> locationTxt.setText(ZoneId.systemDefault().getId());
+        zone.setLocation();
         Locale locale = Locale.getDefault();
         if (locale.equals(Locale.FRANCE)) {
             ResourceBundle resource = ResourceBundle.getBundle("Login_fr");

@@ -214,25 +214,34 @@ public class MainMenuController implements Initializable {
     }
 
     /**
+     * Lambda expression for logout alert
      * @param event returns user to Login screen
      */
     @FXML
-    void onActionLogout(ActionEvent event) throws IOException {
+    void onActionLogout(ActionEvent event) {
+
+        //Lambda expression for logout alert
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you wish to logout?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            Parent root = FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            String loginTitle = "Login";
-            if (Locale.getDefault().equals(Locale.FRANCE)) {
-                ResourceBundle resource = ResourceBundle.getBundle("Login_fr");
-                loginTitle = resource.getString("Login");
+        alert.showAndWait().ifPresent((result ->{
+            if (result == ButtonType.OK) {
+                Parent root = null;
+                try {
+                    root = FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                Scene scene = new Scene(root);
+                String loginTitle = "Login";
+                if (Locale.getDefault().equals(Locale.FRANCE)) {
+                    ResourceBundle resource = ResourceBundle.getBundle("Login_fr");
+                    loginTitle = resource.getString("Login");
+                }
+                stage.setTitle(loginTitle);
+                stage.setScene(scene);
+                stage.show();
             }
-            stage.setTitle(loginTitle);
-            stage.setScene(scene);
-            stage.show();
-        }
+        }));
 
     }
 
