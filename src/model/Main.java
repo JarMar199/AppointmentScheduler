@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
 public class Main extends Application {
 
     public static void main(String[] args) throws SQLException {
-        //Locale.setDefault(new Locale("FR","fr"));
+//        Locale.setDefault(new Locale("FR","fr"));
         DBConnection.openConnection();
         launch(args);
         DBConnection.closeConnection();

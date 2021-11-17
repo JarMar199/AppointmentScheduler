@@ -19,9 +19,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -55,6 +53,21 @@ public class LoginController implements Initializable {
     @FXML
     private TextField userNameTxt;
 
+
+    @FXML
+    void qTest(ActionEvent event) {
+        LocalDateTime localDT = LocalDateTime.now();
+        ZoneId localZoneId = ZoneId.systemDefault();
+        ZoneId utcZoneId = ZoneId.of("UTC");
+        ZonedDateTime localZDT = ZonedDateTime.of(localDT, localZoneId);
+        ZonedDateTime utcZDT = ZonedDateTime.ofInstant(localZDT.toInstant(), utcZoneId);
+        System.out.println(localDT);
+        System.out.println(localZoneId);
+        System.out.println(utcZoneId);
+        System.out.println(localZDT);
+        System.out.println(utcZDT);
+
+    }
     /**
      * @param event Attempts login with input credentials.
      *              Validates username and password. Displays error message if unsuccessful. All login attempts are recorded.
