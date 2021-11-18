@@ -100,6 +100,7 @@ public class AddAppointmentController implements Initializable {
     /**
      * @param event Saves appointment to database.
      *              Validates user input before saving appointment information
+     *
      */
     @FXML
     void onActionSaveAppointment(ActionEvent event) throws SQLException, IOException {
@@ -137,11 +138,11 @@ public class AddAppointmentController implements Initializable {
             LocalTime startTime = startTimeComboBox.getSelectionModel().getSelectedItem();
             LocalDateTime startDT = LocalDateTime.of(startDate, startTime);
             Timestamp startTimestamp = Timestamp.valueOf(startDT);
-            Timestamp startDateTimeUTC = Timestamp.valueOf(StartEndTime.localToUTCConversion(startDT));
+            //Timestamp startDateTimeUTC = Timestamp.valueOf(StartEndTime.localToUTCConversion(startDT));
             LocalTime endTime = endTimeComboBox.getSelectionModel().getSelectedItem();
             LocalDateTime endDT = LocalDateTime.of(startDate, endTime);
             Timestamp endTimestamp = Timestamp.valueOf(endDT);
-            Timestamp endDateTime = Timestamp.valueOf(StartEndTime.localToUTCConversion(endDT));
+            //Timestamp endDateTime = Timestamp.valueOf(StartEndTime.localToUTCConversion(endDT));
 
             if (startDT.isAfter(endDT) || startDT.isEqual(endDT)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -187,7 +188,7 @@ public class AddAppointmentController implements Initializable {
                 return;
             }
 
-            if (DBQuery.addAppointment(title, description, location, contactName, type, startDateTimeUTC, endDateTime, customerId, userId)) {
+            if (DBQuery.addAppointment(title, description, location, contactName, type, startTimestamp, endTimestamp, customerId, userId)) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Success");
                 alert.setHeaderText("Confirmation");

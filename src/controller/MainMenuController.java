@@ -214,7 +214,7 @@ public class MainMenuController implements Initializable {
     }
 
     /**
-     * Lambda expression for logout alert
+     * Lambda expression for logout alert. Used to simplify the code for the result of the alert window.
      * @param event returns user to Login screen
      */
     @FXML

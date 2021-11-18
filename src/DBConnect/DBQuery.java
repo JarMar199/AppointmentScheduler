@@ -63,7 +63,7 @@ public class DBQuery {
     }
 
     /**
-     * Query to get list of coutries
+     * Query to get list of countries
      *
      * @return the list of  countries
      * @throws SQLException SQL exception
@@ -127,7 +127,7 @@ public class DBQuery {
         LocalDate date = LocalDate.now();
         LocalTime time = LocalTime.now();
         String user = DBQuery.getUserName();
-        Timestamp timestamp = Timestamp.valueOf(StartEndTime.localToUTCConversion(LocalDateTime.of(date, time)));
+        Timestamp timestamp = Timestamp.valueOf(LocalDateTime.of(date, time));
         String divisionId = DBQuery.getDivisionId(state);
 
         String insertStatement = "INSERT INTO customers(Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID)\n" +
@@ -139,9 +139,9 @@ public class DBQuery {
         ps.setString(2, address);
         ps.setString(3, postal);
         ps.setString(4, phone);
-        ps.setString(5, String.valueOf(timestamp));
+        ps.setTimestamp(5, timestamp);
         ps.setString(6, user);
-        ps.setString(7, String.valueOf(timestamp));
+        ps.setTimestamp(7, timestamp);
         ps.setString(8, user);
         ps.setString(9, divisionId);
 
@@ -165,7 +165,7 @@ public class DBQuery {
         LocalDate date = LocalDate.now();
         LocalTime time = LocalTime.now();
         String user = DBQuery.getUserName();
-        Timestamp timestamp = Timestamp.valueOf(StartEndTime.localToUTCConversion(LocalDateTime.of(date, time)));
+        Timestamp timestamp = Timestamp.valueOf(LocalDateTime.of(date, time));
         String divisionId = DBQuery.getDivisionId(state);
 
         String updateStatement = "UPDATE customers SET \n" +
@@ -184,7 +184,7 @@ public class DBQuery {
         ps.setString(2, address);
         ps.setString(3, postal);
         ps.setString(4, phone);
-        ps.setString(5, String.valueOf(timestamp));
+        ps.setTimestamp(5, timestamp);
         ps.setString(6, user);
         ps.setInt(7, Integer.parseInt(divisionId));
         ps.setInt(8, customerId);
@@ -194,7 +194,7 @@ public class DBQuery {
     }
 
     /**
-     * Query to delete customer from databse
+     * Query to delete customer from database
      *
      * @param customerId the selected customer to delete
      * @return Deletes customer and associated appointments from database
@@ -220,18 +220,18 @@ public class DBQuery {
      *
      * @param title       title to enter
      * @param description description to enter
-     * @param location    locaton to enter
+     * @param location    location to enter
      * @param contactName contact name selected
      * @param type        type selected
      * @param startDT     start date and time to enter
      * @param endDT       end date and time to enter
-     * @param customerId  custoemr id to selece
+     * @param customerId  customer id to select
      * @param userId      user id to select
      * @return Adds appointment to database
      * @throws SQLException SQL Exception
      */
     public static boolean addAppointment(String title, String description, String location, String contactName, String type, Timestamp startDT, Timestamp endDT, String customerId, String userId) throws SQLException {
-        Timestamp utcTime = Timestamp.valueOf(StartEndTime.localToUTCConversion(LocalDateTime.of(LocalDate.now(), LocalTime.now())));
+        Timestamp localTimestamp = Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.now()));
         String user = DBQuery.getUserName();
         String contactId = DBQuery.getContactId(contactName);
         String insertStatement = "INSERT INTO appointments(\n" +
@@ -259,9 +259,9 @@ public class DBQuery {
         ps.setString(4, type);
         ps.setTimestamp(5, startDT);
         ps.setTimestamp(6, endDT);
-        ps.setTimestamp(7, utcTime);
+        ps.setTimestamp(7, localTimestamp);
         ps.setString(8, user);
-        ps.setTimestamp(9, utcTime);
+        ps.setTimestamp(9, localTimestamp);
         ps.setString(10, user);
         ps.setString(11, customerId);
         ps.setString(12, userId);
@@ -277,19 +277,19 @@ public class DBQuery {
      * @param appointmentId appointment selected to modify
      * @param title         title to enter
      * @param description   description to enter
-     * @param location      locaton to enter
+     * @param location      location to enter
      * @param contactName   contact name selected
      * @param type          type selected
      * @param startDT       start date and time to enter
      * @param endDT         end date and time to enter
-     * @param customerId    custoemr id to selece
+     * @param customerId    customer id to select
      * @param userId        user id to select
      * @return Modifies existing appointment to database
      * @throws SQLException SQL Exception
      */
     public static boolean modifyAppointment(String title, String description, String location, String contactName,
                                             String type, Timestamp startDT, Timestamp endDT, String customerId, String userId, String appointmentId) throws SQLException {
-        Timestamp utcTime = Timestamp.valueOf(StartEndTime.localToUTCConversion(LocalDateTime.of(LocalDate.now(), LocalTime.now())));
+        Timestamp localTimestamp = Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.now()));
         String user = DBQuery.getUserName();
         String contactId = DBQuery.getContactId(contactName);
         String updateStatement = "UPDATE appointments\n" +
@@ -315,7 +315,7 @@ public class DBQuery {
         ps.setString(4, type);
         ps.setTimestamp(5, startDT);
         ps.setTimestamp(6, endDT);
-        ps.setTimestamp(7, utcTime);
+        ps.setTimestamp(7, localTimestamp);
         ps.setString(8, user);
         ps.setString(9, customerId);
         ps.setString(10, userId);
@@ -425,14 +425,14 @@ public class DBQuery {
             String contactName = rsAppointments.getString("Contact_Name");
             String type = rsAppointments.getString("Type");
 
-            Timestamp startDate = Timestamp.valueOf(rsAppointments.getString("Start"));
+            Timestamp startDate = rsAppointments.getTimestamp("Start");
             Timestamp localStartDate = Timestamp.valueOf(StartEndTime.utcToLocalConversion(startDate.toLocalDateTime()));
-            Timestamp endDate = Timestamp.valueOf(rsAppointments.getString("End"));
+            Timestamp endDate = rsAppointments.getTimestamp("End");
             Timestamp localEndDate = Timestamp.valueOf(StartEndTime.utcToLocalConversion(endDate.toLocalDateTime()));
 
             int customerId = rsAppointments.getInt("Customer_ID");
             int userId = rsAppointments.getInt("User_ID");
-            appointments.add(new Appointment(appointmentId, customerId, userId, title, description, location, type, localStartDate, localEndDate, contactName, null, null));
+            appointments.add(new Appointment(appointmentId, customerId, userId, title, description, location, type, startDate, endDate, contactName, null, null));
         }
 
         return appointments;
@@ -476,14 +476,14 @@ public class DBQuery {
             String contactName = rsAppointments.getString("Contact_Name");
             String type = rsAppointments.getString("Type");
 
-            Timestamp startDate = Timestamp.valueOf(rsAppointments.getString("Start"));
+            Timestamp startDate = rsAppointments.getTimestamp("Start");
             Timestamp localStartDate = Timestamp.valueOf(StartEndTime.utcToLocalConversion(startDate.toLocalDateTime()));
-            Timestamp endDate = Timestamp.valueOf(rsAppointments.getString("End"));
+            Timestamp endDate = rsAppointments.getTimestamp("End");
             Timestamp localEndDate = Timestamp.valueOf(StartEndTime.utcToLocalConversion(endDate.toLocalDateTime()));
 
             int customerId = rsAppointments.getInt("Customer_ID");
             int userId = rsAppointments.getInt("User_ID");
-            appointments.add(new Appointment(appointmentId, customerId, userId, title, description, location, type, localStartDate, localEndDate, contactName, null, null));
+            appointments.add(new Appointment(appointmentId, customerId, userId, title, description, location, type, startDate, endDate, contactName, null, null));
         }
 
         return appointments;
@@ -510,14 +510,13 @@ public class DBQuery {
                 "    appointments.Customer_ID,\n" +
                 "\tappointments.User_ID\n" +
                 "FROM appointments INNER JOIN contacts ON appointments.Contact_ID = contacts.Contact_ID\n" +
-                "WHERE MONTH(Start) = ?  AND DAY(Start) >= ? AND DAY(Start) < (? + 7)\n" +
+                "WHERE DATE(START) >= ? AND  DATE(START) < date_add(?, INTERVAL 7 DAY)\n" +
                 "GROUP BY Appointment_ID, Title, Description, Location, Contact_Name, Type, Start, End, Customer_ID, User_ID";
         DBQuery.setPreparedStatement(connection, selectStatement);
         PreparedStatement ps = DBQuery.getPreparedStatement();
 
-        ps.setInt(1, selectedMonth.getMonthValue());
-        ps.setInt(2, selectedMonth.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY)).getDayOfMonth());
-        ps.setInt(3, selectedMonth.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY)).getDayOfMonth());
+        ps.setString(1, String.valueOf(selectedMonth.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY))));
+        ps.setString(2, String.valueOf(selectedMonth.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY))));
         ps.execute();
         ResultSet rsAppointments = ps.getResultSet();
 
@@ -529,14 +528,14 @@ public class DBQuery {
             String contactName = rsAppointments.getString("Contact_Name");
             String type = rsAppointments.getString("Type");
 
-            Timestamp startDate = Timestamp.valueOf(rsAppointments.getString("Start"));
+            Timestamp startDate =rsAppointments.getTimestamp("Start");
             Timestamp localStartDate = Timestamp.valueOf(StartEndTime.utcToLocalConversion(startDate.toLocalDateTime()));
-            Timestamp endDate = Timestamp.valueOf(rsAppointments.getString("End"));
+            Timestamp endDate = rsAppointments.getTimestamp("End");
             Timestamp localEndDate = Timestamp.valueOf(StartEndTime.utcToLocalConversion(endDate.toLocalDateTime()));
 
             int customerId = rsAppointments.getInt("Customer_ID");
             int userId = rsAppointments.getInt("User_ID");
-            appointments.add(new Appointment(appointmentId, customerId, userId, title, description, location, type, localStartDate, localEndDate, contactName, null, null));
+            appointments.add(new Appointment(appointmentId, customerId, userId, title, description, location, type, startDate, endDate, contactName, null, null));
         }
 
         return appointments;
@@ -627,7 +626,7 @@ public class DBQuery {
     /**
      * Query for appointment information for selected user
      *
-     * @param userId search for assoactied appointments to userId
+     * @param userId search for associated appointments to userId
      * @return list of appointments for the inputted userId
      * @throws SQLException SQL exception
      */
@@ -646,8 +645,8 @@ public class DBQuery {
         ResultSet rsUserAppts = ps.getResultSet();
         while (rsUserAppts.next()) {
             int appointmentId = rsUserAppts.getInt("appointment_ID");
-            LocalDateTime start = StartEndTime.utcToLocalConversion(rsUserAppts.getTimestamp("start").toLocalDateTime());
-            userAppts.add(new Appointment(appointmentId, Timestamp.valueOf(start)));
+            Timestamp start = rsUserAppts.getTimestamp("start");
+            userAppts.add(new Appointment(appointmentId, start));
         }
         return userAppts;
     }
@@ -671,8 +670,8 @@ public class DBQuery {
         ResultSet rsCustomerAppts = ps.getResultSet();
         while (rsCustomerAppts.next()) {
             int appointmentId = rsCustomerAppts.getInt("Appointment_ID");
-            Timestamp apptLocalStart = Timestamp.valueOf(StartEndTime.utcToLocalConversion(rsCustomerAppts.getTimestamp("Start").toLocalDateTime()));
-            Timestamp apptLocalEnd = Timestamp.valueOf(StartEndTime.utcToLocalConversion(rsCustomerAppts.getTimestamp("End").toLocalDateTime()));
+            Timestamp apptLocalStart = rsCustomerAppts.getTimestamp("Start");
+            Timestamp apptLocalEnd = rsCustomerAppts.getTimestamp("End");
             int apptCustomerId = rsCustomerAppts.getInt("Customer_ID");
             customerAppts.add(new Appointment(appointmentId, apptCustomerId, apptLocalStart, apptLocalEnd));
         }
@@ -712,8 +711,8 @@ public class DBQuery {
         ResultSet rsCustomerAppts = ps.getResultSet();
         while (rsCustomerAppts.next()) {
             int appointmentId = rsCustomerAppts.getInt("Appointment_ID");
-            Timestamp apptLocalStart = Timestamp.valueOf(StartEndTime.utcToLocalConversion(rsCustomerAppts.getTimestamp("Start").toLocalDateTime()));
-            Timestamp apptLocalEnd = Timestamp.valueOf(StartEndTime.utcToLocalConversion(rsCustomerAppts.getTimestamp("End").toLocalDateTime()));
+            Timestamp apptLocalStart = rsCustomerAppts.getTimestamp("Start");
+            Timestamp apptLocalEnd = rsCustomerAppts.getTimestamp("End");
             int apptCustomerId = rsCustomerAppts.getInt("Customer_ID");
             customerAppts.add(new Appointment(appointmentId, apptCustomerId, apptLocalStart, apptLocalEnd));
         }
@@ -777,8 +776,8 @@ public class DBQuery {
             String title = rsContactAppts.getString("Title");
             String type = rsContactAppts.getString("Type");
             String description = rsContactAppts.getString("Description");
-            Timestamp start = Timestamp.valueOf(StartEndTime.utcToLocalConversion(rsContactAppts.getTimestamp("Start").toLocalDateTime()));
-            Timestamp end = Timestamp.valueOf(StartEndTime.utcToLocalConversion(rsContactAppts.getTimestamp("End").toLocalDateTime()));
+            Timestamp start = rsContactAppts.getTimestamp("Start");
+            Timestamp end = rsContactAppts.getTimestamp("End");
             int customerId = rsContactAppts.getInt("Customer_ID");
             contactAppts.add(new Appointment(apptId, customerId, title, description, type, start, end));
         }
@@ -828,7 +827,7 @@ public class DBQuery {
             String title = rsLastUpdate.getString("Title");
             String description = rsLastUpdate.getString("Description");
             String type = rsLastUpdate.getString("Type");
-            Timestamp lastUpdate = Timestamp.valueOf(StartEndTime.utcToLocalConversion(rsLastUpdate.getTimestamp("Last_Update").toLocalDateTime()));
+            Timestamp lastUpdate = rsLastUpdate.getTimestamp("Last_Update");
             String updateBy = rsLastUpdate.getString("Last_Updated_By");
             updateList.add(new Appointment(appointmentId, title, description, type, lastUpdate, updateBy));
         }

@@ -187,7 +187,7 @@ public class ModifyAppointmentController implements Initializable {
             }
 
 
-            if (DBQuery.modifyAppointment(title, description, location, contactName, type, startDateTimeUTC, endDateTime, customerId, userId, appointmentId)) {
+            if (DBQuery.modifyAppointment(title, description, location, contactName, type, startTimestamp, endTimestamp, customerId, userId, appointmentId)) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Success");
                 alert.setHeaderText("Confirmation");

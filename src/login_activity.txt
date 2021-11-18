@@ -34,3 +34,8 @@ User test unsuccessful login attempt at 2021-11-15 09:46:56 from America/Los_Ang
 User admin logged in at 2021-11-15 10:16:31 from America/Los_Angeles
 User test logged in at 2021-11-17 08:29:47 from America/Los_Angeles
 User test logged in at 2021-11-17 08:46:14 from America/Los_Angeles
+User test logged in at 2021-11-17 15:12:05 from America/New_York
+User test logged in at 2021-11-17 15:50:09 from America/New_York
+User test logged in at 2021-11-17 15:51:40 from America/New_York
+User admin logged in at 2021-11-17 15:55:19 from America/New_York
+User test logged in at 2021-11-17 15:57:28 from America/New_York
