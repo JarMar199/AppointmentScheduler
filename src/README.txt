@@ -3,8 +3,7 @@ Appointment Manager
 This application allows a user to login and manage customers and appointments in a database. Users can also view several different informational reports.
 Users can add, modify, and delete customers and appointments from the database.
 
- Author: Jarra Maratea
- Contact Information: jmarate@wgu.edu
+
  Version: 1.0
  Date: 2021-11-13
  IntelliJ IDEA Community 2021.1.3
